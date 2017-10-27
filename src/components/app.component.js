@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Container } from 'semantic-ui-react';
 
-import Signin from '../components/auth/signin';
+import authenticateRoute from '../components/auth/authenticate-route/authenticate-route.component';
+
+import Header from '../components/header/header.component';
+import Signin from '../components/auth/signin/signin.component';
 
 class App extends Component {
     render() {
         return (
-            <div className="container">
+            <div>
                 <BrowserRouter>
                     <div>
                         <Header />
                         <Switch>
-                            <Route exact path="/" component={Landing} />
-                            <Route exact path="/signin" component={Signin} />
+                            <Route exact path="/signin" component={authenticateRoute(Signin)} />
                         </Switch>
                     </div>
                 </BrowserRouter>
