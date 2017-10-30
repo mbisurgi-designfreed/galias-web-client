@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Container } from 'semantic-ui-react';
 
 import authenticateRoute from '../components/auth/authenticate-route/authenticate-route.component';
 
 import Header from '../components/header/header.component';
 import Signin from '../components/auth/signin/signin.component';
+import Diaria from '../components/diaria/diaria.component';
 
 class App extends Component {
     render() {
@@ -15,7 +15,8 @@ class App extends Component {
                     <div>
                         <Header />
                         <Switch>
-                            <Route exact path="/signin" component={authenticateRoute(Signin)} />
+                            <Route exact path="/signin" component={Signin} />
+                            <Route exact path="/diaria" component={authenticateRoute(Diaria)} />
                         </Switch>
                     </div>
                 </BrowserRouter>

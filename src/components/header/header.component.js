@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { signout } from '../../actions/auth.action';
+
 class Header extends Component {
-    renderHeaderItems = () => {
-        const items = [{ title: 'Home', path: '/', icon: 'fa fa-home mr-sm-2 text-dark' }, { title: 'Diaria', path: '/Diaria', icon: 'fa fa-usd mr-sm-2 text-dark' }];
+    renderHeaderItems() {
+        const items = [{ title: 'Home', path: '/', icon: 'fa fa-home mr-sm-2 text-dark' }, { title: 'Diaria', path: '/diaria', icon: 'fa fa-usd mr-sm-2 text-dark' }];
 
         return items.map((item) => {
             return (
@@ -14,6 +16,18 @@ class Header extends Component {
             );
         });
     };
+
+    renderAuthButtons() {
+        if (this.props.auth) {
+            return <Link className="btn btn-danger btn-sm" to="/signin" onClick={this.onCerrarSesion.bind(this)}>Cerrar Sesion</Link>;
+        } else {
+            return <Link className="btn btn-danger btn-sm" to="/signin">Iniciar Sesion</Link>
+        }
+    }
+
+    onCerrarSesion() {
+        this.props.signout();
+    }
 
     render() {
         return (
@@ -29,11 +43,15 @@ class Header extends Component {
                     <ul className="navbar-nav mr-auto">
                         {this.renderHeaderItems()}
                     </ul>
-                    <Link className="btn btn-danger btn-sm" to="/login">Logout</Link>
+                    {this.renderAuthButtons()}
                 </div>
             </nav>
         );
     }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+    return { auth: state.auth.authenticate };
+}
+
+export default connect(mapStateToProps, { signout })(Header);
