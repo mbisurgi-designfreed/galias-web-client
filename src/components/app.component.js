@@ -6,7 +6,7 @@ import authenticateRoute from '../components/auth/authenticate-route/authenticat
 import Header from '../components/header/header.component';
 import Home from '../components/home/home.component';
 import Signin from '../components/auth/signin/signin.component';
-import Diaria from '../components/diaria/diaria.component';
+import DiariaList from '../components/diaria/diaria-list/diaria-list.component';
 import AddDiaria from '../components/diaria/add-diaria/add-diaria.component';
 
 class App extends Component {
@@ -19,7 +19,7 @@ class App extends Component {
                         <Switch>
                             <Route exact path="/" component={Home} />
                             <Route exact path="/signin" component={Signin} />
-                            <Route exact path="/diaria" component={authenticateRoute(Diaria)} />
+                            <Route exact path="/diaria" component={authenticateRoute(DiariaList)} />
                             <Route exact path="/diaria/new" component={authenticateRoute(AddDiaria)} />
                         </Switch>
                     </div>

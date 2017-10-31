@@ -27,7 +27,13 @@ class AddDiaria extends Component {
     }
 
     onCargar(values) {
-        this.props.add(values, this.props.history);
+        const { fecha, caja, bancos, cheques, creditoTotal, creditoVencido, deudaTotal, deudaVencido } = values;
+
+        const credito = { total: creditoTotal, vencido: creditoVencido };
+        const debito = { total: deudaTotal, vencido: deudaVencido };
+        const info = { fecha, caja, bancos, cheques, debito, credito };
+
+        this.props.add(info, this.props.history);
     }
 
     render() {
@@ -37,8 +43,8 @@ class AddDiaria extends Component {
             <form className="" onSubmit={handleSubmit(this.onCargar.bind(this))} noValidate>
                 <Field name="fecha" component={this.renderFieldFecha} type="date" label="Fecha" col={2} />
                 <div className="card mt-3">
-                    <div className="card-header bg-danger text-white p-2">Disponibilidades</div>
-                    <div className="card-body p-2">
+                    <div className="card-header bg-danger text-white p-1">Disponibilidades</div>
+                    <div className="card-body p-1">
                         <div className="form-row">
                             <Field name="caja" component={this.renderField} type="number" label="Caja" col={4} />
                             <Field name="bancos" component={this.renderField} type="number" label="Banco" col={4} />
@@ -47,8 +53,8 @@ class AddDiaria extends Component {
                     </div>
                 </div>
                 <div className="card mt-3">
-                    <div className="card-header bg-danger text-white p-2">Credito</div>
-                    <div className="card-body p-2">
+                    <div className="card-header bg-danger text-white p-1">Credito</div>
+                    <div className="card-body p-1">
                         <div className="form-row">
                             <Field name="creditoTotal" component={this.renderField} type="number" label="Total" col={6} />
                             <Field name="creditoVencido" component={this.renderField} type="number" label="Vencido" col={6} />
@@ -56,8 +62,8 @@ class AddDiaria extends Component {
                     </div>
                 </div>
                 <div className="card mt-3">
-                    <div className="card-header bg-danger text-white p-2">Deuda</div>
-                    <div className="card-body p-2">
+                    <div className="card-header bg-danger text-white p-1">Deuda</div>
+                    <div className="card-body p-1">
                         <div className="form-row">
                             <Field name="deudaTotal" component={this.renderField} type="number" label="Total" col={6} />
                             <Field name="deudaVencido" component={this.renderField} type="number" label="Vencido" col={6} />

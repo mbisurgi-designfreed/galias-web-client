@@ -7,10 +7,11 @@ import { reducer as FormReducer } from 'redux-form';
 import registerServiceWorker from './registerServiceWorker';
 
 import AuthReducer from './reducers/auth.reducer';
+import InfoReducer from './reducers/info.reducer';
 
 import App from './components/app.component';
 
-const reducers = combineReducers({ form: FormReducer, auth: AuthReducer });
+const reducers = combineReducers({ form: FormReducer, auth: AuthReducer, info: InfoReducer });
 const middleware = applyMiddleware(ReduxThunk);
 const store = createStore(reducers, {}, middleware);
 const token = localStorage.getItem('token');
