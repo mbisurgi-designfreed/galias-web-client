@@ -23,7 +23,7 @@ class Header extends Component {
 
     renderAuthButtons() {
         if (this.props.auth) {
-            return <Link className="btn btn-danger btn-sm" to="/signin" onClick={this.onCerrarSesion.bind(this)}>Cerrar Sesion</Link>;
+            return <Link className="btn btn-danger btn-sm" to="/" onClick={this.onCerrarSesion.bind(this)}>Cerrar Sesion</Link>;
         } else {
             return <Link className="btn btn-danger btn-sm" to="/signin">Iniciar Sesion</Link>
         }

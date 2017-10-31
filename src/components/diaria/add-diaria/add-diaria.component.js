@@ -5,6 +5,15 @@ import { reduxForm, Field } from 'redux-form';
 import { add } from '../../../actions/info.action';
 
 class AddDiaria extends Component {
+    renderFieldFecha({ input, label, col, type, meta: { touched, error, valid } }) {
+        return (
+            <div className={`form-group mt-3 col-md-${col}`}>
+                <label>{label}</label>
+                <input {...input} className={`form-control form-control-sm ${touched && !valid ? 'is-invalid' : ''}`} type={type} />
+            </div>
+        )
+    }
+
     renderField({ input, label, col, type, meta: { touched, error, valid } }) {
         return (
             <div className={`form-group col-md-${col}`}>
@@ -26,12 +35,13 @@ class AddDiaria extends Component {
 
         return (
             <form className="" onSubmit={handleSubmit(this.onCargar.bind(this))} noValidate>
+                <Field name="fecha" component={this.renderFieldFecha} type="date" label="Fecha" col={2} />
                 <div className="card mt-3">
                     <div className="card-header bg-danger text-white p-2">Disponibilidades</div>
                     <div className="card-body p-2">
                         <div className="form-row">
                             <Field name="caja" component={this.renderField} type="number" label="Caja" col={4} />
-                            <Field name="banco" component={this.renderField} type="number" label="Banco" col={4} />
+                            <Field name="bancos" component={this.renderField} type="number" label="Banco" col={4} />
                             <Field name="cheques" component={this.renderField} type="number" label="Cheques" col={4} />
                         </div>
                     </div>
@@ -62,6 +72,10 @@ class AddDiaria extends Component {
 
 const validate = (values) => {
     const errors = {};
+
+    if (!values.fecha) {
+        errors.fecha = 'Fecha es requerido';
+    }
 
     if (!values.caja) {
         errors.caja = 'Caja es requerido';
