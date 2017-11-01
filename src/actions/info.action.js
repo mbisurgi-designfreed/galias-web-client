@@ -37,11 +37,29 @@ export const add = (info, history) => {
             if (res.status === 201) {
                 history.push('/diaria');
             }
-
-            console.log(res);
         } catch (err) {
             console.log(err);
         }
+    }
+};
+
+export const select = (info, checked) => {
+    if (checked) {
+        return {
+            type: 'info_selected',
+            payload: info
+        }
+    }
+
+    return {
+        type: 'info_unselected',
+        payload: info
+    }
+};
+
+export const unselectAll = () => {
+    return {
+        type: 'unselect_all'
     }
 };
 

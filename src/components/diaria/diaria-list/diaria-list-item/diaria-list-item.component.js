@@ -1,88 +1,63 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import numeral from 'numeral';
 
-const DiariaListItem = (props) => {
-    const { diaria } = props;
+import { select } from '../../../../actions/info.action';
 
-    const formatNumber = (number) => {
-        return numeral(number).format('$ 0,0.00');
+class DiariaListItem extends Component {
+    renderItem = (label, value) => {
+        return (
+            <div className="row">
+                <div className="col-md-4 text-secondary ">
+                    <span>{label}</span>
+                </div>
+                <div className="col-md-8 input-group">
+                    <span className="col-md-1">$</span>
+                    <p className="col-md-11 text-right">{this.formatNumber(value)}</p>
+                </div>
+            </div>
+        )
+    }
+
+    onItemClicked = (value) => {
+        const checked = value.target.checked;
+
+        this.props.select(this.props.diaria, checked);
+    }
+
+    formatNumber = (number) => {
+        return numeral(number).format('0,0.00');
     };
 
-    return (
-        <div className="card mt-3">
-            <div className="card-header bg-danger text-white pt-0 pb-0 pl-2">{moment(diaria.fecha).format('DD/MM/YYYY')}</div>
-            <div className="card-body p-2">
-                <div className="row">
-                    <div className="col-md-4">
-                        <h6 className="text-danger text-center font-weight-bold">Disponibilidades</h6>
-                        <div className="row">
-                            <div className="col-md-4 text-secondary ">
-                                <span>Caja</span>
-                            </div>
-                            <div className="col-md-8 text-right">
-                                <p>{formatNumber(diaria.caja)}</p>
-                            </div>
+    render() {
+        return (
+            <div className="card mt-3" >
+                <div className="card-header bg-danger text-white pt-0 pb-0 pl-2">{moment(this.props.diaria.fecha).format('DD/MM/YYYY')}<input type="checkbox" className="form-check-input float-right" onChange={this.onItemClicked.bind(this)} /></div>
+                <div className="card-body p-2">
+                    <div className="row">
+                        <div className="col-md-4">
+                            <h6 className="text-danger text-center font-weight-bold">Disponibilidades</h6>
+                            {this.renderItem('Caja', this.props.diaria.caja)}
+                            {this.renderItem('Bancos', this.props.diaria.bancos)}
+                            {this.renderItem('Cheques', this.props.diaria.cheques)}
                         </div>
-                        <div className="row">
-                            <div className="col-md-4 text-secondary">
-                                <span>Bancos</span>
-                            </div>
-                            <div className="col-md-8 text-right">
-                                <p>{formatNumber(diaria.bancos)}</p>
-                            </div>
+                        <div className="col-md-4">
+                            <h6 className="text-danger text-center font-weight-bold">Credito</h6>
+                            {this.renderItem('Total', this.props.diaria.credito.total)}
+                            {this.renderItem('Vencido', this.props.diaria.credito.vencido)}
                         </div>
-                        <div className="row">
-                            <div className="col-md-4 text-secondary">
-                                <span>Cheques</span>
-                            </div>
-                            <div className="col-md-8 text-right">
-                                <p>{formatNumber(diaria.cheques)}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <h6 className="text-danger text-center font-weight-bold">Credito</h6>
-                        <div className="row">
-                            <div className="col-md-4 text-secondary ">
-                                <span>Total</span>
-                            </div>
-                            <div className="col-md-8 text-right">
-                                <p>{formatNumber(diaria.credito.total)}</p>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-4 text-secondary">
-                                <span>Vencido</span>
-                            </div>
-                            <div className="col-md-8 text-right">
-                                <p>{formatNumber(diaria.credito.vencido)}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <h6 className="text-danger text-center font-weight-bold">Debito</h6>
-                        <div className="row">
-                            <div className="col-md-4 text-secondary ">
-                                <span>Total</span>
-                            </div>
-                            <div className="col-md-8 text-right">
-                                <p>{formatNumber(diaria.debito.total)}</p>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-md-4 text-secondary">
-                                <span>Vencido</span>
-                            </div>
-                            <div className="col-md-8 text-right">
-                                <p>{formatNumber(diaria.debito.vencido)}</p>
-                            </div>
+                        <div className="col-md-4">
+                            <h6 className="text-danger text-center font-weight-bold">Debito</h6>
+                            {this.renderItem('Total', this.props.diaria.debito.total)}
+                            {this.renderItem('Vencido', this.props.diaria.debito.vencido)}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
+
 };
 
-export default DiariaListItem;
+export default connect(null, { select })(DiariaListItem);

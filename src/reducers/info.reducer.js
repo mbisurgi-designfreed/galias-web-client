@@ -8,7 +8,7 @@ const InfoReducer = (state = {}, action) => {
             return { ...state, infos: _.mapKeys(action.payload, '_id'), loading: false };
         default:
             return state;
-    };
+    }
 }
 
 export default InfoReducer;

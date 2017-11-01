@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { listLast } from '../../../actions/info.action';
+import { listLast, unselectAll } from '../../../actions/info.action';
 
 import DiariaListItem from './diaria-list-item/diaria-list-item.component';
 
@@ -12,11 +12,12 @@ class DiariaList extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { desde: '', hasta: '' };
+        this.state = { desde: '', hasta: ''};
     }
 
     componentWillMount() {
         this.props.listLast();
+        this.props.unselectAll();
     }
 
     renderBuscar() {
@@ -34,7 +35,7 @@ class DiariaList extends Component {
     }
 
     renderItems() {
-        return _.map(this.props.info.infos, info => {
+        return _.map(this.props.info.infos, (info) => {
             return <DiariaListItem diaria={info} key={info._id} />;
         });
     }
@@ -59,7 +60,8 @@ class DiariaList extends Component {
     render() {
         return (
             <div className="mt-3">
-                <Link className="text-danger float-right" to="/diaria/new"><i className="fa fa-plus-circle fa-2x"></i></Link>
+                <Link className="text-danger float-right mr-1" to="/diaria/compare"><i className="fa fa-line-chart fa-2x"></i></Link>
+                <Link className="text-danger float-right mr-1" to="/diaria/new"><i className="fa fa-plus-circle fa-2x"></i></Link>
                 <div className="clearfix">
                     <div className="float-left">
                         <form onSubmit={this.onBuscar.bind(this)} className="form-inline">
@@ -75,12 +77,12 @@ class DiariaList extends Component {
                 </div>
                 {this.renderItems()}
             </div>
-        )
+        );
     }
 }
 
 const mapStateToProps = (state) => {
-    return { info: state.info };
+    return { info: state.info, selected: state.selectedInfo };
 }
 
-export default connect(mapStateToProps, { listLast })(DiariaList);
+export default connect(mapStateToProps, { listLast, unselectAll })(DiariaList);
