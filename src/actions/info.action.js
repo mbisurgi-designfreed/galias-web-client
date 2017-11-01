@@ -2,6 +2,30 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:4000';
 
+export const list = (desde, hasta) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/info/fecha?desde=${desde}&hasta=${hasta}`;
+
+        dispatch({
+            type: 'info_loading'
+        });
+
+        try {
+            const res = await axios.get(URL, { headers: { authorization: localStorage.getItem('token') } });
+
+            if (res) {
+                console.log(res);
+                dispatch({
+                    type: 'info_list',
+                    payload: res.data
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+};
+
 export const listLast = () => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/info/last`;
@@ -15,7 +39,7 @@ export const listLast = () => {
 
             if (res) {
                 dispatch({
-                    type: 'info_list_last',
+                    type: 'info_list',
                     payload: res.data
                 });
             }

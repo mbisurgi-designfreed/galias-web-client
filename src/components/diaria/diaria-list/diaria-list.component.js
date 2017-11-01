@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { listLast, unselectAll } from '../../../actions/info.action';
+import { list, listLast, unselectAll } from '../../../actions/info.action';
 
 import DiariaListItem from './diaria-list-item/diaria-list-item.component';
 
@@ -55,13 +55,15 @@ class DiariaList extends Component {
 
         const desde = this.state.desde;
         const hasta = this.state.hasta;
+
+        this.props.list(desde, hasta);
     }
 
     render() {
         return (
             <div className="mt-3">
-                <Link className="text-danger float-right mr-1" to="/diaria/compare"><i className="fa fa-line-chart fa-2x"></i></Link>
-                <Link className="text-danger float-right mr-1" to="/diaria/new"><i className="fa fa-plus-circle fa-2x"></i></Link>
+                <Link className="text-dark float-right mr-1" to="/diaria/compare"><i className="fa fa-line-chart fa-2x"></i></Link>
+                <Link className="text-dark float-right mr-1" to="/diaria/new"><i className="fa fa-plus-circle fa-2x"></i></Link>
                 <div className="clearfix">
                     <div className="float-left">
                         <form onSubmit={this.onBuscar.bind(this)} className="form-inline">
@@ -85,4 +87,4 @@ const mapStateToProps = (state) => {
     return { info: state.info, selected: state.selectedInfo };
 }
 
-export default connect(mapStateToProps, { listLast, unselectAll })(DiariaList);
+export default connect(mapStateToProps, { list, listLast, unselectAll })(DiariaList);
