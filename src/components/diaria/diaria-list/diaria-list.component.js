@@ -12,7 +12,7 @@ class DiariaList extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { desde: '', hasta: ''};
+        this.state = { desde: '', hasta: '' };
     }
 
     componentWillMount() {

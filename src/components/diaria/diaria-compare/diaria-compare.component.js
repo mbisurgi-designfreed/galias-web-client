@@ -5,6 +5,17 @@ import moment from 'moment';
 import _ from 'lodash';
 
 class DiariaCompare extends Component {
+    sortInfo() {
+        return _.map(this.props.selected, (info) => {
+            return info
+        }).sort((a, b) => {
+            const fecha1 = new Date(a.fecha);
+            const fecha2 = new Date(b.fecha);
+
+            return fecha1 - fecha2;
+        });
+    }
+
     configData(label, color, data) {
         return {
             label,
@@ -30,14 +41,7 @@ class DiariaCompare extends Component {
     }
 
     generateDataDisponibilidades() {
-        const infos = _.map(this.props.selected, (info) => {
-            return info
-        }).sort((a, b) => {
-            const fecha1 = new Date(a.fecha);
-            const fecha2 = new Date(b.fecha);
-
-            return fecha1 - fecha2;
-        });
+        const infos = this.sortInfo();
 
         const labels = _.map(infos, (info) => {
             return moment(info.fecha).format('DD/MM/YYYY');
@@ -47,7 +51,7 @@ class DiariaCompare extends Component {
             this.configData('Caja', '75,192,192', _.map(infos, (info) => info.caja)),
             this.configData('Bancos', '75,60,192', _.map(infos, (info) => info.bancos)),
             this.configData('Cheques', '199,0,57', _.map(infos, (info) => info.cheques))
-        ]
+        ];
 
         return {
             labels,
@@ -56,14 +60,7 @@ class DiariaCompare extends Component {
     }
 
     generateDataCreditos() {
-        const infos = _.map(this.props.selected, (info) => {
-            return info
-        }).sort((a, b) => {
-            const fecha1 = new Date(a.fecha);
-            const fecha2 = new Date(b.fecha);
-
-            return fecha1 - fecha2;
-        });
+        const infos = this.sortInfo();
 
         const labels = _.map(infos, (info) => {
             return moment(info.fecha).format('DD/MM/YYYY');
@@ -72,7 +69,7 @@ class DiariaCompare extends Component {
         const datasets = [
             this.configData('Total', '75,192,192', _.map(infos, (info) => info.credito.total)),
             this.configData('Vencido', '75,60,192', _.map(infos, (info) => info.credito.vencido))
-        ]
+        ];
 
         return {
             labels,
@@ -81,14 +78,7 @@ class DiariaCompare extends Component {
     }
 
     generateDataDeudas() {
-        const infos = _.map(this.props.selected, (info) => {
-            return info
-        }).sort((a, b) => {
-            const fecha1 = new Date(a.fecha);
-            const fecha2 = new Date(b.fecha);
-
-            return fecha1 - fecha2;
-        });
+        const infos = this.sortInfo();
 
         const labels = _.map(infos, (info) => {
             return moment(info.fecha).format('DD/MM/YYYY');
@@ -97,7 +87,25 @@ class DiariaCompare extends Component {
         const datasets = [
             this.configData('Total', '75,192,192', _.map(infos, (info) => info.debito.total)),
             this.configData('Vencido', '75,60,192', _.map(infos, (info) => info.debito.vencido))
-        ]
+        ];
+
+        return {
+            labels,
+            datasets
+        };
+    }
+
+    generateDataPorce() {
+        const infos = this.sortInfo();
+
+        const labels = _.map(infos, (info) => {
+            return moment(info.fecha).format('DD/MM/YYYY');
+        });
+
+        const datasets = [
+            this.configData('% Credito', '75,192,192', _.map(infos, (info) => info['%vencidoCredito'])),
+            this.configData('% Deuda', '75,60,192', _.map(infos, (info) => info['%vencidoDebito']))
+        ];
 
         return {
             labels,
@@ -108,7 +116,7 @@ class DiariaCompare extends Component {
     render() {
         return (
             <div className="mt-3">
-                <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+                <div id="carouselGraphs" className="carousel slide" data-ride="carousel">
                     <div className="carousel-inner">
                         <div className="carousel-item active">
                             <Line data={this.generateDataDisponibilidades()} options={{ title: { display: true, text: 'Disponibilidades' } }} legend={{ position: 'bottom' }} />
@@ -119,11 +127,14 @@ class DiariaCompare extends Component {
                         <div className="carousel-item">
                             <Bar data={this.generateDataDeudas()} options={{ title: { display: true, text: 'Deudas' } }} legend={{ position: 'bottom' }} />
                         </div>
+                        <div className="carousel-item">
+                            <Line data={this.generateDataPorce()} options={{ title: { display: true, text: '% Vencido' } }} legend={{ position: 'bottom' }} />
+                        </div>
                     </div>
-                    <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <a className="carousel-control-prev text-dark" style={{ maxWidth: '2rem' }} href="#carouselGraphs" role="button" data-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                     </a>
-                    <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <a className="carousel-control-next" style={{ maxWidth: '2rem' }} href="#carouselGraphs" role="button" data-slide="next">
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                     </a>
                 </div>
