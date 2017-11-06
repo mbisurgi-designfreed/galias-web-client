@@ -53,20 +53,21 @@ class AddDiaria extends Component {
                     </div>
                 </div>
                 <div className="card mt-3">
+                    <div className="card-header bg-danger text-white p-1">Deuda</div>
+                    <div className="card-body p-1">
+                        <div className="form-row">
+                            <Field name="deudaTotal" component={this.renderField} type="number" label="Total" col={4} />
+                            <Field name="deudaVencido" component={this.renderField} type="number" label="Vencido" col={4} />
+                            <Field name="deudaNc" component={this.renderField} type="number" label="Notas de Credito" col={4} />
+                        </div>
+                    </div>
+                </div>
+                <div className="card mt-3">
                     <div className="card-header bg-danger text-white p-1">Credito</div>
                     <div className="card-body p-1">
                         <div className="form-row">
                             <Field name="creditoTotal" component={this.renderField} type="number" label="Total" col={6} />
                             <Field name="creditoVencido" component={this.renderField} type="number" label="Vencido" col={6} />
-                        </div>
-                    </div>
-                </div>
-                <div className="card mt-3">
-                    <div className="card-header bg-danger text-white p-1">Deuda</div>
-                    <div className="card-body p-1">
-                        <div className="form-row">
-                            <Field name="deudaTotal" component={this.renderField} type="number" label="Total" col={6} />
-                            <Field name="deudaVencido" component={this.renderField} type="number" label="Vencido" col={6} />
                         </div>
                     </div>
                 </div>
@@ -109,6 +110,10 @@ const validate = (values) => {
 
     if (!values.deudaVencido) {
         errors.deudaVencido = 'Deuda vencido es requerido';
+    }
+
+    if (!values.deudaNc) {
+        errors.deudaNc = 'Deuda nota de credito es requerido';
     }
 
     return errors;
