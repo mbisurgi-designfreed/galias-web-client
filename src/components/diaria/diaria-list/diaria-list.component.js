@@ -53,10 +53,12 @@ class DiariaList extends Component {
     onBuscar(event) {
         event.preventDefault();
 
-        const desde = this.state.desde;
-        const hasta = this.state.hasta;
+        const desde = moment(this.state.desde, 'DD/MM/YYYY');
+        const hasta = moment(this.state.hasta, 'DD/MM/YYYY');
 
-        this.props.list(desde, hasta);
+        console.log(desde.toDate(), hasta.toDate());
+
+        this.props.list(desde.toDate(), hasta.toDate());
     }
 
     render() {

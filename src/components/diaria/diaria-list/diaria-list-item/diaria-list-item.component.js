@@ -26,6 +26,10 @@ class DiariaListItem extends Component {
         this.props.select(this.props.diaria, checked);
     }
 
+    formatDate = (date) => {
+        return moment(date).utc().format('DD/MM/YYYY');
+    }
+
     formatNumber = (number) => {
         return numeral(number).format('0,0.00');
     };
@@ -47,7 +51,7 @@ class DiariaListItem extends Component {
     render() {
         return (
             <div className="card mt-3" >
-                <div className="card-header bg-danger text-white pt-0 pb-0 pl-2">{moment(this.props.diaria.fecha).format('DD/MM/YYYY')}<input type="checkbox" className="form-check-input float-right" onChange={this.onItemClicked.bind(this)} /></div>
+                <div className="card-header bg-danger text-white pt-0 pb-0 pl-2">{this.formatDate(this.props.diaria.fecha)}<input type="checkbox" className="form-check-input float-right" onChange={this.onItemClicked.bind(this)} /></div>
                 <div className="card-body p-2">
                     <div className="row">
                         <div className="col-md-4">

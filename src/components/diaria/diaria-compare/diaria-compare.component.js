@@ -44,7 +44,7 @@ class DiariaCompare extends Component {
         const infos = this.sortInfo();
 
         const labels = _.map(infos, (info) => {
-            return moment(info.fecha).format('DD/MM/YYYY');
+            return moment(info.fecha).utc().format('DD/MM/YYYY');
         });
 
         const datasets = [
@@ -63,7 +63,7 @@ class DiariaCompare extends Component {
         const infos = this.sortInfo();
 
         const labels = _.map(infos, (info) => {
-            return moment(info.fecha).format('DD/MM/YYYY');
+            return moment(info.fecha).utc().format('DD/MM/YYYY');
         });
 
         const datasets = [
@@ -81,7 +81,7 @@ class DiariaCompare extends Component {
         const infos = this.sortInfo();
 
         const labels = _.map(infos, (info) => {
-            return moment(info.fecha).format('DD/MM/YYYY');
+            return moment(info.fecha).utc().format('DD/MM/YYYY');
         });
 
         const datasets = [
@@ -99,7 +99,7 @@ class DiariaCompare extends Component {
         const infos = this.sortInfo();
 
         const labels = _.map(infos, (info) => {
-            return moment(info.fecha).format('DD/MM/YYYY');
+            return moment(info.fecha).utc().format('DD/MM/YYYY');
         });
 
         const datasets = [

@@ -40,7 +40,7 @@ class AddDiaria extends Component {
         const { handleSubmit, valid } = this.props;
 
         return (
-            <form className="" onSubmit={handleSubmit(this.onCargar.bind(this))} noValidate>
+            <form onSubmit={handleSubmit(this.onCargar.bind(this))} noValidate>
                 <Field name="fecha" component={this.renderFieldFecha} type="date" label="Fecha" col={2} />
                 <div className="card mt-3">
                     <div className="card-header bg-danger text-white p-1">Disponibilidades</div>
