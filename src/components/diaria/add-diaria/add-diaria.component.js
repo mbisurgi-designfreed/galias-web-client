@@ -88,8 +88,8 @@ const validate = (values) => {
         errors.caja = 'Caja es requerido';
     }
 
-    if (!values.banco) {
-        errors.banco = 'Banco es requerido';
+    if (!values.bancos) {
+        errors.bancos = 'Banco es requerido';
     }
 
     if (!values.cheques) {
