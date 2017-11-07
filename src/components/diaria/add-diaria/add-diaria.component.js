@@ -27,10 +27,10 @@ class AddDiaria extends Component {
     }
 
     onCargar(values) {
-        const { fecha, caja, bancos, cheques, creditoTotal, creditoVencido, deudaTotal, deudaVencido } = values;
+        const { fecha, caja, bancos, cheques, creditoTotal, creditoVencido, deudaTotal, deudaVencido, deudaNc } = values;
 
+        const debito = { total: deudaTotal, vencido: deudaVencido, nc: deudaNc };
         const credito = { total: creditoTotal, vencido: creditoVencido };
-        const debito = { total: deudaTotal, vencido: deudaVencido };
         const info = { fecha, caja, bancos, cheques, debito, credito };
 
         this.props.add(info, this.props.history);
