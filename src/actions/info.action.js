@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://galias-server-api.herokuapp.com';
+const API_URL = 'https://galias-app.herokuapp.com/';
 
 export const list = (desde, hasta) => {
     return async (dispatch) => {

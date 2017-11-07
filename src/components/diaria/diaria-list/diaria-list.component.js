@@ -12,7 +12,7 @@ class DiariaList extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { desde: '', hasta: '' };
+        this.state = { desde: '', hasta: '', error: '' };
     }
 
     componentWillMount() {
@@ -53,10 +53,12 @@ class DiariaList extends Component {
     onBuscar(event) {
         event.preventDefault();
 
+        if (!this.state.desde || this.state.desde === 'Invalid date' || !this.state.hasta || this.state.hasta === 'Invalid date') {
+            return;
+        }
+
         const desde = moment(this.state.desde, 'DD/MM/YYYY');
         const hasta = moment(this.state.hasta, 'DD/MM/YYYY');
-
-        console.log(desde.toDate(), hasta.toDate());
 
         this.props.list(desde.toDate(), hasta.toDate());
     }
