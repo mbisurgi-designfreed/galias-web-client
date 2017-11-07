@@ -16,6 +16,9 @@ class DiariaList extends Component {
     }
 
     componentWillMount() {
+        console.log(this.props.socket);
+        // this.props.socket.emit('hello', `Hello from client with id ${this.props.socket.id}`);
+
         this.props.listLast();
         this.props.unselectAll();
     }
@@ -88,7 +91,7 @@ class DiariaList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return { info: state.info, selected: state.selectedInfo };
+    return { info: state.info, socket: state.socket, selected: state.selectedInfo };
 }
 
 export default connect(mapStateToProps, { list, listLast, unselectAll })(DiariaList);
