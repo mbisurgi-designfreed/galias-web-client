@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:4000';
+const API_URL = 'https://galias-server-api.herokuapp.com';
 
 export const signin = ({ email, password }, history) => {
     return async (dispatch) => {
