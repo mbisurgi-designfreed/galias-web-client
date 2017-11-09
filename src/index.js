@@ -4,6 +4,8 @@ import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { reducer as FormReducer } from 'redux-form';
+import { SocketProvider } from 'socket.io-react';
+import io from 'socket.io-client';
 import registerServiceWorker from './registerServiceWorker';
 
 import AuthReducer from './reducers/auth.reducer';
@@ -17,15 +19,19 @@ const middleware = applyMiddleware(ReduxThunk);
 const store = createStore(reducers, {}, middleware);
 const token = localStorage.getItem('token');
 
+const socket = io.connect('http://localhost:4000')
+
 if (token) {
     store.dispatch({
-      type: 'authenticate'
+        type: 'authenticate'
     });
-  }
+}
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <SocketProvider socket={socket} >
+            <App />
+        </SocketProvider>
     </Provider>,
     document.getElementById('root'));
 registerServiceWorker();
