@@ -19,7 +19,7 @@ const middleware = applyMiddleware(ReduxThunk);
 const store = createStore(reducers, {}, middleware);
 const token = localStorage.getItem('token');
 
-const socket = io.connect('http://localhost:4000')
+const socket = io.connect('https://galias-server-api.herokuapp.com')
 
 if (token) {
     store.dispatch({
