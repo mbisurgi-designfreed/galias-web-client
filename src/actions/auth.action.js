@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://galias-server-api.herokuapp.com';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const signin = ({ email, password }, history) => {
     return async (dispatch) => {
