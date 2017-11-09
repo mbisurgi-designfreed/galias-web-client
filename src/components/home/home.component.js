@@ -1,5 +1,7 @@
 import React from 'react';
 
+import notification from '../notification/notification.component';
+
 const Home = () => {
     return (
         <div className="jumbotron mt-5 bg-light ">
@@ -11,4 +13,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default notification(Home);

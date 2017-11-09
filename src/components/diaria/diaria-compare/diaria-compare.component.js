@@ -4,6 +4,8 @@ import { Line, Bar } from 'react-chartjs-2';
 import moment from 'moment';
 import _ from 'lodash';
 
+import notification from '../../notification/notification.component';
+
 class DiariaCompare extends Component {
     sortInfo() {
         return _.map(this.props.selected, (info) => {
@@ -147,4 +149,4 @@ const mapStateToProps = (state) => {
     return { selected: state.selectedInfo };
 }
 
-export default connect(mapStateToProps)(DiariaCompare);
+export default connect(mapStateToProps)(notification(DiariaCompare));

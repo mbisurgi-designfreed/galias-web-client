@@ -49,13 +49,13 @@ export const listLast = () => {
     }
 }
 
-export const add = (info, history) => {
+export const add = (info, history, id) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/info`;
 
         try {
             const res = await axios.post(
-                URL, info, { headers: { authorization: localStorage.getItem('token') } }
+                URL, info, { headers: { authorization: localStorage.getItem('token'), socket: id } }
             );
 
             if (res.status === 201) {
@@ -84,6 +84,19 @@ export const select = (info, checked) => {
 export const unselectAll = () => {
     return {
         type: 'unselect_all'
+    }
+};
+
+export const receiveNotification = (notifications) => {
+    return {
+        type: 'info_notification',
+        payload: notifications
+    }
+};
+
+export const resetNotification = () => {
+    return {
+        type: 'info_notification_reset'
     }
 };
 

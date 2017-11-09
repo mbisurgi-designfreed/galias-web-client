@@ -4,6 +4,8 @@ import { reduxForm, Field } from 'redux-form';
 
 import { add } from '../../../actions/info.action';
 
+import notification from '../../notification/notification.component';
+
 class AddDiaria extends Component {
     renderFieldFecha({ input, label, col, type, meta: { touched, error, valid } }) {
         return (
@@ -33,7 +35,7 @@ class AddDiaria extends Component {
         const debito = { total: deudaTotal, vencido: deudaVencido };
         const info = { fecha, caja, bancos, cheques, debito, credito };
 
-        this.props.add(info, this.props.history);
+        this.props.add(info, this.props.history, this.props.socket.id);
     }
 
     render() {
@@ -119,4 +121,4 @@ const validate = (values) => {
     return errors;
 }
 
-export default reduxForm({ form: 'info', validate })(connect(null, { add })(AddDiaria));
+export default reduxForm({ form: 'info', validate })(connect(null, { add })(notification(AddDiaria)));

@@ -8,6 +8,8 @@ import { list, listLast, unselectAll } from '../../../actions/info.action';
 
 import DiariaListItem from './diaria-list-item/diaria-list-item.component';
 
+import notification from '../../notification/notification.component';
+
 class DiariaList extends Component {
     constructor(props) {
         super(props);
@@ -16,9 +18,6 @@ class DiariaList extends Component {
     }
 
     componentWillMount() {
-        console.log(this.props.socket);
-        // this.props.socket.emit('hello', `Hello from client with id ${this.props.socket.id}`);
-
         this.props.listLast();
         this.props.unselectAll();
     }
@@ -94,4 +93,4 @@ const mapStateToProps = (state) => {
     return { info: state.info, socket: state.socket, selected: state.selectedInfo };
 }
 
-export default connect(mapStateToProps, { list, listLast, unselectAll })(DiariaList);
+export default connect(mapStateToProps, { list, listLast, unselectAll })(notification(DiariaList));
