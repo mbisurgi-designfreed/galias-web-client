@@ -9,10 +9,10 @@ class DiariaListItem extends Component {
     renderItem = (label, simbol, value) => {
         return (
             <div className="row">
-                <div className="col-md-4 text-secondary ">
+                <div className="col-4 col-md-4 text-secondary">
                     <span>{label}</span>
                 </div>
-                <div className="col-md-8 input-group">
+                <div className="col-8 col-md-8 input-group">
                     <span className="col-md-1">{simbol}</span>
                     <p className={`col-md-11 text-right ${simbol === '%' ? this.formatColor(value) : ''}`}>{this.formatNumber(value)}</p>
                 </div>
@@ -55,21 +55,21 @@ class DiariaListItem extends Component {
                 <div className="card-body p-2">
                     <div className="row">
                         <div className="col-md-4">
-                            <h6 className="text-danger text-center font-weight-bold">Disponibilidades</h6>
+                            <h6 className="text-danger text-left text-md-center font-weight-bold">Disponibilidades</h6>
                             {this.renderItem('Caja', '$', this.props.diaria.caja)}
                             {this.renderItem('Bancos', '$', this.props.diaria.bancos)}
                             {this.renderItem('Cheques', '$', this.props.diaria.cheques)}
                             {this.renderItem('Total', '$', this.props.diaria.caja + this.props.diaria.bancos + this.props.diaria.cheques)}
                         </div>
                         <div className="col-md-4">
-                            <h6 className="text-danger text-center font-weight-bold">Debito</h6>
+                            <h6 className="text-danger text-left text-md-center font-weight-bold">Debito</h6>
                             {this.renderItem('Total', '$', this.props.diaria.debito.total)}
                             {this.renderItem('Vencido', '$', this.props.diaria.debito.vencido)}
                             {this.renderItem('N/C', '$', this.props.diaria.debito.nc)}
                             {this.renderItem('', '%', this.props.diaria['%vencidoDebito'])}
                         </div>
                         <div className="col-md-4">
-                            <h6 className="text-danger text-center font-weight-bold">Credito</h6>
+                            <h6 className="text-danger text-left text-md-center font-weight-bold">Credito</h6>
                             {this.renderItem('Total', '$', this.props.diaria.credito.total)}
                             {this.renderItem('Vencido', '$', this.props.diaria.credito.vencido)}
                             {this.renderItem('N/C', '$', this.props.diaria.credito.nc)}

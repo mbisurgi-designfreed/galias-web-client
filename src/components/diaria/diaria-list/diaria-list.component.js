@@ -74,10 +74,10 @@ class DiariaList extends Component {
                     <div className="float-left">
                         <form onSubmit={this.onBuscar.bind(this)} className="form-inline">
                             <div className="input-group">
-                                <input type="date" className="form-control form-control-sm mr-sm-2" onChange={this.onDesdeChange.bind(this)} placeholder="Desde" />
+                                <input type="date" className="form-control form-control-sm mb-2 mb-sm-0 mr-sm-2" onChange={this.onDesdeChange.bind(this)} placeholder="Desde" />
                             </div>
                             <div className="input-group">
-                                <input type="date" className="form-control form-control-sm mr-sm-2" onChange={this.onHastaChange.bind(this)} placeholder="Hasta" />
+                                <input type="date" className="form-control form-control-sm mb-2 mb-sm-0 mr-sm-2" onChange={this.onHastaChange.bind(this)} placeholder="Hasta" />
                             </div>
                             {this.renderBuscar()}
                         </form>
