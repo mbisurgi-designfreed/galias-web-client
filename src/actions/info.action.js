@@ -14,7 +14,6 @@ export const list = (desde, hasta) => {
             const res = await axios.get(URL, { headers: { authorization: localStorage.getItem('token') } });
 
             if (res) {
-                console.log(res);
                 dispatch({
                     type: 'info_list',
                     payload: res.data

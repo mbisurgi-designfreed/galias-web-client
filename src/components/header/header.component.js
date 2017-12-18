@@ -9,6 +9,7 @@ class Header extends Component {
     renderHeaderItems() {
         const items = [
             { title: 'Home', path: '/', icon: 'fa fa-home mr-sm-2 text-dark' },
+            { title: 'Clientes', path: '/clientes', icon: 'fa fa-user mr-sm-2 text-dark' },
             { title: 'Diaria', path: '/diaria', icon: 'fa fa-usd mr-sm-2 text-dark', onClick: this.onDiaria.bind(this), badge: this.renderBadge() },
             { title: 'Pedidos', path: '/pedidos', icon: 'fa fa-shopping-cart mr-sm-2 text-dark' }
         ];

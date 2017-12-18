@@ -11,10 +11,11 @@ import registerServiceWorker from './registerServiceWorker';
 import AuthReducer from './reducers/auth.reducer';
 import InfoReducer from './reducers/info.reducer';
 import InfoSelectedReducer from './reducers/info-selected.reducer';
+import ClienteReducer from './reducers/cliente.reducer';
 
 import App from './components/app.component';
 
-const reducers = combineReducers({ form: FormReducer, auth: AuthReducer, info: InfoReducer, selectedInfo: InfoSelectedReducer });
+const reducers = combineReducers({ form: FormReducer, auth: AuthReducer, info: InfoReducer, selectedInfo: InfoSelectedReducer, cliente: ClienteReducer });
 const middleware = applyMiddleware(ReduxThunk);
 const store = createStore(reducers, {}, middleware);
 const token = localStorage.getItem('token');
