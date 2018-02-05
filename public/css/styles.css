@@ -1,0 +1,123 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit; }
+  
+  html {
+    font-size: 62.5%; }
+  
+  body {
+    box-sizing: border-box; }
+  
+  ul {
+    list-style: none; }
+  
+  body {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #ed1c24; }
+  
+  .mb-small {
+    margin-bottom: 1rem; }
+  
+  .btn-link {
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: color 0.2s; }
+    .btn-link:hover {
+      color: #cc0000; }
+  
+  .form {
+    font-size: 1rem;
+    margin-top: 2rem; }
+    .form__group:not(:last-child) {
+      margin-bottom: 2rem; }
+    .form__label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 0.25rem;
+      text-transform: uppercase; }
+    .form__field {
+      border: none;
+      border-bottom: 1px solid #c7c8ca;
+      display: block;
+      font-weight: 300;
+      outline: none;
+      padding: 0.5rem 0;
+      transition: border-bottom 0.2s, padding 0.2s;
+      width: 100%; }
+      .form__field:not(:last-child) {
+        margin-bottom: 1rem; }
+      .form__field:focus {
+        border-bottom: 1px solid #ed1c24;
+        padding-left: 0.5rem; }
+      .form__field:disabled {
+        cursor: auto;
+        color: #c7c8ca; }
+    .form__list-item {
+      color: #c7c8ca;
+      font-weight: 300;
+      padding: 0.5rem 0; }
+  
+  .form-container {
+    padding: 1rem 3rem; }
+  
+  .form-title {
+    border-bottom: 1px solid #ed1c24; }
+  
+  .icon-small {
+    color: #ed1c24;
+    margin-right: 0.5rem; }
+  
+  .search-place {
+    border: 1px solid #c7c8ca;
+    border-radius: 0.25rem;
+    font-size: 1.25rem;
+    font-weight: 300;
+    padding: 1rem;
+    width: 100%; }
+    .search-place:focus {
+      outline: none; }
+  
+  .row {
+    max-width: 110rem;
+    margin: 0 auto; }
+    .row:not(:last-child) {
+      margin-bottom: 2rem; }
+    .row::after {
+      content: "";
+      display: table;
+      clear: both; }
+    .row .col-1-of-2 {
+      width: calc((100% - 6rem) / 2);
+      float: left; }
+      .row .col-1-of-2:not(:last-child) {
+        margin-right: 6rem; }
+    .row .col-1-of-3 {
+      width: calc((100% - 2 * 6rem) / 3);
+      float: left; }
+      .row .col-1-of-3:not(:last-child) {
+        margin-right: 6rem; }
+    .row .col-2-of-3 {
+      width: calc(2 * ((100% - 2 * 6rem) / 3) + 6rem);
+      float: left; }
+      .row .col-2-of-3:not(:last-child) {
+        margin-right: 6rem; }
+    .row .col-1-of-4 {
+      width: calc((100% - 3 * 6rem) / 4);
+      float: left; }
+      .row .col-1-of-4:not(:last-child) {
+        margin-right: 6rem; }
+    .row .col-2-of-4 {
+      width: calc(2 * ((100% - 3 * 6rem) / 4) + 6rem);
+      float: left; }
+      .row .col-2-of-4:not(:last-child) {
+        margin-right: 6rem; }
+    .row .col-3-of-4 {
+      width: calc(3 * ((100% - 3 * 6rem) / 4) + 6rem);
+      float: left; }
+      .row .col-3-of-4:not(:last-child) {
+        margin-right: 6rem; }
+  

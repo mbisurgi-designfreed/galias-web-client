@@ -10,6 +10,9 @@ import DiariaList from '../components/diaria/diaria-list/diaria-list.component';
 import DiariaCompare from '../components/diaria/diaria-compare/diaria-compare.component';
 import AddDiaria from '../components/diaria/add-diaria/add-diaria.component';
 import ClientesList from '../components/clientes/clientes-list/clientes-list.component';
+import EditCliente from '../components/clientes/edit-cliente/edit-cliente.component';
+import AddCliente from '../components/clientes/add-cliente/add-cliente.component';
+
 
 class App extends Component {
     render() {
@@ -25,6 +28,8 @@ class App extends Component {
                             <Route exact path="/diaria/new" component={authenticateRoute(AddDiaria)} />
                             <Route exact path="/diaria/compare" component={authenticateRoute(DiariaCompare)} />
                             <Route exact path="/clientes" component={authenticateRoute(ClientesList)} />
+                            <Route exact path="/clientes/new" component={authenticateRoute(AddCliente)} />
+                            <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
                         </Switch>
                     </div>
                 </BrowserRouter>

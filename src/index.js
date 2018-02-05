@@ -8,14 +8,19 @@ import { SocketProvider } from 'socket.io-react';
 import io from 'socket.io-client';
 import registerServiceWorker from './registerServiceWorker';
 
+import 'react-select/dist/react-select.css';
+import './styles.css';
+
 import AuthReducer from './reducers/auth.reducer';
 import InfoReducer from './reducers/info.reducer';
 import InfoSelectedReducer from './reducers/info-selected.reducer';
+import CanalReducer from './reducers/canal.reducer';
+import SubcanalReducer from './reducers/subcanal.reducer';
 import ClienteReducer from './reducers/cliente.reducer';
 
 import App from './components/app.component';
 
-const reducers = combineReducers({ form: FormReducer, auth: AuthReducer, info: InfoReducer, selectedInfo: InfoSelectedReducer, cliente: ClienteReducer });
+const reducers = combineReducers({ form: FormReducer, auth: AuthReducer, info: InfoReducer, selectedInfo: InfoSelectedReducer, cliente: ClienteReducer, canal: CanalReducer, subcanal: SubcanalReducer });
 const middleware = applyMiddleware(ReduxThunk);
 const store = createStore(reducers, {}, middleware);
 const token = localStorage.getItem('token');
