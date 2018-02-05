@@ -25,6 +25,9 @@ body {
 .mb-small {
   margin-bottom: 1rem; }
 
+.mb-medium {
+  margin-bottom: 3rem; }
+
 .text-center {
   text-align: center; }
 
@@ -46,8 +49,7 @@ body {
     cursor: pointer; }
   .btn:active {
     background-color: #c61017;
-    border-color: #c61017;
-    outline: none; }
+    border-color: #c61017; }
 
 .btn-link {
   background-color: transparent;
@@ -71,7 +73,8 @@ body {
     font-weight: bold;
     display: block;
     margin-bottom: 0.25rem;
-    text-transform: uppercase; }
+    text-transform: uppercase;
+    text-align: left; }
   .form__field {
     border: none;
     border-bottom: 1px solid #c7c8ca;

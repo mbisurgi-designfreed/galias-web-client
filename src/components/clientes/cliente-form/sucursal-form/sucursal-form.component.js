@@ -34,7 +34,7 @@ class SucursalForm extends Component {
                 lng: this.props.sucursal.item.geometry.coordinates[0]
             };
 
-            this.setState(() => ({ ubicacion, accion: 'editar' }));
+            this.setState(() => ({ ubicacion }));
         }
     }
 

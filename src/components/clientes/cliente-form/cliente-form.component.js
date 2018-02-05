@@ -6,7 +6,9 @@ import Yup from 'yup';
 
 import SearchPlace from '../../search-place/search-place.component';
 import Map from '../../search-place/map.component';
+import PersonaModal from './persona-form/persona-modal.component';
 import SucursalModal from './sucursal-form/sucursal-modal.component';
+import TelefonoModal from './telefono-form/telefono-modal.component';
 
 import { list as getCanales } from '../../../actions/canal.action';
 import { list as getSubcanales } from '../../../actions/subcanal.action';
@@ -16,6 +18,10 @@ class ClienteForm extends Component {
         ubicacion: undefined,
         canales: [],
         subcanales: [],
+        persona: { item: undefined },
+        personas: this.props.cliente ? this.props.cliente.personas : [],
+        telefono: { item: undefined },
+        telefonos: this.props.cliente ? this.props.cliente.telefonos : [],
         sucursal: { item: undefined },
         sucursales: this.props.cliente ? this.props.cliente.sucursales : []
     }
@@ -138,6 +144,82 @@ class ClienteForm extends Component {
         this.props.setFieldTouched('clasificacion', true);
     }
 
+    onAgregarPersona = () => {
+        this.setState(() => ({ persona: { item: null } }));
+    }
+
+    onEditarPersona = (i) => {
+        this.setState(() => ({ persona: { item: this.state.personas[i], index: i } }));
+    }
+
+    onClosePersona = ({ persona, index }) => {
+        if (persona && index == null) {
+            this.setState((prevState) => ({
+                personas: prevState.personas.concat(persona)
+            }));
+        } else if (persona && index !== null) {
+            this.setState((prevState) => {
+                const personas = prevState.personas;
+                personas[index] = persona;
+
+                return { personas };
+            });
+        }
+
+        this.setState(() => ({ persona: { item: undefined } }));
+    }
+
+    renderPersonas = () => {
+        return this.state.personas.map((persona, i) => {
+            return (
+                <li className="form__list-item" key={i}>
+                    <a onClick={() => this.onEditarPersona(i)}>
+                        <i className="fa fa-pencil icon-small"></i>
+                    </a>
+                    <p>{`${persona.tipo} ${persona.nombre}`}</p>
+                </li>
+            )
+        });
+    };
+
+    onAgregarTelefono = () => {
+        this.setState(() => ({ telefono: { item: null } }));
+    }
+
+    onEditarTelefono = (i) => {
+        this.setState(() => ({ telefono: { item: this.state.telefonos[i], index: i } }));
+    }
+
+    onCloseTelefono = ({ telefono, index }) => {
+        if (telefono && index == null) {
+            this.setState((prevState) => ({
+                telefonos: prevState.telefonos.concat(telefono)
+            }));
+        } else if (telefono && index !== null) {
+            this.setState((prevState) => {
+                const telefonos = prevState.telefonos;
+                telefonos[index] = telefono;
+
+                return { telefonos };
+            });
+        }
+
+        this.setState(() => ({ telefono: { item: undefined } }));
+    }
+
+    renderTelefonos = () => {
+        return this.state.telefonos.map((telefono, i) => {
+            return (
+                <li className="form__list-item" key={i}>
+                    <a onClick={() => this.onEditarTelefono(i)}>
+                        <i className="fa fa-pencil icon-small"></i>
+                    </a>
+                    <p>{`${telefono.tipo} ${telefono.numero}`}</p>
+                </li>
+            )
+        });
+    };
+
     onAgregarSucursal = () => {
         this.setState(() => ({ sucursal: { item: null } }));
     }
@@ -238,20 +320,9 @@ class ClienteForm extends Component {
                         <div className="form-group col-1-of-3">
                             <label className="form__label">Telefonos</label>
                             <ul className="form__list">
-                                <li className="form__list-item">
-                                    <a>
-                                        <i className="fa fa-pencil icon-small"></i>
-                                    </a>
-                                    <p>011 4295 9090</p>
-                                </li>
-                                <li className="form__list-item">
-                                    <a>
-                                        <i className="fa fa-pencil icon-small"></i>
-                                    </a>
-                                    <p>011 4866 0116</p>
-                                </li>
+                                {this.renderTelefonos()}
                             </ul>
-                            <button type="button" className="btn-link"><i className="fa fa-plus-circle icon-small"></i>agregar telefono</button>
+                            <button type="button" className="btn-link" onClick={this.onAgregarTelefono}><i className="fa fa-plus-circle icon-small"></i>agregar telefono</button>
                         </div>
                         <div className="form-group col-1-of-3">
                             <label className="form__label">Sucursales</label>
@@ -263,20 +334,9 @@ class ClienteForm extends Component {
                         <div className="form-group col-1-of-3">
                             <label className="form__label">Personas de Interes</label>
                             <ul className="form__list">
-                                <li className="form__list-item">
-                                    <a>
-                                        <i className="fa fa-pencil icon-small"></i>
-                                    </a>
-                                    <p>Maximiliano Bisurgi</p>
-                                </li>
-                                <li className="form__list-item">
-                                    <a>
-                                        <i className="fa fa-pencil icon-small"></i>
-                                    </a>
-                                    <p>Jorge Perez</p>
-                                </li>
+                                {this.renderPersonas()}
                             </ul>
-                            <button type="button" className="btn-link"><i className="fa fa-plus-circle icon-small"></i>agregar persona de interes</button>
+                            <button type="button" className="btn-link" onClick={this.onAgregarPersona}><i className="fa fa-plus-circle icon-small"></i>agregar persona de interes</button>
                         </div>
                     </div>
                     <div className="row">
@@ -310,7 +370,9 @@ class ClienteForm extends Component {
                         </div>
                     </div>
                 </Form>
+                <PersonaModal persona={this.state.persona} onCloseModal={this.onClosePersona} />
                 <SucursalModal sucursal={this.state.sucursal} onCloseModal={this.onCloseSucursal} />
+                <TelefonoModal telefono={this.state.telefono} onCloseModal={this.onCloseTelefono} />
             </div>
         );
     }
