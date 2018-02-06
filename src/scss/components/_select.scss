@@ -1,0 +1,54 @@
+.Select {
+    &.is-focused > .Select-control {
+		background: $select-input-bg-focus;
+	}
+
+	&.is-focused:not(.is-open) > .Select-control {
+		border-color: $select-input-border-focus lighten($select-input-border-focus, 5%) lighten($select-input-border-focus, 5%);
+        box-shadow: $select-input-box-shadow-focus;
+    }
+}
+
+.Select--multi {
+    .Select-value {
+		background-color: $select-item-bg;
+		border: 1px solid $select-item-border-color;
+		color: $select-item-color;
+    }
+    
+    a.Select-value-label {
+		color: $select-item-color;
+    }
+    
+    .Select-value-icon {
+        border-right: 1px solid $select-item-border-color;
+        
+		&:hover,
+		&:focus {
+			background-color: $select-item-hover-bg;
+			color: $select-item-hover-color;
+		}
+		&:active {
+			background-color: $select-item-border-color;
+		}
+	}
+
+	&.Select--rtl {
+		.Select-value-icon {
+			border-right: none;
+			border-left: 1px solid $select-item-border-color;
+		}
+	}
+}
+
+.Select-option {
+	&.is-selected {
+		background-color: $select-option-selected-bg;
+		color: $select-option-selected-color;
+	}
+
+	&.is-focused {
+		background-color: $select-option-focused-bg;
+		color: $select-option-focused-color;
+	}
+}

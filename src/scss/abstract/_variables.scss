@@ -1,0 +1,34 @@
+// COLORS
+
+$color-primary: #ed1c24;
+$color-primary-dark: orangered;
+$color-primary-light: blue;
+
+$color-grey-light: #c7c8ca;
+$color-grey-lighter: #f3f3f3;
+$color-grey-dark: #2e2e2e;
+$color-white: #fff;
+$color-black: #000;
+
+// GRID
+
+$grid-witdh: 110rem;
+$gutter-vertical: 2rem;
+$gutter-horizontal: 6rem;
+
+// SELECT
+$select-input-bg-focus: #fff !default;
+$select-input-border-focus: $color-primary !default;
+$select-input-box-shadow-focus: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px 2px rgba($color-primary, 0.1) !default;
+$select-item-color: $color-primary !default;
+$select-item-bg: lighten($color-primary, 40%) !default;
+$select-item-border-color: darken($select-item-bg, 10%) !default;
+$select-item-hover-color: darken($select-item-color, 5%) !default; 
+$select-item-hover-bg: darken($select-item-bg, 5%) !default;  
+$select-link-hover-color: $select-input-border-focus !default;
+$select-text-color: #333 !default;
+$select-option-color: lighten($select-text-color, 20%) !default;
+$select-option-selected-bg: lighten($select-item-bg, 5%) !default;
+$select-option-selected-color: $select-text-color !default;
+$select-option-focused-bg: $select-item-bg !default;
+$select-option-focused-color: $select-text-color !default;

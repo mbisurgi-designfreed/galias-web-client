@@ -14,7 +14,7 @@ class TelefonoModal extends Component {
 
     render() {
         return (
-            <Modal className="modal" overlayClassName="overlay" isOpen={this.props.telefono.item || this.props.telefono.item === null ? true : false} onRequestClose={this.onCloseModal} contentLabel="Selected Option" closeTimeoutMS={0}>
+            <Modal className="modal" overlayClassName="overlay" isOpen={this.props.telefono.item || this.props.telefono.item === null ? true : false} onRequestClose={this.onCloseModal} contentLabel="Selected Option" ariaHideApp={false} closeTimeoutMS={0}>
                 <TelefonoForm telefono={this.props.telefono} onSubmit={this.onCloseModal} />
             </Modal>
         )

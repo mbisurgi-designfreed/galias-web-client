@@ -14,7 +14,7 @@ class PersonaModal extends Component {
 
     render() {
         return (
-            <Modal className="modal" overlayClassName="overlay" isOpen={this.props.persona.item || this.props.persona.item === null ? true : false} onRequestClose={this.onCloseModal} contentLabel="Selected Option" closeTimeoutMS={0}>
+            <Modal className="modal" overlayClassName="overlay" isOpen={this.props.persona.item || this.props.persona.item === null ? true : false} onRequestClose={this.onCloseModal} contentLabel="Selected Option" ariaHideApp={false} closeTimeoutMS={0}>
                 <PersonaForm persona={this.props.persona} onSubmit={this.onCloseModal} />
             </Modal>
         )

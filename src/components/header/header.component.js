@@ -8,16 +8,16 @@ import { resetNotification } from '../../actions/info.action';
 class Header extends Component {
     renderHeaderItems() {
         const items = [
-            { title: 'Home', path: '/', icon: 'fa fa-home mr-sm-2 text-dark' },
-            { title: 'Clientes', path: '/clientes', icon: 'fa fa-user mr-sm-2 text-dark' },
-            { title: 'Diaria', path: '/diaria', icon: 'fa fa-usd mr-sm-2 text-dark', onClick: this.onDiaria.bind(this), badge: this.renderBadge() },
-            { title: 'Pedidos', path: '/pedidos', icon: 'fa fa-shopping-cart mr-sm-2 text-dark' }
+            { title: 'Home', path: '/', icon: 'fa fa-home icon-navbar' },
+            { title: 'Clientes', path: '/clientes', icon: 'fa fa-user icon-navbar' },
+            { title: 'Diaria', path: '/diaria', icon: 'fa fa-usd icon-navbar', onClick: this.onDiaria.bind(this), badge: this.renderBadge() },
+            { title: 'Pedidos', path: '/pedidos', icon: 'fa fa-shopping-cart icon-navbar' }
         ];
 
         return items.map((item) => {
             return (
-                <li className="nav-item" key={item.title}>
-                    <Link className="nav-link text-danger" to={item.path} onClick={item.onClick} ><i className={item.icon} /> {item.title} {item.badge}</Link>
+                <li className="navbar__item" key={item.title}>
+                    <Link to={item.path} onClick={item.onClick} ><i className={[item.icon]} /> {item.title} {item.badge}</Link>
                 </li>
             );
         });
@@ -31,9 +31,9 @@ class Header extends Component {
 
     renderAuthButtons() {
         if (this.props.auth) {
-            return <Link className="btn btn-danger btn-sm" to="/" onClick={this.onCerrarSesion.bind(this)}>Cerrar Sesion</Link>;
+            return <Link className="btn btn--small navbar__auth" to="/" onClick={this.onCerrarSesion.bind(this)}>Cerrar Sesion</Link>;
         } else {
-            return <Link className="btn btn-danger btn-sm" to="/signin">Iniciar Sesion</Link>
+            return <Link className="btn btn--small navbar__auth" to="/signin">Iniciar Sesion</Link>
         }
     }
 
@@ -47,20 +47,23 @@ class Header extends Component {
 
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <Link className="navbar-brand" to="/">
-                    <img src="" width="30" height="30" className="d-inline-block align-top" alt="" />
+            <nav className="navbar">
+                <Link className="navbar__brand" to="/">
                     Galias
-            </Link>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                </Link>
+                {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon" />
-                </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                </button> */}
+                <ul className="navbar__nav">
+                    {this.renderHeaderItems()}
+                </ul>
+                {this.renderAuthButtons()}
+                {/* <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         {this.renderHeaderItems()}
                     </ul>
                     {this.renderAuthButtons()}
-                </div>
+                </div> */}
             </nav>
         );
     }

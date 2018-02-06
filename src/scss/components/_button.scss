@@ -1,0 +1,47 @@
+.btn {
+    background-color: $color-primary;
+    border-color: $color-primary;
+    border-radius: 3px;
+    color: $color-white;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 0.2s;
+    outline: none;
+
+    &:hover {
+        background-color: darken($color-primary, 10%);
+        border-color: darken($color-primary, 10%);
+        box-shadow: 0 0.2rem 0.2rem rgba($color-black, 0.2);
+        cursor: pointer;
+    }
+
+    &:active {
+        background-color: darken($color-primary, 10%);
+        border-color: darken($color-primary, 10%);
+    }
+
+    &--small {
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+.btn-link {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: $color-primary;
+    font-size: 1.25rem;
+    transition: color 0.2s;
+
+    &:hover, &:hover > i {
+        text-decoration: none;
+        color: darken($color-primary, 10%);
+    }
+
+    &:focus {
+        outline: none;
+    }
+}

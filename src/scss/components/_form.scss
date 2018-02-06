@@ -1,0 +1,97 @@
+.form {
+    font-size: 1rem;
+    margin-top: 2rem;
+
+    &__group {
+        &:not(:last-child) {
+            margin-bottom: 2rem;
+        }
+    }
+
+    &__label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        text-align: left;
+    }
+
+    &__field {
+        border: none;
+        border-bottom: 1px solid $color-grey-light;
+        display: block;
+        font-weight: 300;
+        outline: none;
+        padding: 0.5rem 0;
+        transition: border-bottom 0.2s, padding 0.2s;
+        width: 100%;
+
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+
+        &:focus {
+            border-bottom: 1px solid $color-primary;
+            padding-left: 0.5rem;
+        }
+
+        &:disabled {
+            cursor: auto;
+            color: $color-grey-light;
+        }
+
+        &-error {
+            color: $color-grey-light;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        &--inverse {
+            background: transparent;
+            color: $color-white;
+
+            &:focus {
+                border-bottom: 1px solid $color-white;
+            }
+        }
+    }
+
+    &__list {
+        height: 150px;
+        list-style: none;
+        overflow-y: scroll;
+    }
+
+    &__list-item {
+        display: flex;
+        align-items: center;
+        font-size: 1.15rem;
+    
+        a {
+            cursor: pointer;
+
+            &:hover > i {
+                color: darken($color-primary, 10%);
+            }
+        }
+
+        p {
+            color: $color-grey-light;
+            display: inline-block;
+            font-weight: 300;
+            padding: 0.5rem 0; 
+
+            &:hover {
+                cursor: default;
+            }
+        }
+    }
+}
+
+.form-container {
+    padding: 1rem 3rem;
+}
+
+.form-title {
+    border-bottom: 1px solid $color-primary;
+}
