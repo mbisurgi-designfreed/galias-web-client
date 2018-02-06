@@ -28,7 +28,7 @@ class SucursalForm extends Component {
     }
 
     componentWillMount() {
-        if (this.props.sucursal.item) {
+        if (this.props.sucursal.item && this.props.sucursal.item.geometry.coordinates) {
             const ubicacion = {
                 lat: this.props.sucursal.item.geometry.coordinates[1],
                 lng: this.props.sucursal.item.geometry.coordinates[0]
@@ -91,8 +91,8 @@ const mapPropsToValues = ({ sucursal }) => ({
     altura: sucursal.item ? sucursal.item.altura : '',
     localidad: sucursal.item ? sucursal.item.localidad : '',
     codigoPostal: sucursal.item ? sucursal.item.codigoPostal : '',
-    lat: sucursal.item ? sucursal.item.geometry.coordinates[1] : 0,
-    lng: sucursal.item ? sucursal.item.geometry.coordinates[0] : 0,
+    lat: sucursal.item && sucursal.item.geometry.coordinates ? sucursal.item.geometry.coordinates[1] : 0,
+    lng: sucursal.item && sucursal.item.geometry.coordinates ? sucursal.item.geometry.coordinates[0] : 0,
 });
 
 const validationSchema = () => Yup.object().shape({

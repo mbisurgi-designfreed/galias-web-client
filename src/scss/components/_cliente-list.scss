@@ -1,0 +1,66 @@
+.cliente-list {
+    &__item {
+        margin-bottom: 1rem;
+
+        &-header {
+            border-top: 1px solid $color-grey-light;
+            border-left: 1px solid $color-grey-light;
+            border-right: 1px solid $color-grey-light;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.25rem 0.5rem;
+        }
+    
+        &-title {
+            color: $color-black;
+            font-size: 1.25rem;
+            font-weight: 300;
+        }
+    
+        &-icon {
+            cursor: pointer;
+            color: $color-primary;
+            transition: color 0.2s;
+
+            &:hover {
+                color: darken($color-primary, 10%);
+            }
+        }
+
+        &-content {
+            border: 1px solid $color-grey-light;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+            font-size: 1.25rem;
+            padding: 0.5rem;
+        }
+    
+        &-group-field {
+            display: flex;
+         }
+     
+         &-field {
+            flex: 1;
+     
+            &--direccion {
+                flex: 2;
+            }
+         }
+     
+         &-label {
+             color: $color-primary;
+             font-weight: bold;
+             margin-right: 1rem;
+         }
+     
+         &-value {
+             color: $color-black;
+             font-weight: 300;
+         }
+    }
+
+    
+}

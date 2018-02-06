@@ -4,41 +4,30 @@ import { Link } from 'react-router-dom';
 const ClienteListItem = (props) => {
     const { cliente } = props;
 
-    const renderField = (label, value) => {
-        return (
-            <div>
-                <div className="row">
-                    <p className="font-weight-bold m-0" style={{ fontSize: 14 }}>{label}</p>
-                </div>
-                <div className="row">
-                    <p className="m-0" style={{ fontSize: 14 }}>{value}</p>
-                </div>
-            </div>
-        );
-    }
-
-    const renderSync = () => {
-        if (cliente.sincronizado) {
-            return <i className="fa fa-cloud-upload align-self-center" />;
-        }
+    const direccion = () => {
+        return `${cliente.direccion.calle} ${cliente.direccion.altura} - ${cliente.direccion.codigoPostal} - ${cliente.direccion.localidad}`;
     }
 
     return (
-        <div className="card mt-1">
-            <div className="card-header bg-transparent text-danger pt-0 pb-0 pl-2 d-flex">
-                <Link className="text-danger mr-auto" to={`/clientes/${cliente._id}`}>{cliente.razonSocial}</Link>
-                {renderSync()}
+        <div className="cliente-list__item">
+            <div className="cliente-list__item-header">
+                <h6 className="cliente-list__item-title">{cliente.codigo}</h6>
+                <Link className="cliente-list__item-icon" to={`/clientes/${cliente._id}`}><i className="fa fa-address-card"></i></Link>
             </div>
-            <div className="card-body pt-0 pb-0">
-                <div className="row">
-                    <div className="col-md-2">
-                        {renderField('Codigo', cliente.codigo)}
+
+            <div className="cliente-list__item-content">
+                <div className="cliente-list__item-group-field">
+                    <div className="cliente-list__item-field">
+                        <p className="cliente-list__item-label">Razon Social:</p>
+                        <p className="cliente-list__item-value">{cliente.razonSocial}</p>
                     </div>
-                    <div className="col-md-4">
-                        {renderField('Email', cliente.email)}
+                    <div className="cliente-list__item-field">
+                        <p className="cliente-list__item-label">Cuit:</p>
+                        <p className="cliente-list__item-value">{cliente.cuit}</p>
                     </div>
-                    <div className="col-md-6">
-                        {renderField('Direccion', `${cliente.direccion.calle} ${cliente.direccion.altura} - ${cliente.direccion.localidad}`)}
+                    <div className="cliente-list__item-field cliente-list__item-field--direccion">
+                        <p className="cliente-list__item-label">Direccion:</p>
+                        <p className="cliente-list__item-value">{direccion()}</p>
                     </div>
                 </div>
             </div>

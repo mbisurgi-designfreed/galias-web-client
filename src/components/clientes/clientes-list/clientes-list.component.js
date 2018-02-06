@@ -25,16 +25,27 @@ class ClientesList extends Component {
 
     render() {
         return (
-            <div style={{ display: 'flex', flexDirection: 'column', height: '90vh' }}>
+            // <div style={{ display: 'flex', flexDirection: 'column', height: '90vh' }}>
 
-                <div className="mt-3" style={{ overflowY: 'scroll', flex: 9 }}>
-                    <Loader className="spinner" loaded={!this.props.loading}>
-                        {this.renderItems()}
-                    </Loader>
+            //     <div className="mt-3" style={{ overflowY: 'scroll', flex: 9 }}>
+            //         <Loader className="spinner" loaded={!this.props.loading}>
+            //             {this.renderItems()}
+            //         </Loader>
+            //     </div>
+
+            //     <div className="mt-3" style={{ flex: 1 }}>
+            //         <Paginator pages={this.props.pages} onPageClicked={this.onPageClicked.bind(this)} />
+            //     </div>
+            // </div>
+            <div className="row">
+                <div className="row">
+                
                 </div>
+                <div className="row">
+                    {this.renderItems()}
+                </div>
+                <div className="row">
 
-                <div className="mt-3" style={{ flex: 1 }}>
-                    <Paginator pages={this.props.pages} onPageClicked={this.onPageClicked.bind(this)} />
                 </div>
             </div>
         );

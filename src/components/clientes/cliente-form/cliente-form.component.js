@@ -255,7 +255,7 @@ class ClienteForm extends Component {
     render() {
         return (
             <div>
-                <Form className="form mb-medium">
+                <Form className="form mb-xl">
                     <div className="row">
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="codigo">Codigo</label>
@@ -373,7 +373,7 @@ class ClienteForm extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <button className="btn">{this.props.cliente ? 'Editar' : 'Agregar'}</button>
+                        <button className="btn" disabled={this.state.loading}>{this.props.cliente ? 'Editar' : 'Agregar'}</button>
                     </div>
                 </Form>
                 <PersonaModal persona={this.state.persona} onCloseModal={this.onClosePersona} />
@@ -465,11 +465,11 @@ const onSubmit = (values, { props, resetForm }) => {
         personas
     }
 
-    console.log(cliente);
+    props.accion(cliente);
 };
 
 const mapStateToProps = (state) => {
-    return { canales: state.canal, subcanales: state.subcanal }
+    return { canales: state.canal, subcanales: state.subcanal, loading: state.cliente.adding }
 };
 
 export default withFormik({
