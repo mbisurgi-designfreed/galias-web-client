@@ -1,4 +1,8 @@
 .Select {
+	&:not(:last-child) {
+		margin-bottom: 1rem;
+	}
+
     &.is-focused > .Select-control {
 		background: $select-input-bg-focus;
 	}

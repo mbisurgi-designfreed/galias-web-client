@@ -19,11 +19,8 @@ class ClienteForm extends Component {
         canales: [],
         subcanales: [],
         persona: { item: undefined },
-        personas: this.props.cliente ? this.props.cliente.personas : [],
         telefono: { item: undefined },
-        telefonos: this.props.cliente ? this.props.cliente.telefonos : [],
         sucursal: { item: undefined },
-        sucursales: this.props.cliente ? this.props.cliente.sucursales : []
     }
 
     componentWillMount() {
@@ -149,34 +146,33 @@ class ClienteForm extends Component {
     }
 
     onEditarPersona = (i) => {
-        this.setState(() => ({ persona: { item: this.state.personas[i], index: i } }));
+        this.setState(() => ({ persona: { item: this.props.values.personas[i], index: i } }));
     }
 
     onClosePersona = ({ persona, index }) => {
         if (persona && index == null) {
-            this.setState((prevState) => ({
-                personas: prevState.personas.concat(persona)
-            }));
-        } else if (persona && index !== null) {
-            this.setState((prevState) => {
-                const personas = prevState.personas;
-                personas[index] = persona;
+            const personas = this.props.values.personas;
+            personas.push(persona);
 
-                return { personas };
-            });
+            this.props.setFieldValue('personas', personas);
+        } else if (persona && index !== null) {
+            const personas = this.props.values.personas;
+            personas[index] = persona;
+
+            this.props.setFieldValue('personas', personas);
         }
 
         this.setState(() => ({ persona: { item: undefined } }));
     }
 
     renderPersonas = () => {
-        return this.state.personas.map((persona, i) => {
+        return this.props.values.personas.map((persona, i) => {
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarPersona(i)}>
                         <i className="fa fa-pencil icon-small"></i>
                     </a>
-                    <p>{`${persona.tipo} ${persona.nombre}`}</p>
+                    <p>{`${persona.cargo} ${persona.nombre}`}</p>
                 </li>
             )
         });
@@ -187,28 +183,27 @@ class ClienteForm extends Component {
     }
 
     onEditarTelefono = (i) => {
-        this.setState(() => ({ telefono: { item: this.state.telefonos[i], index: i } }));
+        this.setState(() => ({ telefono: { item: this.props.values.telefonos[i], index: i } }));
     }
 
     onCloseTelefono = ({ telefono, index }) => {
         if (telefono && index == null) {
-            this.setState((prevState) => ({
-                telefonos: prevState.telefonos.concat(telefono)
-            }));
-        } else if (telefono && index !== null) {
-            this.setState((prevState) => {
-                const telefonos = prevState.telefonos;
-                telefonos[index] = telefono;
+            const telefonos = this.props.values.telefonos;
+            telefonos.push(telefono);
 
-                return { telefonos };
-            });
+            this.props.setFieldValue('telefonos', telefonos);
+        } else if (telefono && index !== null) {
+            const telefonos = this.props.values.telefonos;
+            telefonos[index] = telefono;
+
+            this.props.setFieldValue('telefonos', telefonos);
         }
 
         this.setState(() => ({ telefono: { item: undefined } }));
     }
 
     renderTelefonos = () => {
-        return this.state.telefonos.map((telefono, i) => {
+        return this.props.values.telefonos.map((telefono, i) => {
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarTelefono(i)}>
@@ -225,28 +220,27 @@ class ClienteForm extends Component {
     }
 
     onEditarSucursal = (i) => {
-        this.setState(() => ({ sucursal: { item: this.state.sucursales[i], index: i } }));
+        this.setState(() => ({ sucursal: { item: this.props.values.sucursales[i], index: i } }));
     }
 
     onCloseSucursal = ({ sucursal, index }) => {
         if (sucursal && index == null) {
-            this.setState((prevState) => ({
-                sucursales: prevState.sucursales.concat(sucursal)
-            }));
-        } else if (sucursal && index !== null) {
-            this.setState((prevState) => {
-                const sucursales = prevState.sucursales;
-                sucursales[index] = sucursal;
+            const sucursales = this.props.values.sucursales;
+            sucursales.push(sucursal);
 
-                return { sucursales };
-            });
+            this.props.setFieldValue('sucursales', sucursales);
+        } else if (sucursal && index !== null) {
+            const sucursales = this.props.values.sucursales;
+            sucursales[index] = sucursal;
+
+            this.props.setFieldValue('sucursales', sucursales);
         }
 
         this.setState(() => ({ sucursal: { item: undefined } }));
     }
 
     renderSucursales = () => {
-        return this.state.sucursales.map((sucursal, i) => {
+        return this.props.values.sucursales.map((sucursal, i) => {
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarSucursal(i)}>
@@ -261,7 +255,7 @@ class ClienteForm extends Component {
     render() {
         return (
             <div>
-                <Form className="form">
+                <Form className="form mb-medium">
                     <div className="row">
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="codigo">Codigo</label>
@@ -270,10 +264,12 @@ class ClienteForm extends Component {
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="razonSocial">Razon Social</label>
                             <Field className="form__field" id="razonSocial" type="text" name="razonSocial" />
+                            {this.props.touched.razonSocial && this.props.errors.razonSocial && (<p className="form__field-error">{this.props.errors.razonSocial}</p>)}
                         </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="cuit">Cuit</label>
                             <Field className="form__field" id="cuit" type="text" name="cuit" />
+                            {this.props.touched.cuit && this.props.errors.cuit && (<p className="form__field-error">{this.props.errors.cuit}</p>)}
                         </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="nombreComercial">Nombre Comercial</label>
@@ -287,10 +283,12 @@ class ClienteForm extends Component {
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="calle">Calle</label>
                             <Field className="form__field" id="calle" type="text" name="calle" />
+                            {this.props.touched.calle && this.props.errors.calle && (<p className="form__field-error">{this.props.errors.calle}</p>)}
                         </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="altura">Altura</label>
                             <Field className="form__field" id="altura" type="text" name="altura" />
+                            {this.props.touched.altura && this.props.errors.altura && (<p className="form__field-error">{this.props.errors.altura}</p>)}
                         </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="localidad">Localidad</label>
@@ -343,31 +341,39 @@ class ClienteForm extends Component {
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="email">Email</label>
                             <Field className="form__field" id="email" type="email" name="email" />
+                            {this.props.touched.email && this.props.errors.email && (<p className="form__field-error">{this.props.errors.email}</p>)}
                         </div>
                     </div>
                     <div className="row">
                         <div className="form-group col-1-of-2">
                             <label className="form__label" htmlFor="visita">Dia de Visita</label>
                             <Select id="visita" options={this.DIAS} multi={true} value={this.props.values.visita} onChange={this.visitaChanged} onBlur={this.visitaBlur} />
+                            {this.props.touched.visita && this.props.errors.visita && (<p className="form__field-error">{this.props.errors.visita}</p>)}
                         </div>
                         <div className="form-group col-1-of-2">
                             <label className="form__label" htmlFor="entrega">Dia de Entrega</label>
                             <Select id="entrega" options={this.DIAS} multi={true} value={this.props.values.entrega} onChange={this.entregaChanged} onBlur={this.entregaBlur} />
+                            {this.props.touched.entrega && this.props.errors.entrega && (<p className="form__field-error">{this.props.errors.entrega}</p>)}
                         </div>
                     </div>
                     <div className="row">
                         <div className="form-group col-1-of-3">
                             <label className="form__label" htmlFor="canal">Canal</label>
                             <Select id="canal" options={this.state.canales} multi={false} value={this.props.values.canal} onChange={this.canalChanged} onBlur={this.canalBlur} />
+                            {this.props.touched.canal && this.props.errors.canal && (<p className="form__field-error">{this.props.errors.canal}</p>)}
                         </div>
                         <div className="form-group col-1-of-3">
                             <label className="form__label" htmlFor="subcanal">Sub Canal</label>
                             <Select id="subcanal" options={this.state.subcanales} multi={false} value={this.props.values.subcanal} onChange={this.subcanalChanged} onBlur={this.subcanalBlur} />
+                            {this.props.touched.subcanal && this.props.errors.subcanal && (<p className="form__field-error">{this.props.errors.subcanal}</p>)}
                         </div>
                         <div className="form-group col-1-of-3">
                             <label className="form__label" htmlFor="clasificacion">Clasificacion</label>
                             <Select id="clasificacion" options={this.CLASIFICACION} multi={false} value={this.props.values.clasificacion} onChange={this.clasificacionChanged} onBlur={this.clasificacionBlur} />
                         </div>
+                    </div>
+                    <div className="row">
+                        <button className="btn">{this.props.cliente ? 'Editar' : 'Agregar'}</button>
                     </div>
                 </Form>
                 <PersonaModal persona={this.state.persona} onCloseModal={this.onClosePersona} />
@@ -389,19 +395,86 @@ const mapPropsToValues = ({ cliente }) => ({
     codigoPostal: cliente ? cliente.direccion.codigoPostal : '',
     lat: cliente ? cliente.direccion.geometry.coordinates[1] : 0,
     lng: cliente ? cliente.direccion.geometry.coordinates[0] : 0,
+    sucursales: cliente ? cliente.sucursales : [],
+    telefonos: cliente ? cliente.telefonos : [],
     email: cliente ? cliente.email : '',
     canal: '',
     subcanal: '',
     clasificacion: cliente ? cliente.clasificacion : 'c',
     visita: cliente ? cliente.diaVisita : [],
     entrega: cliente ? cliente.diaEntrega : [],
+    personas: cliente ? cliente.personas : []
 });
+
+const validationSchema = () => Yup.object().shape({
+    razonSocial: Yup
+        .string()
+        .required('Razon social es requerido'),
+    cuit: Yup
+        .string()
+        .required('Cuit es requerido'),
+    calle: Yup
+        .string()
+        .required('Calle es requerido'),
+    altura: Yup
+        .string()
+        .required('Altura es requerido'),
+    email: Yup
+        .string()
+        .email('Email no es valido'),
+    canal: Yup
+        .string()
+        .required('Canal es requerido'),
+    subcanal: Yup
+        .string()
+        .required('Subcanal es requerido'),
+    visita: Yup
+        .array()
+        .required('Dia de visita es requerido'),
+    entrega: Yup
+        .array()
+        .required('Dia de entrega es requerido')
+});
+
+const onSubmit = (values, { props, resetForm }) => {
+    const { razonSocial, cuit, nombreComercial, calle, altura, localidad, codigoPostal, lat, lng, email, telefonos, sucursales, personas } = values;
+
+    const direccion = {
+        calle,
+        altura,
+        localidad,
+        codigoPostal,
+        geometry: {
+            coordinates: [lng, lat]
+        }
+    };
+
+    const cliente = {
+        razonSocial,
+        cuit,
+        nombreComercial,
+        direccion,
+        telefonos,
+        email,
+        sucursales,
+        canal: values.canal.value,
+        subcanal: values.subcanal.value,
+        clasificacion: values.clasificacion,
+        diaVisita: values.visita.map(visita => visita.value),
+        diaEntrega: values.entrega.map(entrega => entrega.value),
+        personas
+    }
+
+    console.log(cliente);
+};
 
 const mapStateToProps = (state) => {
     return { canales: state.canal, subcanales: state.subcanal }
 };
 
 export default withFormik({
-    mapPropsToValues
+    mapPropsToValues,
+    validationSchema,
+    handleSubmit: onSubmit
 })(connect(mapStateToProps, { getCanales, getSubcanales })(ClienteForm));
 
