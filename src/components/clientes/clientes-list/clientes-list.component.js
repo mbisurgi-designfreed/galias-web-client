@@ -7,7 +7,6 @@ import _ from 'lodash';
 import { list } from '../../../actions/cliente.action';
 import { setTextFilter, searchByRazonSocial, searchByCodigo, searchByCuit } from '../../../actions/cliente-filters.action';
 
-import Paginator from '../../paginator/paginator.component';
 import Filters from '../../filters/filters.component';
 import ClienteListItem from './cliente-list-item/cliente-list-item.component';
 
