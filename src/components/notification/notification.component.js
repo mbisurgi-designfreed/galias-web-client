@@ -7,16 +7,16 @@ import { listLast, receiveNotification, resetNotification } from '../../actions/
 export default (NotificationComponent) => {
     class Notification extends Component {
         componentWillMount() {
-            this.props.socket.on('newInfo', (newInfo) => {
-                if (this.props.match.url === '/diaria') {
-                    this.props.resetNotification();
-                    this.props.listLast();
-                } else {
-                    const notifications = this.props.notifications + 1;
+            // this.props.socket.on('newInfo', (newInfo) => {
+            //     if (this.props.match.url === '/diaria') {
+            //         this.props.resetNotification();
+            //         this.props.listLast();
+            //     } else {
+            //         const notifications = this.props.notifications + 1;
 
-                    this.props.receiveNotification(notifications);
-                }
-            });
+            //         this.props.receiveNotification(notifications);
+            //     }
+            // });
         }
 
         render() {
