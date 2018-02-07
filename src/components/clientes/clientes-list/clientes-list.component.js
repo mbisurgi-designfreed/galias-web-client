@@ -21,6 +21,8 @@ class ClientesList extends Component {
         this.props.list(1);
     }
 
+    VIEW_PER_PAGE = 10;
+
     options = [{
         value: 'razonSocial',
         label: 'Razon Social'
@@ -51,7 +53,7 @@ class ClientesList extends Component {
     };
 
     renderItems = () => {
-        const SIZE = 10;
+        const SIZE = this.VIEW_PER_PAGE;
 
         const start = (this.state.page - 1) * SIZE;
         const end = this.state.page * SIZE;
@@ -67,8 +69,6 @@ class ClientesList extends Component {
     }
 
     render() {
-        const VIEW_PER_PAGE = 10;
-
         return (
             <div className="row">
                 <div className="row">
@@ -82,7 +82,7 @@ class ClientesList extends Component {
                     </ul>
                 </div>
                 <div className="row">
-                    <Pagination innerClass="pagination" itemClass="page-item" linkClass="page-link" activePage={this.state.page} itemsCountPerPage={VIEW_PER_PAGE} totalItemsCount={this.props.clientes.length} onChange={this.onPageClicked} />
+                    <Pagination innerClass="pagination" itemClass="page-item" linkClass="page-link" activePage={this.state.page} itemsCountPerPage={this.VIEW_PER_PAGE} totalItemsCount={this.props.clientes.length} onChange={this.onPageClicked} />
                 </div>
             </div>
         );

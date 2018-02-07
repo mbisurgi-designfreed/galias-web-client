@@ -39,6 +39,20 @@ class ClienteForm extends Component {
         this.setState(() => ({ canales }));
     }
 
+    IVA = [{
+        value: 'ri',
+        label: 'Responsable inscripto'
+    }, {
+        value: 'rs',
+        label: 'Responsable monotributo'
+    }, {
+        value: 'cf',
+        label: 'Consumidor final'
+    }, {
+        value: 'ex',
+        label: 'Exento'
+    }]
+
     DIAS = [{
         value: 'lunes',
         label: 'Lunes'
@@ -85,6 +99,14 @@ class ClienteForm extends Component {
         this.props.setFieldValue('codigoPostal', codigoPostal);
         this.props.setFieldValue('lat', ubicacion.lat);
         this.props.setFieldValue('lng', ubicacion.lng);
+    }
+
+    ivaChanged = (iva) => {
+        this.props.setFieldValue('iva', iva);
+    }
+
+    ivaBlur = () => {
+        this.props.setFieldTouched('iva', true);
     }
 
     visitaChanged = (dia) => {
@@ -272,6 +294,17 @@ class ClienteForm extends Component {
                             {this.props.touched.cuit && this.props.errors.cuit && (<p className="form__field-error">{this.props.errors.cuit}</p>)}
                         </div>
                         <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="iva">Condicion de Iva</label>
+                            <Select id="iva" options={this.IVA} multi={false} value={this.props.values.iva} onChange={this.ivaChanged} onBlur={this.ivaBlur} />
+                            {this.props.touched.iva && this.props.errors.iva && (<p className="form__field-error">{this.props.errors.iva}</p>)}
+                        </div>
+                        {/* <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="nombreComercial">Nombre Comercial</label>
+                            <Field className="form__field" id="nombreComercial" type="text" name="nombreComercial" />
+                        </div> */}
+                    </div>
+                    <div className="row">
+                        <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="nombreComercial">Nombre Comercial</label>
                             <Field className="form__field" id="nombreComercial" type="text" name="nombreComercial" />
                         </div>
@@ -388,6 +421,7 @@ const mapPropsToValues = ({ cliente }) => ({
     codigo: cliente ? cliente.codigo : '',
     razonSocial: cliente ? cliente.razonSocial : '',
     cuit: cliente ? cliente.cuit : '',
+    iva: cliente ? cliente.iva : '',
     nombreComercial: cliente ? cliente.nombreComercial : '',
     calle: cliente ? cliente.direccion.calle : '',
     altura: cliente ? cliente.direccion.altura : '',
@@ -413,6 +447,9 @@ const validationSchema = () => Yup.object().shape({
     cuit: Yup
         .string()
         .required('Cuit es requerido'),
+    iva: Yup
+        .string()
+        .required('Condicion de IVA es requerido'),
     calle: Yup
         .string()
         .required('Calle es requerido'),
@@ -437,7 +474,7 @@ const validationSchema = () => Yup.object().shape({
 });
 
 const onSubmit = (values, { props, resetForm }) => {
-    const { razonSocial, cuit, nombreComercial, calle, altura, localidad, codigoPostal, lat, lng, email, telefonos, sucursales, personas } = values;
+    const { razonSocial, cuit, iva, nombreComercial, calle, altura, localidad, codigoPostal, lat, lng, email, telefonos, sucursales, personas } = values;
 
     const direccion = {
         calle,
@@ -452,6 +489,7 @@ const onSubmit = (values, { props, resetForm }) => {
     const cliente = {
         razonSocial,
         cuit,
+        iva: values.iva.value,
         nombreComercial,
         direccion,
         telefonos,
