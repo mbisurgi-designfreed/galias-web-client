@@ -28,7 +28,7 @@ import AppRouter from './routers/app.router';
 const store = configureStore();
 const token = localStorage.getItem('token');
 
-const socket = io.connect('http://localhost:4000');
+const socket = io.connect(process.env.REACT_APP_API_URL);
 
 if (token) {
     store.dispatch({
