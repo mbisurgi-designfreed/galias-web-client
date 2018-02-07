@@ -6,6 +6,12 @@
         &:not(:last-child) {
             margin-bottom: 2rem;
         }
+
+        &--inline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
     }
 
     &__label {
@@ -14,6 +20,10 @@
         margin-bottom: 0.25rem;
         text-transform: uppercase;
         text-align: left;
+
+        &--inline {
+            flex: 1;
+        }
     }
 
     &__field {
@@ -54,6 +64,16 @@
             &:focus {
                 border-bottom: 1px solid $color-white;
             }
+        }
+
+        &--inline {
+            flex: 2;
+        }
+
+        &--inline-select {
+            flex: 0.5;
+            margin-right: 1rem;
+            margin-left: 1rem;
         }
     }
 
