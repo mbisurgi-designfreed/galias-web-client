@@ -28,7 +28,7 @@ import AppRouter from './routers/app.router';
 const store = configureStore();
 const token = localStorage.getItem('token');
 
-const socket = io.connect(process.env.REACT_APP_API_URL);
+// const socket = io.connect(process.env.REACT_APP_API_URL);
 
 if (token) {
     store.dispatch({
@@ -38,9 +38,9 @@ if (token) {
 
 const app = (
     <Provider store={store}>
-        <SocketProvider socket={socket} >
+        {/* <SocketProvider socket={socket} > */}
             <AppRouter />
-        </SocketProvider>
+        {/* </SocketProvider> */}
     </Provider>
 );
 
