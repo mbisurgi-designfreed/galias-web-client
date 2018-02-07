@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader'
+import Pagination from "react-js-pagination";
 import _ from 'lodash';
 
 import { list } from '../../../actions/cliente.action';
@@ -13,6 +14,10 @@ import ClienteListItem from './cliente-list-item/cliente-list-item.component';
 import clienteSelector from '../../../selectors/cliente.selector';
 
 class ClientesList extends Component {
+    state = {
+        page: 1
+    }
+
     componentWillMount() {
         this.props.list(1);
     }
@@ -42,42 +47,43 @@ class ClientesList extends Component {
     };
 
     onTextChanged = (e) => {
+        this.setState(() => ({ page: 1 }))
         this.props.setTextFilter(e.target.value);
     };
 
-    renderItems() {
-        return _.map(this.props.clientes, (cliente) => {
+    renderItems = () => {
+        const SIZE = 10;
+
+        const start = (this.state.page - 1) * SIZE;
+        const end = this.state.page * SIZE;
+        const clientes = _.slice(this.props.clientes, start, end)
+
+        return _.map(clientes, (cliente) => {
             return <ClienteListItem cliente={cliente} key={cliente._id} />;
         });
     }
 
-    onPageClicked(page) {
-        this.props.list(page);
+    onPageClicked = (page) => {
+        this.setState(() => ({ page }))
     }
 
     render() {
+        const VIEW_PER_PAGE = 10;
+
         return (
-            // <div style={{ display: 'flex', flexDirection: 'column', height: '90vh' }}>
-
-            //     <div className="mt-3" style={{ overflowY: 'scroll', flex: 9 }}>
-            //         <Loader className="spinner" loaded={!this.props.loading}>
-            //             {this.renderItems()}
-            //         </Loader>
-            //     </div>
-
-            //     <div className="mt-3" style={{ flex: 1 }}>
-            //         <Paginator pages={this.props.pages} onPageClicked={this.onPageClicked.bind(this)} />
-            //     </div>
-            // </div>
             <div className="row">
                 <div className="row">
                     <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged} />
                 </div>
                 <div className="row">
-                    {this.renderItems()}
+                    <ul className="list">
+                        <Loader className="spinner" loaded={!this.props.loading} color="#ed1c24" scale="0.5">
+                            {this.renderItems()}
+                        </Loader>
+                    </ul>
                 </div>
                 <div className="row">
-
+                    <Pagination innerClass="pagination" itemClass="page-item" linkClass="page-link" activePage={this.state.page} itemsCountPerPage={VIEW_PER_PAGE} totalItemsCount={this.props.clientes.length} onChange={this.onPageClicked} />
                 </div>
             </div>
         );
