@@ -1,0 +1,27 @@
+.home {
+    background-image: linear-gradient(rgba($color-black, 0.4), rgba($color-black, 0.4)), url(/images/fondo.jpg);
+    background-size: cover;
+    height: 100vh;
+    position: relative;
+
+    &__heading-box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &__heading {
+        color: $color-white;
+        font-size: 5rem;
+        font-weight: 100;
+        letter-spacing: 1rem;
+        text-transform: uppercase
+    }
+
+    &__subheading {
+        color: $color-primary;
+        font-size: 2.5rem;
+        font-weight: 300;
+    }
+}

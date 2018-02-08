@@ -76,7 +76,7 @@ class ClientesList extends Component {
                 </div>
                 <div className="row">
                     <ul className="list">
-                        <Loader className="spinner" loaded={!this.props.loading} color="#ed1c24" scale="0.5">
+                        <Loader className="spinner" loaded={!this.props.loading} color="#ed1c24" scale={0.5}>
                             {this.renderItems()}
                         </Loader>
                     </ul>
