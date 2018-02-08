@@ -5,16 +5,6 @@ import { withFormik, Form, Field } from 'formik';
 import { signin } from '../../../actions/auth.action';
 
 class Signin extends Component {
-    // renderError() {
-    //     const { errorMessage } = this.props;
-
-    //     if (this.props.errorMessage) {
-    //         return (
-    //             <div className="alert alert-danger text-center">{errorMessage}</div>
-    //         );
-    //     }
-    // }
-
     onIngresar(values) {
         this.props.signin(values, this.props.history);
     }

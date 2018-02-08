@@ -1,124 +1,153 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { withFormik, Form, Field } from 'formik';
+import Yup from 'yup';
+import moment from 'moment';
 
 import { add } from '../../../actions/info.action';
 
 import notification from '../../notification/notification.component';
 
 class AddDiaria extends Component {
-    renderFieldFecha({ input, label, col, type, meta: { touched, error, valid } }) {
-        return (
-            <div className={`form-group mt-3 col-md-${col}`}>
-                <label>{label}</label>
-                <input {...input} className={`form-control form-control-sm ${touched && !valid ? 'is-invalid' : ''}`} type={type} />
-            </div>
-        )
-    }
-
-    renderField({ input, label, col, type, meta: { touched, error, valid } }) {
-        return (
-            <div className={`form-group col-md-${col}`}>
-                <label>{label}</label>
-                <div className="input-group">
-                    <span className="input-group-addon">$</span>
-                    <input {...input} className={`form-control form-control-sm text-right ${touched && !valid ? 'is-invalid' : ''}`} type={type} />
-                </div>
-            </div>
-        );
-    }
-
-    onCargar(values) {
-        const { fecha, caja, bancos, cheques, creditoTotal, creditoVencido, deudaTotal, deudaVencido, deudaNc } = values;
-
-        const debito = { total: deudaTotal, vencido: deudaVencido, nc: deudaNc };
-        const credito = { total: creditoTotal, vencido: creditoVencido };
-        const info = { fecha, caja, bancos, cheques, debito, credito };
-
-        this.props.add(info, this.props.history, this.props.socket.id);
-    }
-
     render() {
-        const { handleSubmit, valid } = this.props;
-
         return (
-            <form onSubmit={handleSubmit(this.onCargar.bind(this))} noValidate>
-                <Field name="fecha" component={this.renderFieldFecha} type="date" label="Fecha" col={2} />
-                <div className="card mt-3">
-                    <div className="card-header bg-danger text-white p-1">Disponibilidades</div>
-                    <div className="card-body p-1">
-                        <div className="form-row">
-                            <Field name="caja" component={this.renderField} type="number" label="Caja" col={4} />
-                            <Field name="bancos" component={this.renderField} type="number" label="Banco" col={4} />
-                            <Field name="cheques" component={this.renderField} type="number" label="Cheques" col={4} />
-                        </div>
+            <Form className="form">
+                <div className="row">
+                    <div className="form-group col-1-of-4">
+                        <label className="form__label" htmlFor="fecha">Fecha</label>
+                        <Field className="form__field" id="fecha" type="date" name="fecha" />
+                        {this.props.touched.fecha && this.props.errors.fecha && (<p className="form__field-error">{this.props.errors.fecha}</p>)}
                     </div>
                 </div>
-                <div className="card mt-3">
-                    <div className="card-header bg-danger text-white p-1">Deuda</div>
-                    <div className="card-body p-1">
-                        <div className="form-row">
-                            <Field name="deudaTotal" component={this.renderField} type="number" label="Total" col={4} />
-                            <Field name="deudaVencido" component={this.renderField} type="number" label="Vencido" col={4} />
-                            <Field name="deudaNc" component={this.renderField} type="number" label="Notas de Credito" col={4} />
-                        </div>
+                <div className="row">
+                    <h1 className="form__group-title">Disponibilidades</h1>
+                    <div className="form-group col-1-of-3">
+                        <label className="form__label" htmlFor="caja">Caja</label>
+                        <Field className="form__field" id="caja" type="text" name="caja" />
+                        {this.props.touched.caja && this.props.errors.caja && (<p className="form__field-error">{this.props.errors.caja}</p>)}
+                    </div>
+                    <div className="form-group col-1-of-3">
+                        <label className="form__label" htmlFor="bancos">Bancos</label>
+                        <Field className="form__field" id="bancos" type="text" name="bancos" />
+                        {this.props.touched.bancos && this.props.errors.bancos && (<p className="form__field-error">{this.props.errors.bancos}</p>)}
+                    </div>
+                    <div className="form-group col-1-of-3">
+                        <label className="form__label" htmlFor="cheques">Cheques</label>
+                        <Field className="form__field" id="cheques" type="text" name="cheques" />
+                        {this.props.touched.cheques && this.props.errors.cheques && (<p className="form__field-error">{this.props.errors.cheques}</p>)}
                     </div>
                 </div>
-                <div className="card mt-3">
-                    <div className="card-header bg-danger text-white p-1">Credito</div>
-                    <div className="card-body p-1">
-                        <div className="form-row">
-                            <Field name="creditoTotal" component={this.renderField} type="number" label="Total" col={6} />
-                            <Field name="creditoVencido" component={this.renderField} type="number" label="Vencido" col={6} />
-                        </div>
+                <div className="row">
+                    <h1 className="form__group-title">Deuda</h1>
+                    <div className="form-group col-1-of-3">
+                        <label className="form__label" htmlFor="debitoTotal">Total</label>
+                        <Field className="form__field" id="debitoTotal" type="text" name="debitoTotal" />
+                        {this.props.touched.debitoTotal && this.props.errors.debitoTotal && (<p className="form__field-error">{this.props.errors.debitoTotal}</p>)}
+                    </div>
+                    <div className="form-group col-1-of-3">
+                        <label className="form__label" htmlFor="debitoVencido">Vencido</label>
+                        <Field className="form__field" id="debitoVencido" type="text" name="debitoVencido" />
+                        {this.props.touched.debitoVencido && this.props.errors.debitoVencido && (<p className="form__field-error">{this.props.errors.debitoVencido}</p>)}
+                    </div>
+                    <div className="form-group col-1-of-3">
+                        <label className="form__label" htmlFor="debitoNc">Notas de Credito</label>
+                        <Field className="form__field" id="debitoNc" type="text" name="debitoNc" />
                     </div>
                 </div>
-                <button type="submit" className="btn btn-outline-danger btn-block mt-2" disabled={!valid}>Cargar</button>
-            </form>
+                <div className="row">
+                    <h1 className="form__group-title">Credito</h1>
+                    <div className="form-group col-1-of-3">
+                        <label className="form__label" htmlFor="creditoTotal">Total</label>
+                        <Field className="form__field" id="creditoTotal" type="text" name="creditoTotal" />
+                        {this.props.touched.creditoTotal && this.props.errors.creditoTotal && (<p className="form__field-error">{this.props.errors.creditoTotal}</p>)}
+                    </div>
+                    <div className="form-group col-1-of-3">
+                        <label className="form__label" htmlFor="creditoVencido">Vencido</label>
+                        <Field className="form__field" id="creditoVencido" type="text" name="creditoVencido" />
+                        {this.props.touched.creditoVencido && this.props.errors.creditoVencido && (<p className="form__field-error">{this.props.errors.creditoVencido}</p>)}
+                    </div>
+                    <div className="form-group col-1-of-3">
+                        <label className="form__label" htmlFor="creditoNc">Notas de Credito</label>
+                        <Field className="form__field" id="creditoNc" type="text" name="creditoNc" />
+                    </div>
+                </div>
+                <div className="row">
+                    <button className="btn">Cargar</button>
+                </div>
+            </Form>
         );
     }
 }
 
-const validate = (values) => {
-    const errors = {};
+const validationSchema = () => Yup.object().shape({
+    fecha: Yup
+        .string()
+        .required('Fecha es requerido'),
+    caja: Yup
+        .number()
+        .required('Caja es requerido'),
+    bancos: Yup
+        .number()
+        .required('Bancos es requerido'),
+    cheques: Yup
+        .number()
+        .required('Cheques es requerido'),
+    debitoTotal: Yup
+        .number()
+        .required('Debito total es requerido'),
+    debitoVencido: Yup
+        .number()
+        .required('Debito vencido es requerido'),
+    creditoTotal: Yup
+        .number()
+        .required('Credito total es requerido'),
+    creditoVencido: Yup
+        .number()
+        .required('Credito vencido es requerido')
+});
 
-    if (!values.fecha) {
-        errors.fecha = 'Fecha es requerido';
-    }
+const onSubmit = (values, { props, resetForm }) => {
+    const { fecha, caja, bancos, cheques, debitoTotal, debitoVencido, debitoNc, creditoTotal, creditoVencido, creditoNc } = values;
 
-    if (!values.caja) {
-        errors.caja = 'Caja es requerido';
-    }
+    const debito = {
+        total: debitoTotal,
+        vencido: debitoVencido,
+        nc: debitoNc
+    };
 
-    if (!values.bancos) {
-        errors.bancos = 'Banco es requerido';
-    }
+    const credito = {
+        total: creditoTotal,
+        vencido: creditoVencido,
+        nc: creditoNc
+    };
 
-    if (!values.cheques) {
-        errors.cheques = 'Cheques es requerido';
-    }
+    const info = {
+        fecha: moment(fecha).valueOf(),
+        caja,
+        bancos,
+        cheques,
+        debito,
+        credito
+    };
 
-    if (!values.creditoTotal) {
-        errors.creditoTotal = 'Credito total es requerido';
-    }
+    props.add(info, props.history);
+};
 
-    if (!values.creditoVencido) {
-        errors.creditoVencido = 'Credito vencido es requerido';
-    }
+const mapPropsToValues = (props) => ({
+    fecha: '',
+    caja: 0,
+    bancos: 0,
+    cheques: 0,
+    debitoTotal: 0,
+    debitoVencido: 0,
+    debitoNc: 0,
+    creditoTotal: 0,
+    creditoVencido: 0,
+    creditoNc: 0
+});
 
-    if (!values.deudaTotal) {
-        errors.deudaTotal = 'Deuda total es requerido';
-    }
-
-    if (!values.deudaVencido) {
-        errors.deudaVencido = 'Deuda vencido es requerido';
-    }
-
-    if (!values.deudaNc) {
-        errors.deudaNc = 'Deuda nota de credito es requerido';
-    }
-
-    return errors;
-}
-
-export default reduxForm({ form: 'info', validate })(connect(null, { add })(notification(AddDiaria)));
+export default connect(null, { add })(withFormik({
+    mapPropsToValues,
+    validationSchema,
+    handleSubmit: onSubmit
+})(AddDiaria));

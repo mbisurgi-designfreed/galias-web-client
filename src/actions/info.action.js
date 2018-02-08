@@ -48,13 +48,17 @@ export const listLast = () => {
     }
 }
 
-export const add = (info, history, id) => {
+export const add = (info, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/info`;
 
         try {
+            // const res = await axios.post(
+            //     URL, info, { headers: { authorization: localStorage.getItem('token'), socket: id } }
+            // );
+
             const res = await axios.post(
-                URL, info, { headers: { authorization: localStorage.getItem('token'), socket: id } }
+                URL, info, { headers: { authorization: localStorage.getItem('token') } }
             );
 
             if (res.status === 201) {
