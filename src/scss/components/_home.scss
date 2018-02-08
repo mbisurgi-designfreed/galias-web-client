@@ -9,6 +9,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        text-transform: uppercase;
+        width: 75%;
     }
 
     &__heading {
@@ -16,7 +18,7 @@
         font-size: 5rem;
         font-weight: 100;
         letter-spacing: 1rem;
-        text-transform: uppercase
+        
     }
 
     &__subheading {
