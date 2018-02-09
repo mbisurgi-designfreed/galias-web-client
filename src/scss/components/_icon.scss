@@ -5,6 +5,17 @@
     transition: color 0.2s;
 }
 
+.icon-medium {
+    color: $color-primary;
+    font-size: 2.5rem;
+    margin-right: 0.75rem;
+    transition: color 0.2s;
+
+    &:hover {
+        color: darken($color-primary, 10%);
+    }
+}
+
 .icon-navbar {
     color: $color-grey-dark;
     margin-right: 0.75rem;

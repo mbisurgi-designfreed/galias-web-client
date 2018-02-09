@@ -1,0 +1,41 @@
+.info {
+    &__header {
+        color: $color-primary;
+        font-size: 1.25rem;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    &__subheader {
+        color: $color-grey-light;
+        font-size: 1.25rem;
+        text-transform: uppercase;
+
+        &--total {
+            font-weight: bold;
+        }
+    }
+
+    &__value {
+        color: $color-black;
+        font-size: 1.25rem;
+        font-weight: 300;
+        text-align: right;
+
+        &--total {
+            font-weight: bold;
+        }
+
+        &--danger {
+            color: $color-danger;
+        }
+
+        &--success {
+            color: $color-success;
+        }
+
+        &--warning {
+            color: $color-warning;
+        }
+    }   
+}

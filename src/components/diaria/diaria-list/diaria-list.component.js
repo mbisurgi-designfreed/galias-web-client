@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withFormik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
+import Yup from 'yup';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -8,15 +10,7 @@ import { list, listLast, unselectAll } from '../../../actions/info.action';
 
 import DiariaListItem from './diaria-list-item/diaria-list-item.component';
 
-import notification from '../../notification/notification.component';
-
 class DiariaList extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { desde: '', hasta: '', error: '' };
-    }
-
     componentWillMount() {
         this.props.listLast();
         this.props.unselectAll();
@@ -27,12 +21,12 @@ class DiariaList extends Component {
 
         if (loading) {
             return (
-                <button type="submit" className="btn btn-danger btn-sm" disabled ><i className="fa fa-circle-o-notch fa-spin" /> Buscando...</button>
+                <button type="submit" className="btn btn--small" disabled ><i className="fa fa-circle-o-notch fa-spin" /> Buscando...</button>
             );
         }
 
         return (
-            <button type="submit" className="btn btn-danger btn-sm" >Buscar</button>
+            <button className="btn btn--small" >Buscar</button>
         );
     }
 
@@ -42,55 +36,50 @@ class DiariaList extends Component {
         });
     }
 
-    onDesdeChange(event) {
-        const desde = moment(event.target.value).format('DD/MM/YYYY');
-        this.setState({ desde });
-    }
-
-    onHastaChange(event) {
-        const hasta = moment(event.target.value).format('DD/MM/YYYY');
-        this.setState({ hasta });
-    }
-
-    onBuscar(event) {
-        event.preventDefault();
-
-        if (!this.state.desde || this.state.desde === 'Invalid date' || !this.state.hasta || this.state.hasta === 'Invalid date') {
-            return;
-        }
-
-        const desde = moment(this.state.desde, 'DD/MM/YYYY');
-        const hasta = moment(this.state.hasta, 'DD/MM/YYYY');
-
-        this.props.list(desde.toDate(), hasta.toDate());
-    }
-
     render() {
         return (
-            <div className="mt-3">
-                <Link className="text-dark float-right mr-1" to="/diaria/compare"><i className="fa fa-line-chart fa-2x"></i></Link>
-                <Link className="text-dark float-right mr-1" to="/diaria/new"><i className="fa fa-plus-circle fa-2x"></i></Link>
-                <div className="clearfix">
-                    <div className="float-left">
-                        <form onSubmit={this.onBuscar.bind(this)} className="form-inline">
-                            <div className="input-group">
-                                <input type="date" className="form-control form-control-sm mb-2 mb-sm-0 mr-sm-2" onChange={this.onDesdeChange.bind(this)} placeholder="Desde" />
-                            </div>
-                            <div className="input-group">
-                                <input type="date" className="form-control form-control-sm mb-2 mb-sm-0 mr-sm-2" onChange={this.onHastaChange.bind(this)} placeholder="Hasta" />
-                            </div>
-                            {this.renderBuscar()}
-                        </form>
-                    </div>
+            <div className="row">
+                <div className="row">
+                    <Form className="form form--inline">
+                        <div className="form__group form__group--inline">
+                            <label className="form__label form__label--inline" htmlFor="desde">Desde</label>
+                            <Field className="form__field form__field--inline" type="date" id="desde" name="desde" />
+                        </div>
+                        <div className="form__group form__group--inline">
+                            <label className="form__label form__label--inline" htmlFor="hasta">Hasta</label>
+                            <Field className="form__field form__field--inline" type="date" id="hasta" name="hasta" />
+                        </div>
+                        {this.renderBuscar()}
+                        <div className="form__icon-container">
+                            <Link className="icon-medium" to="/diaria/compare"><i className="fa fa-line-chart"></i></Link>
+                            <Link className="icon-medium" to="/diaria/new"><i className="fa fa-plus-circle"></i></Link>
+                        </div>
+                    </Form>
                 </div>
-                {this.renderItems()}
+                <div className="row">
+                    {this.renderItems()}
+                </div>
             </div>
         );
     }
 }
 
+const onSubmit = (values, { props }) => {
+    const { desde, hasta } = values;
+
+    props.list(moment(desde).valueOf(), moment(hasta).valueOf());
+};
+
+const mapPropsToValues = (props) => ({
+    desde: '',
+    hasta: ''
+});
+
 const mapStateToProps = (state) => {
     return { info: state.info, socket: state.socket, selected: state.selectedInfo };
 }
 
-export default connect(mapStateToProps, { list, listLast, unselectAll })(notification(DiariaList));
+export default connect(mapStateToProps, { list, listLast, unselectAll })(withFormik({
+    mapPropsToValues,
+    handleSubmit: onSubmit
+})(DiariaList));

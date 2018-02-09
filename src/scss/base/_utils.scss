@@ -30,6 +30,22 @@
     margin-bottom: 10rem;
 }
 
+.mr-none {
+    margin-right: 0;
+}
+
 .text-center {
     text-align: center;
+}
+
+.text-danger {
+    color: $color-danger;
+}
+
+.text-success {
+    color: $color-success;
+}
+
+.text-warning {
+    color: $color-warning;
 }

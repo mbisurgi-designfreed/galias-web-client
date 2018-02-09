@@ -298,10 +298,6 @@ class ClienteForm extends Component {
                             <Select id="iva" options={this.IVA} multi={false} value={this.props.values.iva} onChange={this.ivaChanged} onBlur={this.ivaBlur} />
                             {this.props.touched.iva && this.props.errors.iva && (<p className="form__field-error">{this.props.errors.iva}</p>)}
                         </div>
-                        {/* <div className="form-group col-1-of-4">
-                            <label className="form__label" htmlFor="nombreComercial">Nombre Comercial</label>
-                            <Field className="form__field" id="nombreComercial" type="text" name="nombreComercial" />
-                        </div> */}
                     </div>
                     <div className="row">
                         <div className="form-group col-1-of-4">
