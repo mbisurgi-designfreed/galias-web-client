@@ -51,8 +51,8 @@ class DiariaList extends Component {
                         </div>
                         {this.renderBuscar()}
                         <div className="form__icon-container">
-                            <Link className="icon-medium" to="/diaria/compare"><i className="fa fa-line-chart"></i></Link>
                             <Link className="icon-medium" to="/diaria/new"><i className="fa fa-plus-circle"></i></Link>
+                            <Link className="icon-medium" to="/diaria/compare"><i className="fa fa-line-chart"></i></Link>
                         </div>
                     </Form>
                 </div>

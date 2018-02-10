@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Loader from 'react-loader'
 import Pagination from "react-js-pagination";
 import _ from 'lodash';
@@ -72,7 +73,11 @@ class ClientesList extends Component {
         return (
             <div className="row">
                 <div className="row">
-                    <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged} />
+                    <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged}>
+                        <div className="form__icon-container">
+                            <Link className="icon-medium" to="/clientes/new"><i className="fa fa-plus-circle"></i></Link>
+                        </div>
+                    </Filters>
                 </div>
                 <div className="row">
                     <ul className="list">
