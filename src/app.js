@@ -9,6 +9,7 @@ import io from 'socket.io-client';
 // import registerServiceWorker from './registerServiceWorker';
 
 import 'react-select/dist/react-select.css';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './scss/styles.scss';
 
 import configureStore from './store/configureStore';
