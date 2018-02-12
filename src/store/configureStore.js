@@ -8,6 +8,8 @@ import canalReducer from '../reducers/canal.reducer';
 import subcanalReducer from '../reducers/subcanal.reducer';
 import clienteReducer from '../reducers/cliente.reducer';
 import clienteFiltersReducer from '../reducers/cliente-filters.reducer';
+import articuloReducer from '../reducers/articulo.reducer';
+import articuloFiltersReducer from '../reducers/articulo-filters.reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -19,6 +21,8 @@ export default () => {
             selectedInfo: infoSelectedReducer, 
             cliente: clienteReducer, 
             clienteFilters: clienteFiltersReducer,
+            articulo: articuloReducer,
+            articuloFilters: articuloFiltersReducer,
             canal: canalReducer, 
             subcanal: subcanalReducer
         }),

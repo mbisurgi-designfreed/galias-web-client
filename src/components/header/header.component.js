@@ -10,6 +10,7 @@ class Header extends Component {
         const items = [
             { title: 'Home', path: '/', icon: 'fa fa-home icon-navbar' },
             { title: 'Clientes', path: '/clientes', icon: 'fa fa-user icon-navbar' },
+            { title: 'Articulos', path: '/articulos', icon: 'fa fa-cubes icon-navbar' },
             { title: 'Diaria', path: '/diaria', icon: 'fa fa-usd icon-navbar', onClick: this.onDiaria.bind(this), badge: this.renderBadge() },
             { title: 'Pedidos', path: '/pedidos', icon: 'fa fa-shopping-cart icon-navbar' }
         ];
@@ -51,19 +52,10 @@ class Header extends Component {
                 <Link className="navbar__brand" to="/">
                     Galias
                 </Link>
-                {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon" />
-                </button> */}
                 <ul className="navbar__nav">
                     {this.renderHeaderItems()}
                 </ul>
                 {this.renderAuthButtons()}
-                {/* <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav mr-auto">
-                        {this.renderHeaderItems()}
-                    </ul>
-                    {this.renderAuthButtons()}
-                </div> */}
             </nav>
         );
     }

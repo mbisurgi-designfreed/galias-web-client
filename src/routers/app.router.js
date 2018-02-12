@@ -12,6 +12,7 @@ import AddDiaria from '../components/diaria/add-diaria/add-diaria.component';
 import ClientesList from '../components/clientes/clientes-list/clientes-list.component';
 import EditCliente from '../components/clientes/edit-cliente/edit-cliente.component';
 import AddCliente from '../components/clientes/add-cliente/add-cliente.component';
+import ArticulosList from '../components/articulos/articulos-list/articulos-list.component';
 
 
 const AppRouter = () => (
@@ -27,6 +28,7 @@ const AppRouter = () => (
                 <Route exact path="/clientes" component={authenticateRoute(ClientesList)} />
                 <Route exact path="/clientes/new" component={authenticateRoute(AddCliente)} />
                 <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
+                <Route exact path="/articulos" component={authenticateRoute(ArticulosList)} />
             </Switch>
         </div>
     </BrowserRouter>
