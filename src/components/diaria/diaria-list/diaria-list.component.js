@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withFormik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import Yup from 'yup';
+import Pusher from 'pusher-js';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -14,6 +15,16 @@ class DiariaList extends Component {
     componentWillMount() {
         this.props.listLast();
         this.props.unselectAll();
+
+        this.pusher = new Pusher('9bff45b52bd10c7d82b6', {
+            cluster: 'us2',
+            encrypted: true
+        });
+
+        this.chat = this.pusher.subscribe('info');
+        this.chat.bind('hello', (message) => {
+            console.log(message);
+        })
     }
 
     renderBuscar() {
