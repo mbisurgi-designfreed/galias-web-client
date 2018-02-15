@@ -11,20 +11,12 @@ import { list, listLast, unselectAll } from '../../../actions/info.action';
 
 import DiariaListItem from './diaria-list-item/diaria-list-item.component';
 
+import withNotification from '../../notification/notification.component';
+
 class DiariaList extends Component {
     componentWillMount() {
         this.props.listLast();
         this.props.unselectAll();
-
-        this.pusher = new Pusher('9bff45b52bd10c7d82b6', {
-            cluster: 'us2',
-            encrypted: true
-        });
-
-        this.chat = this.pusher.subscribe('info');
-        this.chat.bind('hello', (message) => {
-            console.log(message);
-        })
     }
 
     renderBuscar() {

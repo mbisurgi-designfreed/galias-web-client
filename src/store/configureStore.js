@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { reducer as notificationsReducer } from 'react-notification-system-redux';
 import thunk from 'redux-thunk';
 
 import authReducer from '../reducers/auth.reducer';
@@ -16,15 +17,16 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export default () => {
     const store = createStore(
         combineReducers({
-            auth: authReducer, 
-            info: infoReducer, 
-            selectedInfo: infoSelectedReducer, 
-            cliente: clienteReducer, 
+            auth: authReducer,
+            info: infoReducer,
+            selectedInfo: infoSelectedReducer,
+            cliente: clienteReducer,
             clienteFilters: clienteFiltersReducer,
             articulo: articuloReducer,
             articuloFilters: articuloFiltersReducer,
-            canal: canalReducer, 
-            subcanal: subcanalReducer
+            canal: canalReducer,
+            subcanal: subcanalReducer,
+            notifications: notificationsReducer
         }),
         composeEnhancers(applyMiddleware(thunk))
     );
