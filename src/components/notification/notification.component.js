@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { socketConnect } from 'socket.io-react';
 import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
 import Notifications, { success } from 'react-notification-system-redux';
-
-import { listLast, receiveNotification, resetNotification } from '../../actions/info.action';
 
 export default (NotificatedComponent) => {
     class Notification extends Component {
@@ -17,9 +14,8 @@ export default (NotificatedComponent) => {
             this.chat = this.pusher.subscribe('info');
             this.chat.bind('hello', (message) => {
                 const notification = {
-                    // uid: 'once-please', // you can specify your own uid if required
-                    title: 'Pedidos',
-                    message: 'Ingreso un pedido nuevo...',
+                    title: 'Pedido',
+                    message: message.message,
                     position: 'tr',
                     autoDismiss: 0,
                     action: {
@@ -36,7 +32,7 @@ export default (NotificatedComponent) => {
             return (
                 <div>
                     <NotificatedComponent {...this.props} />
-                    <Notifications notifications={this.props.notifications} style={false} />
+                    <Notifications notifications={this.props.notifications} />
                 </div>
             );
         }
@@ -46,5 +42,5 @@ export default (NotificatedComponent) => {
         return { notifications: state.notifications };
     }
 
-    return connect(mapStateToProps, { listLast, receiveNotification, resetNotification })(Notification);
+    return connect(mapStateToProps)(Notification);
 }

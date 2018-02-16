@@ -9,11 +9,11 @@ import _ from 'lodash';
 
 import { list, listLast, unselectAll } from '../../../actions/info.action';
 
-import DiariaListItem from './diaria-list-item/diaria-list-item.component';
+//import DiariaListItem from './diaria-list-item/diaria-list-item.component';
 
 import withNotification from '../../notification/notification.component';
 
-class DiariaList extends Component {
+class PedidoList extends Component {
     componentWillMount() {
         this.props.listLast();
         this.props.unselectAll();
@@ -34,9 +34,9 @@ class DiariaList extends Component {
     }
 
     renderItems() {
-        return _.map(this.props.info.infos, (info) => {
-            return <DiariaListItem diaria={info} key={info._id} />;
-        });
+        // return _.map(this.props.info.infos, (info) => {
+        //     return <DiariaListItem diaria={info} key={info._id} />;
+        // });
     }
 
     render() {
@@ -54,8 +54,8 @@ class DiariaList extends Component {
                         </div>
                         {this.renderBuscar()}
                         <div className="form__icon-container">
-                            <Link className="icon-medium" to="/diaria/new"><i className="fa fa-plus-circle"></i></Link>
-                            <Link className="icon-medium" to="/diaria/compare"><i className="fa fa-line-chart"></i></Link>
+                            <Link className="icon-medium" to="/pedidos/new"><i className="fa fa-plus-circle"></i></Link>
+                            <Link className="icon-medium" to="/pedidos/new"><i className="fa fa-download"></i></Link>
                         </div>
                     </Form>
                 </div>
@@ -79,10 +79,10 @@ const mapPropsToValues = (props) => ({
 });
 
 const mapStateToProps = (state) => {
-    return { info: state.info, selected: state.selectedInfo };
+    return { info: state.info, socket: state.socket, selected: state.selectedInfo };
 }
 
 export default connect(mapStateToProps, { list, listLast, unselectAll })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
-})(withNotification(DiariaList)));
+})(PedidoList));
