@@ -53,6 +53,17 @@ class ClienteForm extends Component {
         label: 'Exento'
     }]
 
+    PAGO = [{
+        value: 0,
+        label: 0
+    }, {
+        value: 7,
+        label: 7
+    }, {
+        value: 15,
+        label: 15
+    }]
+
     DIAS = [{
         value: 'lunes',
         label: 'Lunes'
@@ -107,6 +118,14 @@ class ClienteForm extends Component {
 
     ivaBlur = () => {
         this.props.setFieldTouched('iva', true);
+    }
+
+    pagoChanged = (pago) => {
+        this.props.setFieldValue('condicionPago', pago);
+    }
+
+    pagoBlur = () => {
+        this.props.setFieldTouched('condicionPago', true);
     }
 
     visitaChanged = (dia) => {
@@ -367,6 +386,11 @@ class ClienteForm extends Component {
                         </div>
                     </div>
                     <div className="row">
+                        <div className="form-group col-1-of-3">
+                            <label className="form__label" htmlFor="condicionPago">Condicion de Pago (Dias)</label>
+                            <Select id="condicionPago" options={this.PAGO} multi={false} value={this.props.values.condicionPago} onChange={this.pagoChanged} onBlur={this.pagoBlur} />
+                            {this.props.touched.condicionPago && this.props.errors.condicionPago && (<p className="form__field-error">{this.props.errors.condicionPago}</p>)}
+                        </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="email">Email</label>
                             <Field className="form__field" id="email" type="email" name="email" />
@@ -431,6 +455,7 @@ const mapPropsToValues = ({ cliente }) => ({
     canal: '',
     subcanal: '',
     clasificacion: cliente ? cliente.clasificacion : 'c',
+    condicionPago: cliente ? cliente.condicionPago : '',
     visita: cliente ? cliente.diaVisita : [],
     entrega: cliente ? cliente.diaEntrega : [],
     personas: cliente ? cliente.personas : []
@@ -461,6 +486,9 @@ const validationSchema = () => Yup.object().shape({
     subcanal: Yup
         .string()
         .required('Subcanal es requerido'),
+    condicionPago: Yup
+        .string()
+        .required('Condicion de pago es requerido'),
     visita: Yup
         .array()
         .required('Dia de visita es requerido'),
@@ -494,6 +522,7 @@ const onSubmit = (values, { props, resetForm }) => {
         canal: values.canal.value,
         subcanal: values.subcanal.value,
         clasificacion: values.clasificacion,
+        condicionPago: values.condicionPago.value,
         diaVisita: values.visita.map(visita => visita.value),
         diaEntrega: values.entrega.map(entrega => entrega.value),
         personas
