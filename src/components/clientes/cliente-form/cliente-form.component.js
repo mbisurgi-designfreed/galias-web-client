@@ -57,11 +57,20 @@ class ClienteForm extends Component {
         value: 0,
         label: 0
     }, {
-        value: 7,
-        label: 7
+        value: 1,
+        label: 1
     }, {
         value: 15,
         label: 15
+    }, {
+        value: 21,
+        label: 21
+    }, {
+        value: 30,
+        label: 30
+    }, {
+        value: 45,
+        label: 45
     }]
 
     DIAS = [{
