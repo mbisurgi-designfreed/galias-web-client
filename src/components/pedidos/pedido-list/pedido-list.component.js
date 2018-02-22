@@ -7,7 +7,7 @@ import Yup from 'yup';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { list, listLast, unselectAll } from '../../../actions/info.action';
+import { list, listToday } from '../../../actions/pedido.action';
 import { setTextFilter, searchByCliente, searchByEstado } from '../../../actions/pedido-filters.action';
 
 import Filters from '../../filters/filters.component';
@@ -23,8 +23,7 @@ class PedidoList extends Component {
     }
 
     componentWillMount() {
-        this.props.listLast();
-        this.props.unselectAll();
+        this.props.listToday();
     }
 
     VIEW_PER_PAGE = 10;
@@ -136,7 +135,7 @@ const mapStateToProps = (state) => {
     return { info: state.info, pedidos: pedidoSelector(PEDIDOS, state.pedidoFilters), filters: state.pedidoFilters };
 }
 
-export default connect(mapStateToProps, { list, listLast, unselectAll, setTextFilter, searchByCliente, searchByEstado })(withFormik({
+export default connect(mapStateToProps, { list, listToday, setTextFilter, searchByCliente, searchByEstado })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
 })(PedidoList));
