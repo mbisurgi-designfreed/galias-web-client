@@ -8,10 +8,14 @@ import moment from 'moment';
 import _ from 'lodash';
 
 import { list, listLast, unselectAll } from '../../../actions/info.action';
+import { setTextFilter, searchByCliente, searchByEstado } from '../../../actions/pedido-filters.action';
 
+import Filters from '../../filters/filters.component';
 import PedidoListItem from './pedido-list-item/pedido-list-item.component';
 
-import withNotification from '../../notification/notification.component';
+import pedidoSelector from '../../../selectors/pedido.selector';
+
+// import withNotification from '../../notification/notification.component';
 
 class PedidoList extends Component {
     state = {
@@ -24,6 +28,30 @@ class PedidoList extends Component {
     }
 
     VIEW_PER_PAGE = 10;
+
+    options = [{
+        value: 'cliente',
+        label: 'Cliente'
+    }, {
+        value: 'estado',
+        label: 'Estado'
+    }];
+
+    onFilterChanged = (selectedOption) => {
+        this.props.setTextFilter('');
+
+        switch (selectedOption.value) {
+            case 'cliente':
+                return this.props.searchByCliente();
+            case 'estado':
+                return this.props.searchByEstado();
+        }
+    };
+
+    onTextChanged = (e) => {
+        this.setState(() => ({ page: 1 }))
+        this.props.setTextFilter(e.target.value);
+    };
 
     renderBuscar() {
         const loading = this.props.info.loading;
@@ -40,27 +68,9 @@ class PedidoList extends Component {
     }
 
     renderItems() {
-        const PEDIDOS = [{
-            _id: '1235afsegsa',
-            fecha: '22/02/2018',
-            cliente: 'Maximiliano Bisurgi',
-            total: 1454.50,
-            estado: 'generado'
-        }, {
-            _id: '1234asdasf',
-            fecha: '22/02/2018',
-            cliente: 'Claudio Bisurgi',
-            total: 1200.50,
-            estado: 'generado'
-        }]
-
-        return _.map(PEDIDOS, (pedido) => {
+        return _.map(this.props.pedidos, (pedido) => {
             return <PedidoListItem pedido={pedido} key={pedido._id} />;
         });
-
-        // return _.map(this.props.pedido.pedidos, (pedido) => {
-        //     return <PedidoListItem pedido={pedido} key={pedido._id} />;
-        // });
     }
 
     render() {
@@ -82,6 +92,9 @@ class PedidoList extends Component {
                             <Link className="icon-medium" to="/pedidos/new"><i className="fa fa-download"></i></Link>
                         </div>
                     </Form>
+                </div>
+                <div className="row">
+                    <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged} />
                 </div>
                 <div className="row">
                     {this.renderItems()}
@@ -106,10 +119,24 @@ const mapPropsToValues = (props) => ({
 });
 
 const mapStateToProps = (state) => {
-    return { info: state.info, pedidos: [] };
+    const PEDIDOS = [{
+        _id: '1235afsegsa',
+        fecha: '22/02/2018',
+        cliente: 'Maximiliano Bisurgi',
+        total: 1454.50,
+        estado: 'generado'
+    }, {
+        _id: '1234asdasf',
+        fecha: '22/02/2018',
+        cliente: 'Claudio Bisurgi',
+        total: 1200.50,
+        estado: 'pendiente'
+    }]
+
+    return { info: state.info, pedidos: pedidoSelector(PEDIDOS, state.pedidoFilters), filters: state.pedidoFilters };
 }
 
-export default connect(mapStateToProps, { list, listLast, unselectAll })(withFormik({
+export default connect(mapStateToProps, { list, listLast, unselectAll, setTextFilter, searchByCliente, searchByEstado })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
 })(PedidoList));

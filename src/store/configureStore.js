@@ -11,6 +11,7 @@ import clienteReducer from '../reducers/cliente.reducer';
 import clienteFiltersReducer from '../reducers/cliente-filters.reducer';
 import articuloReducer from '../reducers/articulo.reducer';
 import articuloFiltersReducer from '../reducers/articulo-filters.reducer';
+import pedidoFiltersReducer from '../reducers/pedido-filters.reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -24,6 +25,7 @@ export default () => {
             clienteFilters: clienteFiltersReducer,
             articulo: articuloReducer,
             articuloFilters: articuloFiltersReducer,
+            pedidoFilters: pedidoFiltersReducer,
             canal: canalReducer,
             subcanal: subcanalReducer,
             notifications: notificationsReducer
