@@ -11,7 +11,7 @@ import { list, listLast, unselectAll } from '../../../actions/info.action';
 
 import DiariaListItem from './diaria-list-item/diaria-list-item.component';
 
-import withNotification from '../../notification/notification.component';
+// import withNotification from '../../notification/notification.component';
 
 class DiariaList extends Component {
     componentWillMount() {
@@ -85,4 +85,4 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { list, listLast, unselectAll })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
-})(withNotification(DiariaList)));
+})(DiariaList));

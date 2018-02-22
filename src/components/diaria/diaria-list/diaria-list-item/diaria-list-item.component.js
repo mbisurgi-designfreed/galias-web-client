@@ -36,35 +36,6 @@ class DiariaListItem extends Component {
 
     render() {
         return (
-            // <div className="card mt-3" >
-            //     <div className="card-header bg-danger text-white pt-0 pb-0 pl-2">{this.formatDate(this.props.diaria.fecha)}<input type="checkbox" className="form-check-input float-right" onChange={this.onItemClicked.bind(this)} /></div>
-            //     <div className="card-body p-2">
-            //         <div className="row">
-            //             <div className="col-md-4">
-            //                 <h6 className="text-danger text-left text-md-center font-weight-bold">Disponibilidades</h6>
-            //                 {this.renderItem('Caja', '$', this.props.diaria.caja)}
-            //                 {this.renderItem('Bancos', '$', this.props.diaria.bancos)}
-            //                 {this.renderItem('Cheques', '$', this.props.diaria.cheques)}
-            //                 {this.renderItem('Total', '$', this.props.diaria.caja + this.props.diaria.bancos + this.props.diaria.cheques)}
-            //             </div>
-            //             <div className="col-md-4">
-            //                 <h6 className="text-danger text-left text-md-center font-weight-bold">Debito</h6>
-            //                 {this.renderItem('Total', '$', this.props.diaria.debito.total)}
-            //                 {this.renderItem('Vencido', '$', this.props.diaria.debito.vencido)}
-            //                 {this.renderItem('N/C', '$', this.props.diaria.debito.nc)}
-            //                 {this.renderItem('', '%', this.props.diaria['%vencidoDebito'])}
-            //             </div>
-            //             <div className="col-md-4">
-            //                 <h6 className="text-danger text-left text-md-center font-weight-bold">Credito</h6>
-            //                 {this.renderItem('Total', '$', this.props.diaria.credito.total)}
-            //                 {this.renderItem('Vencido', '$', this.props.diaria.credito.vencido)}
-            //                 {this.renderItem('N/C', '$', this.props.diaria.credito.nc)}
-            //                 {this.renderItem('', '%', this.props.diaria['%vencidoCredito'])}
-            //             </div>
-            //         </div>
-            //     </div>
-            // </div>
-
             <div className="card">
                 <div className="card__header">
                     <h6 className="list__item-title">{this.formatDate()}</h6>

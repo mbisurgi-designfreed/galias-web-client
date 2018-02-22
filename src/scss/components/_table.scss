@@ -1,0 +1,28 @@
+.table {
+    font-size: 1.25rem;
+    border: 1px solid $color-grey-light;
+    border-radius: 3px;
+    width: 100%;
+
+    &:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    &__header {
+        th {
+            color: $color-black;
+            font-weight: 300;
+            text-transform: uppercase;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+        }
+    }
+
+    &__body {
+        th {
+            color: $color-black;
+            text-align: left;
+            font-weight: 300;
+        }
+    }
+}
