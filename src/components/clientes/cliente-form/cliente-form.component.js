@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withFormik, Form, Field } from 'formik';
+import Loader from 'react-loader';
 import Select from 'react-select';
 import Yup from 'yup';
 
@@ -24,12 +25,7 @@ class ClienteForm extends Component {
     }
 
     componentWillMount() {
-        this.props.getCanales();
-        this.props.getSubcanales();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const canales = nextProps.canales.map((canal) => {
+        const canales = this.props.canales.map((canal) => {
             return {
                 value: canal._id,
                 label: canal.nombre
@@ -37,6 +33,19 @@ class ClienteForm extends Component {
         });
 
         this.setState(() => ({ canales }));
+
+        if (this.props.cliente) {
+            const subcanales = this.props.subcanales.filter((subcanal) => {
+                return subcanal.canal === this.props.cliente.canal;
+            }).map((subcanal) => {
+                return {
+                    value: subcanal._id,
+                    label: subcanal.nombre
+                };
+            });
+
+            this.setState(() => ({ subcanales }));
+        }
     }
 
     IVA = [{
@@ -435,7 +444,9 @@ class ClienteForm extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <button className="btn" disabled={this.state.loading}>{this.props.cliente ? 'Editar' : 'Agregar'}</button>
+                        <Loader className="spinner mt-medium" loaded={!this.props.loading} color="#ed1c24" scale={0.5}>
+                            <button className="btn" disabled={this.state.loading}>{this.props.cliente ? 'Editar' : 'Agregar'}</button>
+                        </Loader>
                     </div>
                 </Form>
                 <PersonaModal persona={this.state.persona} onCloseModal={this.onClosePersona} />
@@ -461,8 +472,8 @@ const mapPropsToValues = ({ cliente }) => ({
     sucursales: cliente ? cliente.sucursales : [],
     telefonos: cliente ? cliente.telefonos : [],
     email: cliente ? cliente.email : '',
-    canal: '',
-    subcanal: '',
+    canal: cliente ? cliente.canal : '',
+    subcanal: cliente ? cliente.subcanal : '',
     clasificacion: cliente ? cliente.clasificacion : 'c',
     condicionPago: cliente ? cliente.condicionPago : '',
     visita: cliente ? cliente.diaVisita : [],
@@ -541,7 +552,7 @@ const onSubmit = (values, { props, resetForm }) => {
 };
 
 const mapStateToProps = (state) => {
-    return { canales: state.canal, subcanales: state.subcanal, loading: state.cliente.adding }
+    return { canales: state.canal, subcanales: state.subcanal, loading: state.cliente.loading }
 };
 
 export default withFormik({

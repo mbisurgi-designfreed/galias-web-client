@@ -4,6 +4,12 @@ import { Link } from 'react-router-dom';
 const ClienteListItem = (props) => {
     const { cliente } = props;
 
+    const renderSync = () => {
+        if (cliente.sincronizado) {
+            return <i className="icon fa fa-cloud-upload"></i>
+        }
+    }
+
     const direccion = () => {
         return `${cliente.direccion.calle} ${cliente.direccion.altura} - ${cliente.direccion.codigoPostal} - ${cliente.direccion.localidad}`;
     }
@@ -12,7 +18,10 @@ const ClienteListItem = (props) => {
         <div className="list__item">
             <div className="list__item-header">
                 <h6 className="list__item-title">{cliente.codigo}</h6>
-                <Link className="list__item-icon" to={`/clientes/${cliente._id}`}><i className="fa fa-address-card"></i></Link>
+                <div>
+                    {renderSync()}
+                    <Link className="list__item-icon" to={`/clientes/${cliente._id}`}><i className="fa fa-list-alt"></i></Link>
+                </div>
             </div>
 
             <div className="list__item-content">

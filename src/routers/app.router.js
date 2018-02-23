@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import authenticateRoute from '../components/auth/authenticate-route/authenticate-route.component';
@@ -15,25 +16,36 @@ import EditCliente from '../components/clientes/edit-cliente/edit-cliente.compon
 import AddCliente from '../components/clientes/add-cliente/add-cliente.component';
 import ArticulosList from '../components/articulos/articulos-list/articulos-list.component';
 
+import { list as getCanales } from '../actions/canal.action';
+import { list as getSubcanales } from '../actions/subcanal.action';
 
-const AppRouter = () => (
-    <BrowserRouter>
-        <div>
-            <Header />
-            <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/signin" component={Signin} />
-                <Route exact path="/diaria" component={authenticateRoute(DiariaList)} />
-                <Route exact path="/diaria/new" component={authenticateRoute(AddDiaria)} />
-                <Route exact path="/diaria/compare" component={authenticateRoute(DiariaCompare)} />
-                <Route exact path="/pedidos" component={authenticateRoute(PedidoList)} />
-                <Route exact path="/clientes" component={authenticateRoute(ClientesList)} />
-                <Route exact path="/clientes/new" component={authenticateRoute(AddCliente)} />
-                <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
-                <Route exact path="/articulos" component={authenticateRoute(ArticulosList)} />
-            </Switch>
-        </div>
-    </BrowserRouter>
-);
+class AppRouter extends Component {
+    componentWillMount() {
+        this.props.getCanales();
+        this.props.getSubcanales();
+    }
 
-export default AppRouter;
+    render() {
+        return (
+            <BrowserRouter>
+                <div>
+                    <Header />
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/signin" component={Signin} />
+                        <Route exact path="/diaria" component={authenticateRoute(DiariaList)} />
+                        <Route exact path="/diaria/new" component={authenticateRoute(AddDiaria)} />
+                        <Route exact path="/diaria/compare" component={authenticateRoute(DiariaCompare)} />
+                        <Route exact path="/pedidos" component={authenticateRoute(PedidoList)} />
+                        <Route exact path="/clientes" component={authenticateRoute(ClientesList)} />
+                        <Route exact path="/clientes/new" component={authenticateRoute(AddCliente)} />
+                        <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
+                        <Route exact path="/articulos" component={authenticateRoute(ArticulosList)} />
+                    </Switch>
+                </div>
+            </BrowserRouter>
+        )
+    }
+}
+
+export default connect(null, { getCanales, getSubcanales })(AppRouter);

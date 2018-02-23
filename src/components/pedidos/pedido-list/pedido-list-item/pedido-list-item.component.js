@@ -32,7 +32,7 @@ const PedidoListItem = (props) => {
         <div className="list__item">
             <div className="list__item-header">
                 <h6 className="list__item-title">{pedido.fecha}</h6>
-                <Link className="list__item-icon" to={`/pedidos/${pedido._id}`}><i className="fa fa-info"></i></Link>
+                <Link className="list__item-icon" to={`/pedidos/${pedido._id}`}><i className="fa fa-list-alt"></i></Link>
             </div>
 
             <div className="list__item-content">

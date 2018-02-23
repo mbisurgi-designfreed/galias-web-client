@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import authenticateRoute from '../components/auth/authenticate-route/authenticate-route.component';
@@ -13,8 +14,16 @@ import ClientesList from '../components/clientes/clientes-list/clientes-list.com
 import EditCliente from '../components/clientes/edit-cliente/edit-cliente.component';
 import AddCliente from '../components/clientes/add-cliente/add-cliente.component';
 
+import { list as getCanales } from '../actions/canal.action';
+import { list as getSubcanales } from '../actions/subcanal.action';
 
 class App extends Component {
+    componentWillMount() {
+        console.log('componentWillMoount()', 'app');
+        this.props.getCanales();
+        this.props.getSubcanales();
+    }
+
     render() {
         return (
             <div>
@@ -38,4 +47,4 @@ class App extends Component {
     }
 };
 
-export default App;
+export default connect(null, { getCanales, getSubcanales })(App);
