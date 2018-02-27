@@ -15,6 +15,7 @@ import ClientesList from '../components/clientes/clientes-list/clientes-list.com
 import EditCliente from '../components/clientes/edit-cliente/edit-cliente.component';
 import AddCliente from '../components/clientes/add-cliente/add-cliente.component';
 import ArticulosList from '../components/articulos/articulos-list/articulos-list.component';
+import AddArticulo from '../components/articulos/add-articulo/add-articulo.component';
 
 import { list as getCanales } from '../actions/canal.action';
 import { list as getSubcanales } from '../actions/subcanal.action';
@@ -41,6 +42,7 @@ class AppRouter extends Component {
                         <Route exact path="/clientes/new" component={authenticateRoute(AddCliente)} />
                         <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
                         <Route exact path="/articulos" component={authenticateRoute(ArticulosList)} />
+                        <Route exact path="/articulos/new" component={authenticateRoute(AddArticulo)} />
                     </Switch>
                 </div>
             </BrowserRouter>
