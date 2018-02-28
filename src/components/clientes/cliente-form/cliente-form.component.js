@@ -44,7 +44,16 @@ class ClienteForm extends Component {
                 };
             });
 
-            this.setState(() => ({ subcanales }));
+            let ubicacion = undefined;
+
+            if (this.props.cliente.direccion.geometry) {
+                ubicacion = {
+                    lat: this.props.cliente.direccion.geometry.coordinates[0],
+                    lng: this.props.cliente.direccion.geometry.coordinates[1]
+                }
+            }
+
+            this.setState(() => ({ subcanales, ubicacion }));
         }
     }
 
@@ -446,7 +455,7 @@ class ClienteForm extends Component {
                     <div className="row">
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="proveedor">Proveedor</label>
-                            <Select id="proveedor" options={this.PROVEEDORES} multi={false} value={this.props.values.proveedor} onChange={this.proveedorChanged} onBlur={this.proveedorBlur} />
+                            <Select id="proveedor" options={this.PROVEEDOR} multi={false} value={this.props.values.proveedor} onChange={this.proveedorChanged} onBlur={this.proveedorBlur} />
                             {this.props.touched.proveedor && this.props.errors.proveedor && (<p className="form__field-error">{this.props.errors.proveedor}</p>)}
                         </div>
                         <div className="form-group col-1-of-4">
