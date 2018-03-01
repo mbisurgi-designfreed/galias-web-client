@@ -13,6 +13,7 @@ import TelefonoModal from './telefono-form/telefono-modal.component';
 
 import { list as getCanales } from '../../../actions/canal.action';
 import { list as getSubcanales } from '../../../actions/subcanal.action';
+import { removeAlert } from '../../../actions/alert.action';
 
 class ClienteForm extends Component {
     state = {
@@ -129,6 +130,20 @@ class ClienteForm extends Component {
         value: 'c',
         label: 'C'
     }];
+
+    showAlert = () => {
+        if (this.props.alert.alert) {
+            setTimeout(() => {
+                this.props.removeAlert();
+            }, 3000)
+
+            return <a className="alert" onClick={this.onAlertClick}>{this.props.alert.alert}</a>
+        }
+    }
+
+    onAlertClick = () => {
+        this.props.removeAlert();
+    }
 
     placeChanged = (place) => {
         if (place === undefined) {
@@ -339,6 +354,9 @@ class ClienteForm extends Component {
     render() {
         return (
             <div>
+                <div className="alert-container">
+                    {this.showAlert()}
+                </div>
                 <Form className="form mb-xl">
                     <div className="row">
                         <div className="form-group col-1-of-4">
@@ -587,12 +605,12 @@ const onSubmit = (values, { props, resetForm }) => {
 };
 
 const mapStateToProps = (state) => {
-    return { canales: state.canal, subcanales: state.subcanal, loading: state.cliente.loading }
+    return { canales: state.canal, subcanales: state.subcanal, loading: state.cliente.loading, alert: state.alerts }
 };
 
 export default withFormik({
     mapPropsToValues,
     validationSchema,
     handleSubmit: onSubmit
-})(connect(mapStateToProps, { getCanales, getSubcanales })(ClienteForm));
+})(connect(mapStateToProps, { getCanales, getSubcanales, removeAlert })(ClienteForm));
 

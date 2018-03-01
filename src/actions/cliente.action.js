@@ -44,7 +44,22 @@ export const add = (cliente, history) => {
                 history.push('/clientes');
             }
         } catch (err) {
-            console.log(err);
+            if (err.response.status === 500) {
+                
+            }
+
+            if (err.response.status === 503) {
+                dispatch({
+                    type: 'clientes_adding_done'
+                });
+
+                dispatch({
+                    type: 'add_alert',
+                    payload: err.response.data
+                });
+
+                history.push('/clientes')
+            }
         }
     }
 };
@@ -60,8 +75,6 @@ export const edit = (cliente, id, history) => {
         try {   
             const res = await axios.put(URL, cliente);
 
-            console.log(res);
-
             if (res.status === 201) {
                 dispatch({
                     type: 'clientes_editing_done'
@@ -70,7 +83,22 @@ export const edit = (cliente, id, history) => {
                 history.push('/clientes');
             }
         } catch (err) {
-            console.log(err);
+            if (err.response.status === 500) {
+
+            }
+
+            if (err.response.status === 503) {
+                dispatch({
+                    type: 'clientes_editing_done'
+                });
+
+                dispatch({
+                    type: 'add_alert',
+                    payload: err.response.data
+                });
+
+                history.push('/clientes')
+            }
         }
     }
 }

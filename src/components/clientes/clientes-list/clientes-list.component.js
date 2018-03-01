@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 import { list } from '../../../actions/cliente.action';
 import { setTextFilter, searchByRazonSocial, searchByCodigo, searchByCuit } from '../../../actions/cliente-filters.action';
+import { removeAlert } from '../../../actions/alert.action';
 
 import Filters from '../../filters/filters.component';
 import ClienteListItem from './cliente-list-item/cliente-list-item.component';
@@ -34,6 +35,20 @@ class ClientesList extends Component {
         value: 'cuit',
         label: 'Cuit'
     }];
+
+    showAlert = () => {
+        if (this.props.alert.alert) {
+            setTimeout(() => {
+                this.props.removeAlert();
+            }, 3000)
+
+            return <a className="alert" onClick={this.onAlertClick}>{this.props.alert.alert}</a>
+        }
+    }
+
+    onAlertClick = () => {
+        this.props.removeAlert();
+    }
 
     onFilterChanged = (selectedOption) => {
         this.props.setTextFilter('');
@@ -72,6 +87,9 @@ class ClientesList extends Component {
     render() {
         return (
             <div className="row">
+                <div className="alert-container">
+                    {this.showAlert()}
+                </div>
                 <div className="row">
                     <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged}>
                         <div className="form__icon-container">
@@ -95,7 +113,7 @@ class ClientesList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return { clientes: clienteSelector(state.cliente.clientes, state.clienteFilters), pages: state.cliente.pages, loading: state.cliente.loading, filters: state.clienteFilters };
+    return { clientes: clienteSelector(state.cliente.clientes, state.clienteFilters), pages: state.cliente.pages, loading: state.cliente.loading, filters: state.clienteFilters, alert: state.alerts };
 };
 
-export default connect(mapStateToProps, { list, setTextFilter, searchByRazonSocial, searchByCodigo, searchByCuit })(ClientesList);
+export default connect(mapStateToProps, { list, setTextFilter, searchByRazonSocial, searchByCodigo, searchByCuit, removeAlert })(ClientesList);

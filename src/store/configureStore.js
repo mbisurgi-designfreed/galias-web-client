@@ -3,6 +3,7 @@ import { reducer as notificationsReducer } from 'react-notification-system-redux
 import thunk from 'redux-thunk';
 
 import authReducer from '../reducers/auth.reducer';
+import alertReducer from '../reducers/alert.reducer';
 import infoReducer from '../reducers/info.reducer';
 import infoSelectedReducer from '../reducers/info-selected.reducer';
 import canalReducer from '../reducers/canal.reducer';
@@ -20,6 +21,7 @@ export default () => {
     const store = createStore(
         combineReducers({
             auth: authReducer,
+            alerts: alertReducer,
             info: infoReducer,
             selectedInfo: infoSelectedReducer,
             cliente: clienteReducer,
