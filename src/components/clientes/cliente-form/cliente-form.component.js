@@ -502,7 +502,7 @@ const mapPropsToValues = ({ cliente }) => ({
     sucursales: cliente ? cliente.sucursales : [],
     telefonos: cliente ? cliente.telefonos : [],
     email: cliente ? cliente.email : '',
-    proveedor: '',
+    proveedor: cliente ? cliente.proveedor : '',
     canal: cliente ? cliente.canal : '',
     subcanal: cliente ? cliente.subcanal : '',
     clasificacion: cliente ? cliente.clasificacion : 'c',
@@ -575,10 +575,11 @@ const onSubmit = (values, { props, resetForm }) => {
         sucursales,
         canal: values.canal.value,
         subcanal: values.subcanal.value,
+        proveedor: values.proveedor.value,
         clasificacion: values.clasificacion,
         condicionPago: values.condicionPago.value,
-        diaVisita: values.visita.map(visita => visita.value),
-        diaEntrega: values.entrega.map(entrega => entrega.value),
+        diaVisita: typeof values.visita[0] === 'object' ? values.visita.map(visita => visita.value) : values.visita,
+        diaEntrega: typeof values.entrega[0] === 'object' ? values.entrega.map(entrega => entrega.value) : values.entrega,
         personas
     }
 
