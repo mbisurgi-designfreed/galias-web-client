@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader'
-import Pagination from "react-js-pagination";
+import Pagination from 'react-js-pagination';
 import _ from 'lodash';
 
 import { list } from '../../../actions/cliente.action';

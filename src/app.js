@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReduxThunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { SocketProvider } from 'socket.io-react';
-import io from 'socket.io-client';
 
 import 'react-select/dist/react-select.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';

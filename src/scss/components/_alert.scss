@@ -25,39 +25,39 @@
     animation: alert 1s ease forwards;
 }
 
-#alert {
-    cursor: pointer;
-    position: relative;
-    z-index: 9999;
-}
-#alert:hover:after {
-    /* background: hsla(0,0%,0%,.8);
-    border-radius: 3px;
+.alert-example {
+    background-color: rgba($color-primary, 0.8);
+    background-size: 20px 20px;
+    box-shadow: 0 0.2rem 0.2rem rgba($color-black, 0.2);
     color: #f6f6f6;
-    content: 'Click to dismiss';
-    font: bold 12px/30px sans-serif;
-    height: 30px;
-    left: 50%;
-    margin-left: -60px;
+    display: block;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 100;
     position: absolute;
     text-align: center;
-    top: 50px;
-    width: 120px; */
+    text-decoration: none;
+    top: -45px;
+    padding: 0.75rem;
+    width: 100%;
 }
-#alert:hover:before {
-   /*  border-bottom: 10px solid hsla(0,0%,0%,.8);
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    content: '';
-    height: 0;
-    left: 50%;
-    margin-left: -10px;
-    position: absolute;
-    top: 40px;
-    width: 0; */
+
+.example-enter {
+    opacity: 0;
 }
-#alert:target {
-    display: none;
+
+.example-enter.example-enter-active {
+    opacity: 1;
+    transition: 700ms;
+}
+
+.example-leave {
+    opacity: 1;
+}
+
+.example-leave.example-leave-active {
+    opacity: 0;
+    transition: 700ms;
 }
 
 /* Animation */
