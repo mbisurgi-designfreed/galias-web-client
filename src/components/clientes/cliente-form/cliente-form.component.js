@@ -536,6 +536,7 @@ const validationSchema = () => Yup.object().shape({
         .required('Razon social es requerido'),
     cuit: Yup
         .string()
+        .nullable()
         .required('Cuit es requerido'),
     iva: Yup
         .string()
@@ -551,15 +552,19 @@ const validationSchema = () => Yup.object().shape({
         .email('Email no es valido'),
     proveedor: Yup
         .string()
+        .nullable()
         .required('Proveedor es requerido'),
     canal: Yup
         .string()
+        .nullable()
         .required('Canal es requerido'),
     subcanal: Yup
         .string()
+        .nullable()
         .required('Subcanal es requerido'),
     condicionPago: Yup
         .string()
+        .nullable()
         .required('Condicion de pago es requerido'),
     visita: Yup
         .array()
