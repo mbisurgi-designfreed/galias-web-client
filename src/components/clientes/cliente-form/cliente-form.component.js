@@ -112,12 +112,12 @@ class ClienteForm extends Component {
         label: 'Sabado',
     }];
 
-    PROVEEDOR = [{
+    DIVISION = [{
         value: 'calsa',
-        label: 'Calsa'
+        label: 'Insumos de panaderia'
     }, {
         value: 'no calsa',
-        label: 'No calsa'
+        label: 'Consumo masivo'
     }];
 
     CLASIFICACION = [{
@@ -224,12 +224,12 @@ class ClienteForm extends Component {
         this.props.setFieldTouched('subcanal', true);
     }
 
-    proveedorChanged = (proveedor) => {
-        this.props.setFieldValue('proveedor', proveedor);
+    divisionChanged = (division) => {
+        this.props.setFieldValue('division', division);
     }
 
-    proveedorBlur = () => {
-        this.props.setFieldTouched('proveedor', true);
+    divisionBlur = () => {
+        this.props.setFieldTouched('division', true);
     }
 
     clasificacionChanged = (clasificacion) => {
@@ -472,9 +472,9 @@ class ClienteForm extends Component {
                     </div>
                     <div className="row">
                         <div className="form-group col-1-of-4">
-                            <label className="form__label" htmlFor="proveedor">Proveedor</label>
-                            <Select id="proveedor" options={this.PROVEEDOR} multi={false} value={this.props.values.proveedor} onChange={this.proveedorChanged} onBlur={this.proveedorBlur} />
-                            {this.props.touched.proveedor && this.props.errors.proveedor && (<p className="form__field-error">{this.props.errors.proveedor}</p>)}
+                            <label className="form__label" htmlFor="division">Unidad de Negocio</label>
+                            <Select id="division" options={this.DIVISION} multi={false} value={this.props.values.division} onChange={this.divisionChanged} onBlur={this.divisionBlur} />
+                            {this.props.touched.division && this.props.errors.division && (<p className="form__field-error">{this.props.errors.division}</p>)}
                         </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="canal">Canal</label>
@@ -520,7 +520,7 @@ const mapPropsToValues = ({ cliente }) => ({
     sucursales: cliente ? cliente.sucursales : [],
     telefonos: cliente ? cliente.telefonos : [],
     email: cliente ? cliente.email : '',
-    proveedor: cliente ? cliente.proveedor : '',
+    division: cliente ? cliente.division : '',
     canal: cliente ? cliente.canal : '',
     subcanal: cliente ? cliente.subcanal : '',
     clasificacion: cliente ? cliente.clasificacion : 'c',
@@ -549,9 +549,9 @@ const validationSchema = () => Yup.object().shape({
     email: Yup
         .string()
         .email('Email no es valido'),
-    proveedor: Yup
+    division: Yup
         .string()
-        .required('Proveedor es requerido'),
+        .required('Division es requerido'),
     canal: Yup
         .string()
         .required('Canal es requerido'),
@@ -593,7 +593,7 @@ const onSubmit = (values, { props, resetForm }) => {
         sucursales,
         canal: values.canal.value,
         subcanal: values.subcanal.value,
-        proveedor: values.proveedor.value,
+        division: values.division.value,
         clasificacion: values.clasificacion,
         condicionPago: values.condicionPago.value,
         diaVisita: typeof values.visita[0] === 'object' ? values.visita.map(visita => visita.value) : values.visita,
