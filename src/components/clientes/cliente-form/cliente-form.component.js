@@ -493,7 +493,7 @@ class ClienteForm extends Component {
                     </div>
                     <div className="row">
                         <Loader className="spinner mt-medium" loaded={!this.props.loading} color="#ed1c24" scale={0.5}>
-                            <button className="btn" disabled={this.state.loading}>{this.props.cliente ? 'Editar' : 'Agregar'}</button>
+                            <button className="btn" disabled={this.props.loading}>{this.props.cliente ? 'Editar' : 'Agregar'}</button>
                         </Loader>
                     </div>
                 </Form>
