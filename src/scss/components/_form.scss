@@ -133,6 +133,14 @@
                 cursor: default;
             }
         }
+
+        &--title {
+            flex: 1;
+        }
+
+        &--detail {
+            flex: 2;
+        }
     }
 
     &__icon-container {

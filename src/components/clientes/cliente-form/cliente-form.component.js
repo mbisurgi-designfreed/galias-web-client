@@ -271,7 +271,8 @@ class ClienteForm extends Component {
                     <a onClick={() => this.onEditarPersona(i)}>
                         <i className="fa fa-pencil icon-small"></i>
                     </a>
-                    <p>{`${persona.cargo} ${persona.nombre}`}</p>
+                    <p className="form__list-item--title">{`${persona.cargo}`}</p>
+                    <p className="form__list-item--detail">{`${persona.nombre}`}</p>
                 </li>
             )
         });
@@ -308,7 +309,8 @@ class ClienteForm extends Component {
                     <a onClick={() => this.onEditarTelefono(i)}>
                         <i className="fa fa-pencil icon-small"></i>
                     </a>
-                    <p>{`${telefono.tipo} ${telefono.numero}`}</p>
+                    <p className="form__list-item--title">{`${telefono.tipo}`}</p>
+                    <p className="form__list-item--detail">{`${telefono.numero}`}</p>
                 </li>
             )
         });

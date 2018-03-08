@@ -4,7 +4,7 @@ import ArticuloForm from '../articulo-form/articulo-form.component';
 
 class AddArticulo extends Component {
     onAdd = (articulo) => {
-        this.props.add(cliente, this.props.history);
+        this.props.add(articulo, this.props.history);
     }
 
     render() {
