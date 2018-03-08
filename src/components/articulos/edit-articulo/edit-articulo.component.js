@@ -13,7 +13,7 @@ class EditArticulo extends Component {
     render() {
         return (
             <div className="mt-3">
-                <ArtiucloForm articulo={this.props.articulo} accion={this.onEdit} />
+                <ArticuloForm articulo={this.props.articulo} accion={this.onEdit} />
             </div>
         )
     }

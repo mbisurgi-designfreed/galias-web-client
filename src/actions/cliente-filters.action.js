@@ -1,5 +1,5 @@
 export const setTextFilter = (text = '') => ({
-    type: 'edit_text_filter',
+    type: 'edit_text_filter_cliente',
     payload: text
 });
 
@@ -8,7 +8,7 @@ export const searchByRazonSocial = () => ({
 });
 
 export const searchByCodigo = () => ({
-    type: 'search_by_codigo'
+    type: 'search_by_codigo_cliente'
 });
 
 export const searchByCuit = () => ({

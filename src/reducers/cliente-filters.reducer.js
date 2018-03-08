@@ -1,10 +1,10 @@
 const clienteFiltersReducer = (state = { text: '', searchBy: 'razonSocial' }, action) => {
     switch (action.type) {
-        case 'edit_text_filter':
+        case 'edit_text_filter_cliente':
             return { ...state, text: action.payload };
         case 'search_by_razon_social':
             return { ...state, searchBy: 'razonSocial' };
-        case 'search_by_codigo':
+        case 'search_by_codigo_cliente':
             return { ...state, searchBy: 'codigo' };
         case 'search_by_cuit':
             return { ...state, searchBy: 'cuit' };

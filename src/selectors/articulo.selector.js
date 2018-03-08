@@ -7,13 +7,13 @@ const articuloSelector = (articulos, { text, searchBy, sortBy }) => {
 
     return list.filter((articulo) => {
         if (searchBy === 'descripcion') {
-            const textMatch = cliente.razonSocial.toLowerCase().includes(text.toLowerCase());
+            const textMatch = articulo.descripcion.toLowerCase().includes(text.toLowerCase());
 
             return textMatch;
         }
 
         if (searchBy === 'codigo') {
-            const textMatch = cliente.codigo.toString().includes(text);
+            const textMatch = articulo.codigo.toString().includes(text);
 
             return textMatch;
         }

@@ -16,14 +16,17 @@ import EditCliente from '../components/clientes/edit-cliente/edit-cliente.compon
 import AddCliente from '../components/clientes/add-cliente/add-cliente.component';
 import ArticulosList from '../components/articulos/articulos-list/articulos-list.component';
 import AddArticulo from '../components/articulos/add-articulo/add-articulo.component';
+import EditArticulo from '../components/articulos/edit-articulo/edit-articulo.component';
 
 import { list as getCanales } from '../actions/canal.action';
 import { list as getSubcanales } from '../actions/subcanal.action';
+import { list as getUnidades } from '../actions/unidad.action';
 
 class AppRouter extends Component {
     componentWillMount() {
         this.props.getCanales();
         this.props.getSubcanales();
+        this.props.getUnidades();
     }
 
     render() {
@@ -43,6 +46,7 @@ class AppRouter extends Component {
                         <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
                         <Route exact path="/articulos" component={authenticateRoute(ArticulosList)} />
                         <Route exact path="/articulos/new" component={authenticateRoute(AddArticulo)} />
+                        <Route exact path="/articulos/:id" component={authenticateRoute(EditArticulo)} />
                     </Switch>
                 </div>
             </BrowserRouter>
@@ -50,4 +54,4 @@ class AppRouter extends Component {
     }
 }
 
-export default connect(null, { getCanales, getSubcanales })(AppRouter);
+export default connect(null, { getCanales, getSubcanales, getUnidades })(AppRouter);

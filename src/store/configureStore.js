@@ -6,6 +6,7 @@ import authReducer from '../reducers/auth.reducer';
 import alertReducer from '../reducers/alert.reducer';
 import infoReducer from '../reducers/info.reducer';
 import infoSelectedReducer from '../reducers/info-selected.reducer';
+import unidadReducer from '../reducers/unidad.reducer';
 import canalReducer from '../reducers/canal.reducer';
 import subcanalReducer from '../reducers/subcanal.reducer';
 import clienteReducer from '../reducers/cliente.reducer';
@@ -32,6 +33,7 @@ export default () => {
             pedidoFilters: pedidoFiltersReducer,
             canal: canalReducer,
             subcanal: subcanalReducer,
+            unidad: unidadReducer,
             notifications: notificationsReducer
         }),
         composeEnhancers(applyMiddleware(thunk))

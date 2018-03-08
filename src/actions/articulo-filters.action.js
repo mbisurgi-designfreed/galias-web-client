@@ -1,5 +1,5 @@
 export const setTextFilter = (text = '') => ({
-    type: 'edit_text_filter',
+    type: 'edit_text_filter_articulo',
     payload: text
 });
 
@@ -8,5 +8,5 @@ export const searchByDescripcion = () => ({
 });
 
 export const searchByCodigo = () => ({
-    type: 'search_by_codigo'
+    type: 'search_by_codigo_articulo'
 });

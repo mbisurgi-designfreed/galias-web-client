@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import ArticuloForm from '../articulo-form/articulo-form.component';
+
+import { add } from '../../../actions/articulo.action';
 
 class AddArticulo extends Component {
     onAdd = (articulo) => {
@@ -16,4 +19,4 @@ class AddArticulo extends Component {
     }
 };
 
-export default AddArticulo;
+export default connect(null, { add })(AddArticulo);

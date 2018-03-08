@@ -10,9 +10,28 @@ import UnidadVentaModal from './unidad-venta-form/unidad-venta-modal.component';
 
 class ArticuloForm extends Component {
     state = {
+        unidades: [],
         unidadCpa: { item: undefined },
         unidadVta: { item: undefined }
     }
+
+    componentWillMount() {
+        const unidades = this.props.unidades.map(unidad => ({
+            value: unidad,
+            label: unidad.nombre
+        }));
+
+        this.setState(() => ({ unidades }));
+    };
+
+    componentWillReceiveProps(newProps) {
+        const unidades = newProps.unidades.map(unidad => ({
+            value: unidad,
+            label: unidad.nombre
+        }));
+
+        this.setState(() => ({ unidades }));
+    };
 
     PROVEEDOR = [{
         value: 'calsa',
@@ -107,12 +126,16 @@ class ArticuloForm extends Component {
 
     renderUnidadesCpa = () => {
         return this.props.values.unidadesCpa.map((unidadCpa, i) => {
+            const unidad = this.state.unidades.filter(unidad => unidad.value._id === unidadCpa.unidad);
+        
+            unidadCpa.unidad = unidad[0];
+
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarUnidadCpa(i)}>
                         <i className="fa fa-pencil icon-small"></i>
                     </a>
-                    <p className="form__list-item--title">{`${unidadCpa.unidad.value}`}</p>
+                    <p className="form__list-item--title">{`${unidadCpa.unidad.value.sigla}`}</p>
                     <p className="form__list-item--detail">{`${unidadCpa.equivalencia}`}</p>
                 </li>
             )
@@ -145,12 +168,16 @@ class ArticuloForm extends Component {
 
     renderUnidadesVta = () => {
         return this.props.values.unidadesVta.map((unidadVta, i) => {
+            const unidad = this.state.unidades.filter(unidad => unidad.value._id === unidadVta.unidad);
+        
+            unidadVta.unidad = unidad[0];
+
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarUnidadVta(i)}>
                         <i className="fa fa-pencil icon-small"></i>
                     </a>
-                    <p className="form__list-item--title">{`${unidadVta.unidad.value}`}</p>
+                    <p className="form__list-item--title">{`${unidadVta.unidad.value.sigla}`}</p>
                     <p className="form__list-item--detail">{`${unidadVta.equivalencia}`}</p>
                 </li>
             )
@@ -186,7 +213,7 @@ class ArticuloForm extends Component {
                         </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="unidadStock">Unidad de Stock</label>
-                            <Select id="unidadStock" options={this.UNIDADES} multi={false} value={this.props.values.unidadStock} onChange={this.unidadStockChanged} onBlur={this.unidadStockBlur} />
+                            <Select id="unidadStock" options={this.state.unidades} multi={false} value={this.props.values.unidadStock} onChange={this.unidadStockChanged} onBlur={this.unidadStockBlur} />
                             {this.props.touched.unidadStock && this.props.errors.unidadStock && (<p className="form__field-error">{this.props.errors.unidadStock}</p>)}
                         </div>
                         <div className="form-group col-1-of-4">
@@ -234,8 +261,8 @@ class ArticuloForm extends Component {
                         </Loader>
                     </div>
                 </Form>
-                <UnidadCompraModal unidadCpa={this.state.unidadCpa} unidades={this.UNIDADES} onCloseModal={this.onCloseUnidadCpa} />
-                <UnidadVentaModal unidadVta={this.state.unidadVta} unidades={this.UNIDADES} onCloseModal={this.onCloseUnidadVta} />
+                <UnidadCompraModal unidadCpa={this.state.unidadCpa} unidades={this.state.unidades} onCloseModal={this.onCloseUnidadCpa} />
+                <UnidadVentaModal unidadVta={this.state.unidadVta} unidades={this.state.unidades} onCloseModal={this.onCloseUnidadVta} />
             </div>
         );
     }
@@ -247,8 +274,8 @@ const mapPropsToValues = ({ articulo }) => ({
     proveedor: articulo ? articulo.proveedor : '',
     kilos: articulo ? articulo.kilos : 0,
     unidadStock: articulo ? articulo.unidadStock : '',
-    unidadesCpa: articulo ? articulo.unidadCpa : [],
-    unidadesVta: articulo ? articulo.unidadVta : [],
+    unidadesCpa: articulo ? articulo.unidadesCpa : [],
+    unidadesVta: articulo ? articulo.unidadesVta : [],
     precioCpa: articulo ? articulo.precioCpa : 0,
     precioVta: articulo ? articulo.precioVta : 0,
     iva: articulo ? articulo.iva : 21,
@@ -304,14 +331,14 @@ const onSubmit = (values, { props, resetForm }) => {
     const { codigo, descripcion, kilos, precioCpa, precioVta } = values;
 
     const unidadesCpa = values.unidadesCpa.map(unidadCpa => {
-        unidadCpa.unidad = unidadCpa.unidad.value;
+        unidadCpa.unidad = unidadCpa.unidad.value._id;
         unidadCpa.defecto = unidadCpa.defecto.value;
 
         return unidadCpa;
     });
 
     const unidadesVta = values.unidadesVta.map(unidadVta => {
-        unidadVta.unidad = unidadVta.unidad.value;
+        unidadVta.unidad = unidadVta.unidad.value._id;
         unidadVta.defecto = unidadVta.defecto.value;
 
         return unidadVta;
@@ -321,9 +348,10 @@ const onSubmit = (values, { props, resetForm }) => {
         codigo,
         descripcion,
         proveedor: values.proveedor.value,
-        iva: values.iva.value,
-        lote: values.lote.value,
-        unidadStock: values.unidadStock.value,
+        iva: values.iva,
+        kilos,
+        lote: values.lote,
+        unidadStock: values.unidadStock.value._id,
         unidadesCpa,
         unidadesVta,
         precioCpa,
@@ -334,7 +362,7 @@ const onSubmit = (values, { props, resetForm }) => {
 };
 
 const mapStateToProps = (state) => {
-    return { loading: state.articulo.loading, alert: state.alerts }
+    return { unidades: state.unidad, loading: state.articulo.loading, alert: state.alerts }
 };
 
 export default withFormik({
