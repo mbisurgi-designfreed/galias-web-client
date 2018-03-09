@@ -17,7 +17,7 @@ class ArticuloForm extends Component {
 
     componentWillMount() {
         const unidades = this.props.unidades.map(unidad => ({
-            value: unidad,
+            value: unidad._id,
             label: unidad.nombre
         }));
 
@@ -26,12 +26,12 @@ class ArticuloForm extends Component {
 
     componentWillReceiveProps(newProps) {
         const unidades = newProps.unidades.map(unidad => ({
-            value: unidad,
+            value: unidad._id,
             label: unidad.nombre
         }));
 
         this.setState(() => ({ unidades }));
-    };
+    }
 
     PROVEEDOR = [{
         value: 'calsa',
@@ -39,14 +39,6 @@ class ArticuloForm extends Component {
     }, {
         value: 'no calsa',
         label: 'No calsa'
-    }];
-
-    UNIDADES = [{
-        value: 'uni',
-        label: 'Unidades'
-    }, {
-        value: 'kil',
-        label: 'Kilos'
     }];
 
     IVA = [{
@@ -67,6 +59,10 @@ class ArticuloForm extends Component {
         value: false,
         label: 'No'
     }];
+
+    formatUnidades = (unidad) => {
+        return unidad.substring(0, 3).toUpperCase();
+    }
 
     proveedorChanged = (proveedor) => {
         this.props.setFieldValue('proveedor', proveedor);
@@ -109,6 +105,8 @@ class ArticuloForm extends Component {
     }
 
     onCloseUnidadCpa = ({ unidadCpa, index }) => {
+        console.log(unidadCpa, index);
+        console.log(this.props.values.unidadesCpa);
         if (unidadCpa && index == null) {
             const unidadesCpa = this.props.values.unidadesCpa;
             unidadesCpa.push(unidadCpa);
@@ -126,8 +124,8 @@ class ArticuloForm extends Component {
 
     renderUnidadesCpa = () => {
         return this.props.values.unidadesCpa.map((unidadCpa, i) => {
-            const unidad = this.state.unidades.filter(unidad => unidad.value._id === unidadCpa.unidad);
-        
+            const unidad = this.state.unidades.filter(unidad => unidad.value === unidadCpa.unidad);
+
             unidadCpa.unidad = unidad[0];
 
             return (
@@ -135,7 +133,7 @@ class ArticuloForm extends Component {
                     <a onClick={() => this.onEditarUnidadCpa(i)}>
                         <i className="fa fa-pencil icon-small"></i>
                     </a>
-                    <p className="form__list-item--title">{`${unidadCpa.unidad.value.sigla}`}</p>
+                    <p className="form__list-item--title">{`${this.formatUnidades(unidadCpa.unidad.label)}`}</p>
                     <p className="form__list-item--detail">{`${unidadCpa.equivalencia}`}</p>
                 </li>
             )
@@ -168,8 +166,8 @@ class ArticuloForm extends Component {
 
     renderUnidadesVta = () => {
         return this.props.values.unidadesVta.map((unidadVta, i) => {
-            const unidad = this.state.unidades.filter(unidad => unidad.value._id === unidadVta.unidad);
-        
+            const unidad = this.state.unidades.filter(unidad => unidad.value === unidadVta.unidad);
+
             unidadVta.unidad = unidad[0];
 
             return (
@@ -177,7 +175,7 @@ class ArticuloForm extends Component {
                     <a onClick={() => this.onEditarUnidadVta(i)}>
                         <i className="fa fa-pencil icon-small"></i>
                     </a>
-                    <p className="form__list-item--title">{`${unidadVta.unidad.value.sigla}`}</p>
+                    <p className="form__list-item--title">{`${this.formatUnidades(unidadVta.unidad.label)}`}</p>
                     <p className="form__list-item--detail">{`${unidadVta.equivalencia}`}</p>
                 </li>
             )
@@ -331,14 +329,14 @@ const onSubmit = (values, { props, resetForm }) => {
     const { codigo, descripcion, kilos, precioCpa, precioVta } = values;
 
     const unidadesCpa = values.unidadesCpa.map(unidadCpa => {
-        unidadCpa.unidad = unidadCpa.unidad.value._id;
+        unidadCpa.unidad = unidadCpa.unidad.value;
         unidadCpa.defecto = unidadCpa.defecto.value;
 
         return unidadCpa;
     });
 
     const unidadesVta = values.unidadesVta.map(unidadVta => {
-        unidadVta.unidad = unidadVta.unidad.value._id;
+        unidadVta.unidad = unidadVta.unidad.value;
         unidadVta.defecto = unidadVta.defecto.value;
 
         return unidadVta;
@@ -351,7 +349,7 @@ const onSubmit = (values, { props, resetForm }) => {
         iva: values.iva,
         kilos,
         lote: values.lote,
-        unidadStock: values.unidadStock.value._id,
+        unidadStock: values.unidadStock.value,
         unidadesCpa,
         unidadesVta,
         precioCpa,

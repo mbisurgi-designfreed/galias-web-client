@@ -168,6 +168,8 @@ const onSubmit = (values, { props, resetForm }) => {
         telefono
     };
 
+    console.log(props);
+
     resetForm();
     props.onSubmit({ persona, index: props.persona.item ? props.persona.index : null });
 }

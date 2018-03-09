@@ -80,6 +80,7 @@ const validationSchema = () => Yup.object().shape({
 
 const onSubmit = (values, { props, resetForm }) => {
     const { unidad, equivalencia, defecto } = values;
+
     const unidadCpa = {
         unidad,
         equivalencia,
