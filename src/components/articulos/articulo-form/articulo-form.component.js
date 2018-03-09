@@ -105,8 +105,6 @@ class ArticuloForm extends Component {
     }
 
     onCloseUnidadCpa = ({ unidadCpa, index }) => {
-        console.log(unidadCpa, index);
-        console.log(this.props.values.unidadesCpa);
         if (unidadCpa && index == null) {
             const unidadesCpa = this.props.values.unidadesCpa;
             unidadesCpa.push(unidadCpa);
@@ -124,10 +122,6 @@ class ArticuloForm extends Component {
 
     renderUnidadesCpa = () => {
         return this.props.values.unidadesCpa.map((unidadCpa, i) => {
-            const unidad = this.state.unidades.filter(unidad => unidad.value === unidadCpa.unidad);
-
-            unidadCpa.unidad = unidad[0];
-
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarUnidadCpa(i)}>
@@ -166,10 +160,6 @@ class ArticuloForm extends Component {
 
     renderUnidadesVta = () => {
         return this.props.values.unidadesVta.map((unidadVta, i) => {
-            const unidad = this.state.unidades.filter(unidad => unidad.value === unidadVta.unidad);
-
-            unidadVta.unidad = unidad[0];
-
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarUnidadVta(i)}>
@@ -266,19 +256,53 @@ class ArticuloForm extends Component {
     }
 }
 
-const mapPropsToValues = ({ articulo }) => ({
-    codigo: articulo ? articulo.codigo : '',
-    descripcion: articulo ? articulo.descripcion : '',
-    proveedor: articulo ? articulo.proveedor : '',
-    kilos: articulo ? articulo.kilos : 0,
-    unidadStock: articulo ? articulo.unidadStock : '',
-    unidadesCpa: articulo ? articulo.unidadesCpa : [],
-    unidadesVta: articulo ? articulo.unidadesVta : [],
-    precioCpa: articulo ? articulo.precioCpa : 0,
-    precioVta: articulo ? articulo.precioVta : 0,
-    iva: articulo ? articulo.iva : 21,
-    lote: articulo ? articulo.lote : true,
-});
+const mapPropsToValues = ({ articulo, unidades }) => {
+    let unidadesCpa = [];
+    let unidadesVta = [];
+    
+    if (articulo) {
+        const uni = unidades.map(unidad => ({
+            value: unidad._id,
+            label: unidad.nombre
+        }));
+
+        unidadesCpa = articulo.unidadesCpa.map((unidadCpa) => {
+            const unidad = uni.filter((unidad) => {
+                return unidad.value === unidadCpa.unidad
+            })[0];
+
+            console.log(unidad);
+
+            unidadCpa.unidad = unidad;
+
+            return unidadCpa;
+        });
+
+        unidadesVta = articulo.unidadesVta.map((unidadVta) => {
+            const unidad = uni.filter((unidad) => {
+                return unidad.value === unidadVta.unidad
+            })[0];
+
+            unidadVta.unidad = unidad;
+            
+            return unidadVta;
+        });
+    }
+
+    return {
+        codigo: articulo ? articulo.codigo : '',
+        descripcion: articulo ? articulo.descripcion : '',
+        proveedor: articulo ? articulo.proveedor : '',
+        kilos: articulo ? articulo.kilos : 0,
+        unidadStock: articulo ? articulo.unidadStock : '',
+        unidadesCpa,
+        unidadesVta,
+        precioCpa: articulo ? articulo.precioCpa : 0,
+        precioVta: articulo ? articulo.precioVta : 0,
+        iva: articulo ? articulo.iva : 21,
+        lote: articulo ? articulo.lote : true,
+    }
+};
 
 const validationSchema = () => Yup.object().shape({
     codigo: Yup
@@ -363,8 +387,8 @@ const mapStateToProps = (state) => {
     return { unidades: state.unidad, loading: state.articulo.loading, alert: state.alerts }
 };
 
-export default withFormik({
+export default connect(mapStateToProps)(withFormik({
     mapPropsToValues,
     validationSchema,
     handleSubmit: onSubmit
-})(connect(mapStateToProps)(ArticuloForm));
+})(ArticuloForm));
