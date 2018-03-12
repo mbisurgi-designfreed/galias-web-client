@@ -60,8 +60,6 @@ export const edit = (articulo, id, history) => {
         try {   
             const res = await axios.put(URL, articulo);
 
-            console.log(res);
-
             if (res.status === 201) {
                 dispatch({
                     type: 'articulos_editing_done'

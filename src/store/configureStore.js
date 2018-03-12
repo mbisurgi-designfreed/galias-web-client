@@ -9,6 +9,8 @@ import infoSelectedReducer from '../reducers/info-selected.reducer';
 import unidadReducer from '../reducers/unidad.reducer';
 import canalReducer from '../reducers/canal.reducer';
 import subcanalReducer from '../reducers/subcanal.reducer';
+import grupoReducer from '../reducers/grupo.reducer';
+import subgrupoReducer from '../reducers/subgrupo.reducer';
 import clienteReducer from '../reducers/cliente.reducer';
 import clienteFiltersReducer from '../reducers/cliente-filters.reducer';
 import articuloReducer from '../reducers/articulo.reducer';
@@ -33,6 +35,8 @@ export default () => {
             pedidoFilters: pedidoFiltersReducer,
             canal: canalReducer,
             subcanal: subcanalReducer,
+            grupo: grupoReducer,
+            subgrupo: subgrupoReducer,
             unidad: unidadReducer,
             notifications: notificationsReducer
         }),

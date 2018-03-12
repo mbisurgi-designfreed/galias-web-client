@@ -11,6 +11,8 @@ import UnidadVentaModal from './unidad-venta-form/unidad-venta-modal.component';
 class ArticuloForm extends Component {
     state = {
         unidades: [],
+        grupos: [],
+        subgrupos: [],
         unidadCpa: { item: undefined },
         unidadVta: { item: undefined }
     }
@@ -21,7 +23,27 @@ class ArticuloForm extends Component {
             label: unidad.nombre
         }));
 
-        this.setState(() => ({ unidades }));
+        const grupos = this.props.grupos.map((grupo) => {
+            return {
+                value: grupo._id,
+                label: grupo.nombre
+            };
+        });
+
+        if (this.props.articulo) {
+            const subgrupos = this.props.subgrupos.filter((subgrupo) => {
+                return subgrupo.grupo === this.props.articulo.grupo;
+            }).map((subgrupo) => {
+                return {
+                    value: subgrupo._id,
+                    label: subgrupo.nombre
+                };
+            });
+
+            this.setState(() => ({ subgrupos }));
+        }
+
+        this.setState(() => ({ unidades, grupos }));
     };
 
     componentWillReceiveProps(newProps) {
@@ -94,6 +116,36 @@ class ArticuloForm extends Component {
 
     loteBlur = () => {
         this.props.setFieldTouched('lote', true);
+    }
+
+    grupoChanged = (grupo) => {
+        this.props.setFieldValue('grupo', grupo);
+        this.props.setFieldValue('subgrupo', '');
+
+        if (grupo) {
+            const subgrupos = this.props.subgrupos.filter((subgrupo) => {
+                return subgrupo.grupo === grupo.value;
+            }).map((subgrupo) => {
+                return {
+                    value: subgrupo._id,
+                    label: subgrupo.nombre
+                };
+            });
+
+            this.setState(() => ({ subgrupos }));
+        }
+    }
+
+    grupoBlur = () => {
+        this.props.setFieldTouched('grupo', true);
+    }
+
+    subgrupoChanged = (subgrupo) => {
+        this.props.setFieldValue('subgrupo', subgrupo);
+    }
+
+    subgrupoBlur = () => {
+        this.props.setFieldTouched('subgrupo', true);
     }
 
     onAgregarUnidadCpa = () => {
@@ -244,6 +296,18 @@ class ArticuloForm extends Component {
                         </div>
                     </div>
                     <div className="row">
+                        <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="grupo">Grupo</label>
+                            <Select id="grupo" options={this.state.grupos} multi={false} value={this.props.values.grupo} onChange={this.grupoChanged} onBlur={this.grupoBlur} />
+                            {this.props.touched.grupo && this.props.errors.grupo && (<p className="form__field-error">{this.props.errors.grupo}</p>)}
+                        </div>
+                        <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="subgrupo">Sub Grupo</label>
+                            <Select id="subgrupo" options={this.state.subgrupos} multi={false} value={this.props.values.subgrupo} onChange={this.subgrupoChanged} onBlur={this.subgrupoBlur} />
+                            {this.props.touched.subgrupo && this.props.errors.subgrupo && (<p className="form__field-error">{this.props.errors.subgrupo}</p>)}
+                        </div>
+                    </div>
+                    <div className="row">
                         <Loader className="spinner mt-medium" loaded={!this.props.loading} color="#ed1c24" scale={0.5}>
                             <button className="btn" disabled={this.props.loading}>{this.props.articulo ? 'Editar' : 'Agregar'}</button>
                         </Loader>
@@ -259,7 +323,7 @@ class ArticuloForm extends Component {
 const mapPropsToValues = ({ articulo, unidades }) => {
     let unidadesCpa = [];
     let unidadesVta = [];
-    
+
     if (articulo) {
         const uni = unidades.map(unidad => ({
             value: unidad._id,
@@ -270,8 +334,6 @@ const mapPropsToValues = ({ articulo, unidades }) => {
             const unidad = uni.filter((unidad) => {
                 return unidad.value === unidadCpa.unidad
             })[0];
-
-            console.log(unidad);
 
             unidadCpa.unidad = unidad;
 
@@ -284,7 +346,7 @@ const mapPropsToValues = ({ articulo, unidades }) => {
             })[0];
 
             unidadVta.unidad = unidad;
-            
+
             return unidadVta;
         });
     }
@@ -301,6 +363,8 @@ const mapPropsToValues = ({ articulo, unidades }) => {
         precioVta: articulo ? articulo.precioVta : 0,
         iva: articulo ? articulo.iva : 21,
         lote: articulo ? articulo.lote : true,
+        grupo: articulo ? articulo.grupo : '',
+        subgrupo: articulo ? articulo.subgrupo : ''
     }
 };
 
@@ -347,21 +411,29 @@ const validationSchema = () => Yup.object().shape({
         .string()
         .nullable()
         .required('Lote es requerido'),
+    grupo: Yup
+        .string()
+        .nullable()
+        .required('Grupo es requerido'),
+    subgrupo: Yup
+        .string()
+        .nullable()
+        .required('Subgrupo es requerido')
 });
 
 const onSubmit = (values, { props, resetForm }) => {
     const { codigo, descripcion, kilos, precioCpa, precioVta } = values;
 
     const unidadesCpa = values.unidadesCpa.map(unidadCpa => {
-        unidadCpa.unidad = unidadCpa.unidad.value;
-        unidadCpa.defecto = unidadCpa.defecto.value;
+        unidadCpa.unidad = unidadCpa.unidad.value ? unidadCpa.unidad.value : unidadCpa.unidad;
+        unidadCpa.defecto = unidadCpa.defecto.value ? unidadCpa.defecto.value : unidadCpa.defecto;
 
         return unidadCpa;
     });
 
     const unidadesVta = values.unidadesVta.map(unidadVta => {
-        unidadVta.unidad = unidadVta.unidad.value;
-        unidadVta.defecto = unidadVta.defecto.value;
+        unidadVta.unidad = unidadVta.unidad.value ? unidadVta.unidad.value : unidadVta.unidad;
+        unidadVta.defecto = unidadVta.defecto.value ? unidadVta.defecto.value : unidadVta.defecto;
 
         return unidadVta;
     });
@@ -369,11 +441,13 @@ const onSubmit = (values, { props, resetForm }) => {
     const articulo = {
         codigo,
         descripcion,
-        proveedor: values.proveedor.value,
+        proveedor: values.proveedor.value ? values.proveedor.value : values.proveedor,
         iva: values.iva,
         kilos,
         lote: values.lote,
-        unidadStock: values.unidadStock.value,
+        grupo: values.grupo.value ? values.grupo.value : values.grupo,
+        subgrupo: values.subgrupo.value ? values.subgrupo.value : values.subgrupo,
+        unidadStock: values.unidadStock.value ? values.unidadStock.value : values.unidadStock,
         unidadesCpa,
         unidadesVta,
         precioCpa,
@@ -384,7 +458,7 @@ const onSubmit = (values, { props, resetForm }) => {
 };
 
 const mapStateToProps = (state) => {
-    return { unidades: state.unidad, loading: state.articulo.loading, alert: state.alerts }
+    return { grupos: state.grupo, subgrupos: state.subgrupo, unidades: state.unidad, loading: state.articulo.loading, alert: state.alerts }
 };
 
 export default connect(mapStateToProps)(withFormik({
