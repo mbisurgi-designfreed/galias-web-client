@@ -8,6 +8,8 @@ import Yup from 'yup';
 import UnidadCompraModal from './unidad-compra-form/unidad-compra-modal.component';
 import UnidadVentaModal from './unidad-venta-form/unidad-venta-modal.component';
 
+import { removeAlert } from '../../../actions/alert.action';
+
 class ArticuloForm extends Component {
     state = {
         unidades: [],
@@ -81,6 +83,16 @@ class ArticuloForm extends Component {
         value: false,
         label: 'No'
     }];
+
+    showAlert = () => {
+        if (this.props.alert.alert) {
+            setTimeout(() => {
+                this.props.removeAlert();
+            }, 3000)
+
+            return <a className="alert" onClick={this.onAlertClick}>{this.props.alert.alert}</a>
+        }
+    }
 
     formatUnidades = (unidad) => {
         return unidad.substring(0, 3).toUpperCase();
@@ -461,7 +473,7 @@ const mapStateToProps = (state) => {
     return { grupos: state.grupo, subgrupos: state.subgrupo, unidades: state.unidad, loading: state.articulo.loading, alert: state.alerts }
 };
 
-export default connect(mapStateToProps)(withFormik({
+export default connect(mapStateToProps, { removeAlert })(withFormik({
     mapPropsToValues,
     validationSchema,
     handleSubmit: onSubmit

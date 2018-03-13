@@ -38,13 +38,30 @@ export const add = (articulo, history) => {
 
             if (res.status === 201) {
                 dispatch({
-                    type: 'articulo_adding_done'
+                    type: 'articulos_adding_done'
                 });
 
                 history.push('/articulos');
             }
         } catch (err) {
-            console.log(err);
+            console.log(err.response);
+            
+            if (err.response.status === 500) {
+                
+            }
+
+            if (err.response.status === 503) {
+                history.push('/articulos');
+
+                dispatch({
+                    type: 'articulos_adding_done'
+                });
+
+                dispatch({
+                    type: 'add_alert',
+                    payload: err.response.data
+                });
+            }
         }
     }
 };
@@ -68,7 +85,22 @@ export const edit = (articulo, id, history) => {
                 history.push('/articulos');
             }
         } catch (err) {
-            console.log(err);
+            if (err.response.status === 500) {
+
+            }
+
+            if (err.response.status === 503) {
+                history.push('/articulos');
+                
+                dispatch({
+                    type: 'articulos_editing_done'
+                });
+
+                dispatch({
+                    type: 'add_alert',
+                    payload: err.response.data
+                });
+            }
         }
     }
 }

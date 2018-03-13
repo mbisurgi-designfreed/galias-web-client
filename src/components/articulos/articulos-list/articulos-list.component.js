@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 import { list } from '../../../actions/articulo.action';
 import { setTextFilter, searchByDescripcion, searchByCodigo } from '../../../actions/articulo-filters.action';
+import { removeAlert } from '../../../actions/alert.action';
 
 import Filters from '../../filters/filters.component';
 import ArticuloListItem from './articulo-list-item/articulo-list-item.component';
@@ -31,6 +32,20 @@ class ArticulosList extends Component {
         value: 'codigo',
         label: 'Codigo'
     }];
+
+    showAlert = () => {
+        if (this.props.alert.alert) {
+            setTimeout(() => {
+                this.props.removeAlert();
+            }, 3000)
+
+            return <a className="alert" onClick={this.onAlertClick}>{this.props.alert.alert}</a>
+        }
+    }
+
+    onAlertClick = () => {
+        this.props.removeAlert();
+    }
 
     onFilterChanged = (selectedOption) => {
         this.props.setTextFilter('');
@@ -67,6 +82,9 @@ class ArticulosList extends Component {
     render() {
         return (
             <div className="row">
+                <div className="alert-container">
+                    {this.showAlert()}
+                </div>
                 <div className="row">
                     <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged}>
                         <div className="form__icon-container">
@@ -90,7 +108,7 @@ class ArticulosList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return { articulos: articuloSelector(state.articulo.articulos, state.articuloFilters), pages: state.articulo.pages, loading: state.articulo.loading, filters: state.articuloFilters };
+    return { articulos: articuloSelector(state.articulo.articulos, state.articuloFilters), pages: state.articulo.pages, loading: state.articulo.loading, filters: state.articuloFilters, alert: state.alerts };
 };
 
-export default connect(mapStateToProps, { list, setTextFilter, searchByDescripcion, searchByCodigo })(ArticulosList);
+export default connect(mapStateToProps, { list, setTextFilter, searchByDescripcion, searchByCodigo, removeAlert })(ArticulosList);

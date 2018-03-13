@@ -3,11 +3,30 @@ import { connect } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import { Carousel } from 'react-responsive-carousel';
 import moment from 'moment';
+import numeral from 'numeral';
 import _ from 'lodash';
 
 import notification from '../../notification/notification.component';
 
 class DiariaCompare extends Component {
+    scales = {
+        yAxes: [{
+            ticks: {
+                callback: function (label, index, labels) {
+                    return numeral(label).format('0,0.00');
+                }
+            }
+        }]
+    };
+
+    tooltips = {
+        callbacks: {
+            label: function (label, data) {
+                return numeral(label.yLabel).format('0,0.00');
+            }
+        }
+    };
+
     sortInfo() {
         return _.map(this.props.selected, (info) => {
             return info
@@ -41,7 +60,7 @@ class DiariaCompare extends Component {
             pointHitRadius: 10,
             data
         }
-    }
+    };
 
     generateDataDisponibilidades() {
         const infos = this.sortInfo();
@@ -118,43 +137,19 @@ class DiariaCompare extends Component {
 
     render() {
         return (
-            // <div className="mt-3">
-            //     <div id="carouselGraphs" className="carousel slide" data-ride="carousel">
-            //         <div className="carousel-inner">
-            //             <div className="carousel-item active">
-            //                 <Line data={this.generateDataDisponibilidades()} options={{ title: { display: true, text: 'Disponibilidades' } }} legend={{ position: 'bottom' }} />
-            //             </div>
-            //             <div className="carousel-item">
-            //                 <Bar data={this.generateDataCreditos()} options={{ title: { display: true, text: 'Creditos' } }} legend={{ position: 'bottom' }} />
-            //             </div>
-            //             <div className="carousel-item">
-            //                 <Bar data={this.generateDataDeudas()} options={{ title: { display: true, text: 'Deudas' } }} legend={{ position: 'bottom' }} />
-            //             </div>
-            //             <div className="carousel-item">
-            //                 <Line data={this.generateDataPorce()} options={{ title: { display: true, text: '% Vencido' } }} legend={{ position: 'bottom' }} />
-            //             </div>
-            //         </div>
-            //         <a className="carousel-control-prev text-dark" style={{ maxWidth: '2rem' }} href="#carouselGraphs" role="button" data-slide="prev">
-            //             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            //         </a>
-            //         <a className="carousel-control-next" style={{ maxWidth: '2rem' }} href="#carouselGraphs" role="button" data-slide="next">
-            //             <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            //         </a>
-            //     </div>
-            // </div>
             <div className="row">
                 <Carousel showArrows={true} showThumbs={false} showIndicators={false} showStatus={false}>
                     <div>
-                        <Line data={this.generateDataDisponibilidades()} options={{ title: { display: true, text: 'Disponibilidades' } }} legend={{ position: 'bottom' }} />
+                        <Line data={this.generateDataDisponibilidades()} options={{ title: { display: true, text: 'Disponibilidades' }, scales: this.scales, tooltips: this.tooltips }} legend={{ position: 'bottom' }} />
                     </div>
                     <div>
-                        <Bar data={this.generateDataCreditos()} options={{ title: { display: true, text: 'Creditos' } }} legend={{ position: 'bottom' }} />
+                        <Bar data={this.generateDataCreditos()} options={{ title: { display: true, text: 'Creditos' }, scales: this.scales, tooltips: this.tooltips }} legend={{ position: 'bottom' }} />
                     </div>
                     <div>
-                        <Bar data={this.generateDataDeudas()} options={{ title: { display: true, text: 'Deudas' } }} legend={{ position: 'bottom' }} />
+                        <Bar data={this.generateDataDeudas()} options={{ title: { display: true, text: 'Deudas' }, scales: this.scales, tooltips: this.tooltips }} legend={{ position: 'bottom' }} />
                     </div>
                     <div>
-                        <Line data={this.generateDataPorce()} options={{ title: { display: true, text: '% Vencido' } }} legend={{ position: 'bottom' }} />
+                        <Line data={this.generateDataPorce()} options={{ title: { display: true, text: '% Vencido' }, scales: this.scales, tooltips: this.tooltips }} legend={{ position: 'bottom' }} />
                     </div>
                 </Carousel>
             </div>
