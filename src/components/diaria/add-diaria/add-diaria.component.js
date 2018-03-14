@@ -171,7 +171,7 @@ const onSubmit = (values, { props, resetForm }) => {
         fecha: moment(fecha).valueOf(),
         caja: numeral(caja).value(),
         bancos: numeral(bancos).value(),
-        cheques: numeral(bancos).value(),
+        cheques: numeral(cheques).value(),
         debito,
         credito
     };

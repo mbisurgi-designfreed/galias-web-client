@@ -95,7 +95,9 @@ class ArticuloForm extends Component {
     }
 
     formatUnidades = (unidad) => {
-        return unidad.substring(0, 3).toUpperCase();
+        if (unidad) {
+            return unidad.substring(0, 3).toUpperCase();
+        }
     }
 
     proveedorChanged = (proveedor) => {
