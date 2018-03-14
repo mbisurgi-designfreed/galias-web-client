@@ -69,9 +69,10 @@ class DiariaCompare extends Component {
         });
 
         const datasets = [
-            this.configData('Caja', '231,76,60', _.map(infos, (info) => info.caja)),
-            this.configData('Bancos', '39,174,96', _.map(infos, (info) => info.bancos)),
-            this.configData('Cheques', '241,196,15', _.map(infos, (info) => info.cheques))
+            this.configData('CJA', '231,76,60', _.map(infos, (info) => info.caja)),
+            this.configData('BCO', '39,174,96', _.map(infos, (info) => info.bancos)),
+            this.configData('CHQ', '241,196,15', _.map(infos, (info) => info.cheques)),
+            this.configData('TOT', '41,128,185', _.map(infos, (info) => info.caja + info.bancos + info.cheques))
         ];
 
         return {
@@ -88,8 +89,9 @@ class DiariaCompare extends Component {
         });
 
         const datasets = [
-            this.configData('Total', '39,174,96', _.map(infos, (info) => info.credito.total)),
-            this.configData('Vencido', '231,76,60', _.map(infos, (info) => info.credito.vencido))
+            this.configData('TOT', '39,174,96', _.map(infos, (info) => info.credito.total)),
+            this.configData('VEN', '231,76,60', _.map(infos, (info) => info.credito.vencido)),
+            this.configData('CHQ', '241,196,15', _.map(infos, (info) => info.cheques))
         ];
 
         return {
@@ -106,8 +108,8 @@ class DiariaCompare extends Component {
         });
 
         const datasets = [
-            this.configData('Total', '39,174,96', _.map(infos, (info) => info.debito.total)),
-            this.configData('Vencido', '231,76,60', _.map(infos, (info) => info.debito.vencido))
+            this.configData('TOT', '39,174,96', _.map(infos, (info) => info.debito.total)),
+            this.configData('VEN', '231,76,60', _.map(infos, (info) => info.debito.vencido))
         ];
 
         return {
@@ -124,8 +126,8 @@ class DiariaCompare extends Component {
         });
 
         const datasets = [
-            this.configData('% Credito', '39,174,96', _.map(infos, (info) => info['%vencidoCredito'])),
-            this.configData('% Deuda', '231,76,60', _.map(infos, (info) => info['%vencidoDebito']))
+            this.configData('% CRE', '39,174,96', _.map(infos, (info) => info['%vencidoCredito'])),
+            this.configData('% DEB', '231,76,60', _.map(infos, (info) => info['%vencidoDebito']))
         ];
 
         return {
