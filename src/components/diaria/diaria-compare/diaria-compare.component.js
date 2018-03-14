@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
-import { Carousel } from 'react-responsive-carousel';
 import moment from 'moment';
 import numeral from 'numeral';
 import _ from 'lodash';
@@ -137,21 +136,23 @@ class DiariaCompare extends Component {
 
     render() {
         return (
-            <div className="row">
-                <Carousel showArrows={true} showThumbs={false} showIndicators={false} showStatus={false}>
-                    <div>
+            <div className="graphics">
+                <div className="row">
+                    <div className="col-1-of-2">
                         <Line data={this.generateDataDisponibilidades()} options={{ title: { display: true, text: 'Disponibilidades' }, scales: this.scales, tooltips: this.tooltips }} legend={{ position: 'bottom' }} />
                     </div>
-                    <div>
+                    <div className="col-1-of-2">
                         <Bar data={this.generateDataCreditos()} options={{ title: { display: true, text: 'Creditos' }, scales: this.scales, tooltips: this.tooltips }} legend={{ position: 'bottom' }} />
                     </div>
-                    <div>
+                </div>
+                <div className="row">
+                    <div className="col-1-of-2">
                         <Bar data={this.generateDataDeudas()} options={{ title: { display: true, text: 'Deudas' }, scales: this.scales, tooltips: this.tooltips }} legend={{ position: 'bottom' }} />
                     </div>
-                    <div>
+                    <div className="col-1-of-2">
                         <Line data={this.generateDataPorce()} options={{ title: { display: true, text: '% Vencido' }, scales: this.scales, tooltips: this.tooltips }} legend={{ position: 'bottom' }} />
                     </div>
-                </Carousel>
+                </div>
             </div>
         );
     }
