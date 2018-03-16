@@ -26,3 +26,28 @@
         }
     }
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 1.25rem;
+    margin-top: 2rem;
+}
+
+th {
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    text-transform: uppercase;
+}
+
+td {
+    cursor: auto;
+    color: $color-black;
+    font-weight: 300;
+    padding: 0.25rem 1rem;
+}
+
+table, th, td {
+    border-bottom: 1px solid $color-grey-light;
+}
+

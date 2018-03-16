@@ -15,6 +15,7 @@ import ClientesList from '../components/clientes/clientes-list/clientes-list.com
 import EditCliente from '../components/clientes/edit-cliente/edit-cliente.component';
 import AddCliente from '../components/clientes/add-cliente/add-cliente.component';
 import ArticulosList from '../components/articulos/articulos-list/articulos-list.component';
+import ArticulosPrecio from '../components/articulos/articulos-precio/articulos-precio.component';
 import AddArticulo from '../components/articulos/add-articulo/add-articulo.component';
 import EditArticulo from '../components/articulos/edit-articulo/edit-articulo.component';
 
@@ -49,6 +50,7 @@ class AppRouter extends Component {
                         <Route exact path="/clientes/new" component={authenticateRoute(AddCliente)} />
                         <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
                         <Route exact path="/articulos" component={authenticateRoute(ArticulosList)} />
+                        <Route exact path="/articulos/precios" component={authenticateRoute(ArticulosPrecio)} />
                         <Route exact path="/articulos/new" component={authenticateRoute(AddArticulo)} />
                         <Route exact path="/articulos/:id" component={authenticateRoute(EditArticulo)} />
                     </Switch>

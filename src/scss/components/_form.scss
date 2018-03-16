@@ -104,6 +104,18 @@
         }
     }
 
+    &__field-table {
+        border: none;
+        background-color: lighten($color-primary, 15%);
+        color: $color-white;
+        display: block;
+        font-family: 'Lato', sans-serif;
+        font-weight: 300;
+        outline: none;
+        width: 100%;
+        text-align: right;
+    }
+
     &__list {
         height: 150px;
         list-style: none;
