@@ -37,11 +37,12 @@ export const add = (articulo, history) => {
             const res = await axios.post(URL, articulo);
 
             if (res.status === 201) {
+                history.push('/articulos');
+                
                 dispatch({
                     type: 'articulos_adding_done'
                 });
 
-                history.push('/articulos');
             }
         } catch (err) {
             console.log(err.response);
@@ -78,11 +79,11 @@ export const edit = (articulo, id, history) => {
             const res = await axios.put(URL, articulo);
 
             if (res.status === 201) {
+                history.push('/articulos');
+                
                 dispatch({
                     type: 'articulos_editing_done'
                 });
-
-                history.push('/articulos');
             }
         } catch (err) {
             if (err.response.status === 500) {

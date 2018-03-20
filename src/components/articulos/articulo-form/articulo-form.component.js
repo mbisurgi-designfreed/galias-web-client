@@ -48,14 +48,16 @@ class ArticuloForm extends Component {
         this.setState(() => ({ unidades, grupos }));
     };
 
-    componentWillReceiveProps(newProps) {
-        const unidades = newProps.unidades.map(unidad => ({
-            value: unidad._id,
-            label: unidad.nombre
-        }));
-
-        this.setState(() => ({ unidades }));
-    }
+    componentWillReceiveProps(nextProps) {
+        if(!nextProps.loading) {
+            const unidades = nextProps.unidades.map(unidad => ({
+                value: unidad._id,
+                label: unidad.nombre
+            }));
+    
+            this.setState(() => ({ unidades }));
+        }
+    };
 
     PROVEEDOR = [{
         value: 'calsa',
@@ -187,17 +189,19 @@ class ArticuloForm extends Component {
     }
 
     renderUnidadesCpa = () => {
-        return this.props.values.unidadesCpa.map((unidadCpa, i) => {
-            return (
-                <li className="form__list-item" key={i}>
-                    <a onClick={() => this.onEditarUnidadCpa(i)}>
-                        <i className="fa fa-pencil icon-small"></i>
-                    </a>
-                    <p className="form__list-item--title">{`${this.formatUnidades(unidadCpa.unidad.label)}`}</p>
-                    <p className="form__list-item--detail">{`${unidadCpa.equivalencia}`}</p>
-                </li>
-            )
-        });
+        if (!this.props.loading) {
+            return this.props.values.unidadesCpa.map((unidadCpa, i) => {
+                return (
+                    <li className="form__list-item" key={i}>
+                        <a onClick={() => this.onEditarUnidadCpa(i)}>
+                            <i className="fa fa-pencil icon-small"></i>
+                        </a>
+                        <p className="form__list-item--title">{`${this.formatUnidades(unidadCpa.unidad.label)}`}</p>
+                        <p className="form__list-item--detail">{`${unidadCpa.equivalencia}`}</p>
+                    </li>
+                )
+            });
+        } 
     };
 
     onAgregarUnidadVta = () => {
@@ -225,17 +229,19 @@ class ArticuloForm extends Component {
     }
 
     renderUnidadesVta = () => {
-        return this.props.values.unidadesVta.map((unidadVta, i) => {
-            return (
-                <li className="form__list-item" key={i}>
-                    <a onClick={() => this.onEditarUnidadVta(i)}>
-                        <i className="fa fa-pencil icon-small"></i>
-                    </a>
-                    <p className="form__list-item--title">{`${this.formatUnidades(unidadVta.unidad.label)}`}</p>
-                    <p className="form__list-item--detail">{`${unidadVta.equivalencia}`}</p>
-                </li>
-            )
-        });
+        if (!this.props.loading) {
+            return this.props.values.unidadesVta.map((unidadVta, i) => {
+                return (
+                    <li className="form__list-item" key={i}>
+                        <a onClick={() => this.onEditarUnidadVta(i)}>
+                            <i className="fa fa-pencil icon-small"></i>
+                        </a>
+                        <p className="form__list-item--title">{`${this.formatUnidades(unidadVta.unidad.label)}`}</p>
+                        <p className="form__list-item--detail">{`${unidadVta.equivalencia}`}</p>
+                    </li>
+                )
+            });
+        } 
     };
 
     render() {
@@ -439,17 +445,21 @@ const onSubmit = (values, { props, resetForm }) => {
     const { codigo, descripcion, kilos, precioCpa, precioVta } = values;
 
     const unidadesCpa = values.unidadesCpa.map(unidadCpa => {
-        unidadCpa.unidad = unidadCpa.unidad.value ? unidadCpa.unidad.value : unidadCpa.unidad;
-        unidadCpa.defecto = unidadCpa.defecto.value ? unidadCpa.defecto.value : unidadCpa.defecto;
+        const cpa = {};
+        cpa.unidad = unidadCpa.unidad.value ? unidadCpa.unidad.value : unidadCpa.unidad;
+        cpa.equivalencia = unidadCpa.equivalencia;
+        cpa.defecto = unidadCpa.defecto.value ? unidadCpa.defecto.value : unidadCpa.defecto;
 
-        return unidadCpa;
+        return cpa;
     });
 
     const unidadesVta = values.unidadesVta.map(unidadVta => {
-        unidadVta.unidad = unidadVta.unidad.value ? unidadVta.unidad.value : unidadVta.unidad;
-        unidadVta.defecto = unidadVta.defecto.value ? unidadVta.defecto.value : unidadVta.defecto;
+        const vta = {};
+        vta.unidad = unidadVta.unidad.value ? unidadVta.unidad.value : unidadVta.unidad;
+        vta.equivalencia = unidadVta.equivalencia;
+        vta.defecto = unidadVta.defecto.value ? unidadVta.defecto.value : unidadVta.defecto;
 
-        return unidadVta;
+        return vta;
     });
 
     const articulo = {
