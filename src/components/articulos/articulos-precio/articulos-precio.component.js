@@ -1,8 +1,32 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Loader from 'react-loader'
+import _ from 'lodash';
 
 import ArticulosPrecioItem from './articulos-precio-item/articulos-precio-item.component';
 
+import { editPrice } from '../../../actions/articulo.action';
+
 class ArticulosPrecio extends Component {
+    state = {
+        articulos: this.props.articulos
+    }
+
+    updatePrecio = (id, precio) => {
+        const articulo = this.state.articulos[id];
+        articulo.precioVta = precio;
+    };
+
+    renderArticulos = () => {
+        return _.map(this.state.articulos, (articulo) => {
+            return <ArticulosPrecioItem key={articulo._id} articulo={articulo} vigente={articulo.precioVta} actualizar={this.updatePrecio} />
+        });
+    };
+
+    onActualizar = () => {
+        this.props.editPrice(_.map(this.state.articulos), this.props.history);
+    };
+
     render() {
         return (
             <div className="row">
@@ -21,18 +45,22 @@ class ArticulosPrecio extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <ArticulosPrecioItem />
-                            <ArticulosPrecioItem />
-                            <ArticulosPrecioItem />
+                            {this.renderArticulos()}
                         </tbody>
                     </table>
                 </div>
                 <div className="row">
-                    <button className="btn">Actualizar</button>
+                    <Loader className="spinner mt-medium" loaded={!this.props.loading} color="#ed1c24" scale={0.5}>
+                        <button className="btn" onClick={this.onActualizar}>Actualizar</button>
+                    </Loader>
                 </div>
             </div>
         )
     }
 };
 
-export default ArticulosPrecio;
+const mapStateToProps = (state) => {
+    return { articulos: state.articulo.articulos, loading: state.articulo.loading };
+}
+
+export default connect(mapStateToProps, { editPrice })(ArticulosPrecio);

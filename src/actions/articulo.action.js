@@ -105,3 +105,43 @@ export const edit = (articulo, id, history) => {
         }
     }
 }
+
+export const editPrice = (articulos, history) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/articulo/edit/precios`;
+
+        dispatch({
+            type: 'articulos_editing'
+        });
+
+        try {   
+            const res = await axios.put(URL, articulos);
+
+            if (res.status === 201) {
+                
+                history.push('/articulos');
+                
+                dispatch({
+                    type: 'articulos_editing_done'
+                });
+            }
+        } catch (err) {
+            if (err.response.status === 500) {
+
+            }
+
+            if (err.response.status === 503) {
+                history.push('/articulos');
+                
+                dispatch({
+                    type: 'articulos_editing_done'
+                });
+
+                dispatch({
+                    type: 'add_alert',
+                    payload: err.response.data
+                });
+            }
+        }
+    }
+}

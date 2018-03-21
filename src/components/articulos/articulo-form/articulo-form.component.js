@@ -13,6 +13,7 @@ import { removeAlert } from '../../../actions/alert.action';
 class ArticuloForm extends Component {
     state = {
         unidades: [],
+        familias: [],
         grupos: [],
         subgrupos: [],
         unidadCpa: { item: undefined },
@@ -25,6 +26,13 @@ class ArticuloForm extends Component {
             label: unidad.nombre
         }));
 
+        const familias = this.props.familias.map((familia) => {
+            return {
+                value: familia._id,
+                label: familia.nombre
+            };
+        });
+
         const grupos = this.props.grupos.map((grupo) => {
             return {
                 value: grupo._id,
@@ -33,6 +41,16 @@ class ArticuloForm extends Component {
         });
 
         if (this.props.articulo) {
+            const grupos = this.props.grupos.filter((grupo) => {
+                return grupo.familia === this.props.articulo.familia;
+            }).map((grupo) => {
+                return {
+                    value: grupo._id,
+                    label: grupo.nombre
+                };
+            });
+
+
             const subgrupos = this.props.subgrupos.filter((subgrupo) => {
                 return subgrupo.grupo === this.props.articulo.grupo;
             }).map((subgrupo) => {
@@ -42,10 +60,10 @@ class ArticuloForm extends Component {
                 };
             });
 
-            this.setState(() => ({ subgrupos }));
+            this.setState(() => ({ grupos, subgrupos }));
         }
 
-        this.setState(() => ({ unidades, grupos }));
+        this.setState(() => ({ unidades, familias }));
     };
 
     componentWillReceiveProps(nextProps) {
@@ -132,6 +150,29 @@ class ArticuloForm extends Component {
 
     loteBlur = () => {
         this.props.setFieldTouched('lote', true);
+    }
+
+    familiaChanged = (familia) => {
+        this.props.setFieldValue('familia', familia);
+        this.props.setFieldValue('grupo', '');
+        this.props.setFieldValue('subgrupo', '');
+
+        if (familia) {
+            const grupos = this.props.grupos.filter((grupo) => {
+                return grupo.familia === familia.value;
+            }).map((grupo) => {
+                return {
+                    value: grupo._id,
+                    label: grupo.nombre
+                };
+            });
+
+            this.setState(() => ({ grupos }));
+        }
+    }
+
+    familiaBlur = () => {
+        this.props.setFieldTouched('familia', true);
     }
 
     grupoChanged = (grupo) => {
@@ -316,6 +357,11 @@ class ArticuloForm extends Component {
                         </div>
                     </div>
                     <div className="row">
+                    <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="grupo">Familia</label>
+                            <Select id="familia" options={this.state.familias} multi={false} value={this.props.values.familia} onChange={this.familiaChanged} onBlur={this.familiaBlur} />
+                            {this.props.touched.familia && this.props.errors.familia && (<p className="form__field-error">{this.props.errors.familia}</p>)}
+                        </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="grupo">Grupo</label>
                             <Select id="grupo" options={this.state.grupos} multi={false} value={this.props.values.grupo} onChange={this.grupoChanged} onBlur={this.grupoBlur} />
@@ -383,6 +429,7 @@ const mapPropsToValues = ({ articulo, unidades }) => {
         precioVta: articulo ? articulo.precioVta : 0,
         iva: articulo ? articulo.iva : 21,
         lote: articulo ? articulo.lote : true,
+        familia: articulo ? articulo.familia : '',
         grupo: articulo ? articulo.grupo : '',
         subgrupo: articulo ? articulo.subgrupo : ''
     }
@@ -431,6 +478,10 @@ const validationSchema = () => Yup.object().shape({
         .string()
         .nullable()
         .required('Lote es requerido'),
+    familia: Yup
+        .string()
+        .nullable()
+        .required('Familia es requerido'),
     grupo: Yup
         .string()
         .nullable()
@@ -469,6 +520,7 @@ const onSubmit = (values, { props, resetForm }) => {
         iva: values.iva,
         kilos,
         lote: values.lote,
+        familia: values.familia.value ? values.familia.value : values.familia,
         grupo: values.grupo.value ? values.grupo.value : values.grupo,
         subgrupo: values.subgrupo.value ? values.subgrupo.value : values.subgrupo,
         unidadStock: values.unidadStock.value ? values.unidadStock.value : values.unidadStock,
@@ -482,7 +534,7 @@ const onSubmit = (values, { props, resetForm }) => {
 };
 
 const mapStateToProps = (state) => {
-    return { grupos: state.grupo, subgrupos: state.subgrupo, unidades: state.unidad, loading: state.articulo.loading, alert: state.alerts }
+    return { familias: state.familia, grupos: state.grupo, subgrupos: state.subgrupo, unidades: state.unidad, loading: state.articulo.loading, alert: state.alerts }
 };
 
 export default connect(mapStateToProps, { removeAlert })(withFormik({

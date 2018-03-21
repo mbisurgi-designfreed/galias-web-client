@@ -69,7 +69,7 @@ class ArticulosList extends Component {
         const start = (this.state.page - 1) * SIZE;
         const end = this.state.page * SIZE;
         const articulos = _.slice(this.props.articulos, start, end)
-
+ 
         return _.map(articulos, (articulo) => {
             return <ArticuloListItem articulo={articulo} key={articulo._id} />;
         });

@@ -21,6 +21,7 @@ import EditArticulo from '../components/articulos/edit-articulo/edit-articulo.co
 
 import { list as getCanales } from '../actions/canal.action';
 import { list as getSubcanales } from '../actions/subcanal.action';
+import { list as getFamilias } from '../actions/familia.action';
 import { list as getGrupos } from '../actions/grupo.action';
 import { list as getSubgrupos } from '../actions/subgrupo.action';
 import { list as getUnidades } from '../actions/unidad.action';
@@ -29,6 +30,7 @@ class AppRouter extends Component {
     componentWillMount() {
         this.props.getCanales();
         this.props.getSubcanales();
+        this.props.getFamilias();
         this.props.getGrupos();
         this.props.getSubgrupos();
         this.props.getUnidades();
@@ -60,4 +62,4 @@ class AppRouter extends Component {
     }
 }
 
-export default connect(null, { getCanales, getSubcanales, getGrupos, getSubgrupos, getUnidades })(AppRouter);
+export default connect(null, { getCanales, getSubcanales, getFamilias, getGrupos, getSubgrupos, getUnidades })(AppRouter);
