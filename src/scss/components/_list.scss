@@ -3,6 +3,10 @@
     overflow-y: scroll;
     height: 65vh;
 
+    &--small {
+        height: 60vh;
+    }
+
     &__item {
         margin-bottom: 1rem;
 

@@ -31,7 +31,7 @@ const PedidoListItem = (props) => {
     return (
         <div className="list__item">
             <div className="list__item-header">
-                <h6 className="list__item-title">{pedido.fecha}</h6>
+                <h6 className="list__item-title">{formatDate()}</h6>
                 <Link className="list__item-icon" to={`/pedidos/${pedido._id}`}><i className="fa fa-list-alt"></i></Link>
             </div>
 
@@ -39,7 +39,7 @@ const PedidoListItem = (props) => {
                 <div className="list__item-group-field">
                     <div className="list__item-field">
                         <p className="list__item-label">Cliente:</p>
-                        <p className="list__item-value">{pedido.cliente}</p>
+                        <p className="list__item-value">{pedido.cliente.razonSocial}</p>
                     </div>
                     <div className="list__item-field">
                         <p className="list__item-label">Total:</p>

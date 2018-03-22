@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withFormik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
+import Loader from 'react-loader'
 import Pagination from "react-js-pagination";
 import Yup from 'yup';
 import moment from 'moment';
@@ -15,6 +16,7 @@ import PedidoListItem from './pedido-list-item/pedido-list-item.component';
 
 import pedidoSelector from '../../../selectors/pedido.selector';
 
+import withRefresh from '../../notification/refresh.component';
 // import withNotification from '../../notification/notification.component';
 
 class PedidoList extends Component {
@@ -96,7 +98,11 @@ class PedidoList extends Component {
                     <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged} />
                 </div>
                 <div className="row">
-                    {this.renderItems()}
+                    <ul className="list list--small">
+                        <Loader className="spinner" loaded={!this.props.loading} color="#ed1c24" scale={0.5}>
+                            {this.renderItems()}
+                        </Loader>
+                    </ul>
                 </div>
                 <div className="row">
                     <Pagination innerClass="pagination" itemClass="page-item" linkClass="page-link" activePage={this.state.page} itemsCountPerPage={this.VIEW_PER_PAGE} totalItemsCount={this.props.pedidos.length} onChange={this.onPageClicked} />
@@ -118,24 +124,10 @@ const mapPropsToValues = (props) => ({
 });
 
 const mapStateToProps = (state) => {
-    const PEDIDOS = [{
-        _id: '1235afsegsa',
-        fecha: '22/02/2018',
-        cliente: 'Maximiliano Bisurgi',
-        total: 1454.50,
-        estado: 'generado'
-    }, {
-        _id: '1234asdasf',
-        fecha: '22/02/2018',
-        cliente: 'Claudio Bisurgi',
-        total: 1200.50,
-        estado: 'pendiente'
-    }]
-
-    return { info: state.info, pedidos: pedidoSelector(PEDIDOS, state.pedidoFilters), filters: state.pedidoFilters };
+    return { info: state.info, pedidos: pedidoSelector(state.pedido.pedidos, state.pedidoFilters), loading: state.pedido.loading, filters: state.pedidoFilters };
 }
 
 export default connect(mapStateToProps, { list, listToday, setTextFilter, searchByCliente, searchByEstado })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
-})(PedidoList));
+})(withRefresh(PedidoList)));

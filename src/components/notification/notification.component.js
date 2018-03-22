@@ -10,17 +10,19 @@ export default (NotificatedComponent) => {
                 cluster: 'us2',
                 encrypted: true
             });
-    
-            this.chat = this.pusher.subscribe('info');
-            this.chat.bind('hello', (message) => {
+
+            this.chat = this.pusher.subscribe('crm');
+            this.chat.bind('pedido', ({ pedido, cliente }) => {
                 const notification = {
-                    title: 'Pedido',
-                    message: message.message,
+                    title: 'Nuevo Pedido',
+                    message: `Pedido ${pedido} para ${cliente}`,
                     position: 'tr',
                     autoDismiss: 0,
                     action: {
                         label: 'Ver',
-                        callback: () => alert('clicked!')
+                        callback: () => {
+                            this.props.history.push(`/pedido/${pedido}`);
+                        }
                     }
                 };
 

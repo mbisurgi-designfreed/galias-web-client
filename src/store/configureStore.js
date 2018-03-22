@@ -32,7 +32,7 @@ export default () => {
             clienteFilters: clienteFiltersReducer,
             articulo: articuloReducer,
             articuloFilters: articuloFiltersReducer,
-            pedidos: pedidoReducer,
+            pedido: pedidoReducer,
             pedidoFilters: pedidoFiltersReducer,
             canal: canalReducer,
             subcanal: subcanalReducer,

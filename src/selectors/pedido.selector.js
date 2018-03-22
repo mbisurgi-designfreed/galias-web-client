@@ -5,7 +5,7 @@ const pedidoSelector = (pedidos, { text, searchBy, sortBy }) => {
 
     return list.filter((pedido) => {
         if (searchBy === 'cliente') {
-            const textMatch = pedido.cliente.toLowerCase().includes(text.toLowerCase());
+            const textMatch = pedido.cliente.razonSocial.toLowerCase().includes(text.toLowerCase());
 
             return textMatch;
         }
