@@ -6,6 +6,8 @@ const pedidoReducer = (state = {}, action) => {
             return { ...state, loading: true };
         case 'pedido_list':
             return { ...state, pedidos: _.mapKeys(action.payload, '_id'), loading: false };
+        case 'pedido_pendiente_list':
+            return { ...state, pendientes: _.mapKeys(action.payload, '_id'), loading: false };
         default:
             return state;
     }

@@ -18,6 +18,7 @@ import articuloReducer from '../reducers/articulo.reducer';
 import articuloFiltersReducer from '../reducers/articulo-filters.reducer';
 import pedidoReducer from '../reducers/pedido.reducer';
 import pedidoFiltersReducer from '../reducers/pedido-filters.reducer';
+import remitoReducer from '../reducers/remito.reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -34,6 +35,7 @@ export default () => {
             articuloFilters: articuloFiltersReducer,
             pedido: pedidoReducer,
             pedidoFilters: pedidoFiltersReducer,
+            remito: remitoReducer,
             canal: canalReducer,
             subcanal: subcanalReducer,
             familia: familiaReducer,

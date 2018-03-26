@@ -44,4 +44,22 @@
     &:focus {
         outline: none;
     }
+
+    &--success {
+        color: $color-success;
+
+        &:hover, &:hover > i {
+            text-decoration: none;
+            color: darken($color-success, 10%);
+        }
+    }
+
+    &--danger {
+        color: $color-danger;
+
+        &:hover, &:hover > i {
+            text-decoration: none;
+            color: darken($color-danger, 10%);
+        }
+    }
 }

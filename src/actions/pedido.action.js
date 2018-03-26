@@ -47,3 +47,26 @@ export const listToday = () => {
         }
     }
 };
+
+export const pendienteCliente = (cliente) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/pedido/pendiente/${cliente}`;
+
+        dispatch({
+            type: 'pedido_loading'
+        });
+
+        try {
+            const res = await axios.get(URL, { headers: { authorization: localStorage.getItem('token') } });
+
+            if (res) {
+                dispatch({
+                    type: 'pedido_pendiente_list',
+                    payload: res.data
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+};

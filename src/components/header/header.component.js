@@ -12,7 +12,8 @@ class Header extends Component {
             { title: 'Clientes', path: '/clientes', icon: 'fa fa-user icon-navbar' },
             { title: 'Articulos', path: '/articulos', icon: 'fa fa-cubes icon-navbar' },
             { title: 'Diaria', path: '/diaria', icon: 'fa fa-usd icon-navbar', onClick: this.onDiaria.bind(this), badge: this.renderBadge() },
-            { title: 'Pedidos', path: '/pedidos', icon: 'fa fa-shopping-cart icon-navbar' }
+            { title: 'Pedidos', path: '/pedidos', icon: 'fa fa-shopping-cart icon-navbar' },
+            { title: 'Remitos', path: '/remitos', icon: 'fa fa-list icon-navbar' }
         ];
 
         return items.map((item) => {

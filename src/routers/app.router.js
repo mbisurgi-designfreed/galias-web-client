@@ -11,6 +11,9 @@ import DiariaList from '../components/diaria/diaria-list/diaria-list.component';
 import DiariaCompare from '../components/diaria/diaria-compare/diaria-compare.component';
 import AddDiaria from '../components/diaria/add-diaria/add-diaria.component';
 import PedidoList from '../components/pedidos/pedido-list/pedido-list.component';
+import EditPedido from '../components/pedidos/edit-pedido/edit-pedido.component';
+import RemitoList from '../components/remitos/remito-list/remito-list.component';
+import AddRemito from '../components/remitos/add-remito/add-remito.component';
 import ClientesList from '../components/clientes/clientes-list/clientes-list.component';
 import EditCliente from '../components/clientes/edit-cliente/edit-cliente.component';
 import AddCliente from '../components/clientes/add-cliente/add-cliente.component';
@@ -48,6 +51,9 @@ class AppRouter extends Component {
                         <Route exact path="/diaria/new" component={authenticateRoute(AddDiaria)} />
                         <Route exact path="/diaria/compare" component={authenticateRoute(DiariaCompare)} />
                         <Route exact path="/pedidos" component={authenticateRoute(PedidoList)} />
+                        <Route exact path="/pedidos/:id" component={authenticateRoute(EditPedido)} />
+                        <Route exact path="/remitos" component={authenticateRoute(RemitoList)} />
+                        <Route exact path="/remitos/new" component={authenticateRoute(AddRemito)} />
                         <Route exact path="/clientes" component={authenticateRoute(ClientesList)} />
                         <Route exact path="/clientes/new" component={authenticateRoute(AddCliente)} />
                         <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
