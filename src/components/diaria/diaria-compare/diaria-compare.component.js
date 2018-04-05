@@ -138,7 +138,7 @@ class DiariaCompare extends Component {
 
     render() {
         return (
-            <div className="graphics">
+            <div className="graphics mt-sm">
                 <div className="row">
                     <div className="col-1-of-2">
                         <Line data={this.generateDataDisponibilidades()} options={{ title: { display: true, text: 'Disponibilidades' }, scales: this.scales, tooltips: this.tooltips }} legend={{ position: 'bottom' }} />

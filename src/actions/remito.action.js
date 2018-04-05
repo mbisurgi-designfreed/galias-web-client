@@ -25,7 +25,7 @@ export const list = (desde, hasta) => {
     }
 };
 
-export const add = (cliente, history) => {
+export const add = (remito, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/remito/new`;
 
@@ -34,9 +34,9 @@ export const add = (cliente, history) => {
         });
 
         try {   
-            const res = await axios.post(URL, cliente);
+            const res = await axios.post(URL, remito);
 
-            if (res.status === 201) {
+            if (res.status === 200) {
                 dispatch({
                     type: 'remitos_adding_done'
                 });

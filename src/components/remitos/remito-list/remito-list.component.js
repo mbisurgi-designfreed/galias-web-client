@@ -25,9 +25,9 @@ class RemitoList extends Component {
     }
 
     renderItems() {
-        // return _.map(this.props.remitos, (remito) => {
-        //     return <RemitoListItem remito={remito} key={remito._id} />;
-        // });
+        return _.map(this.props.remitos, (remito) => {
+            return <RemitoListItem remito={remito} key={remito._id} />;
+        });
     }
 
     render() {

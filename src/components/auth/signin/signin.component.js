@@ -24,7 +24,7 @@ class Signin extends Component {
                     {this.props.error && (<p className="form__field-error">{this.props.error}</p>)}
                 </div>
                 <div className="row text-center">
-                    <button className="btn mt-small" >Ingresar</button>
+                    <button className="btn mt-sm" >Ingresar</button>
                 </div>
             </Form>
         );

@@ -31,7 +31,7 @@ class ArticulosPrecio extends Component {
         return (
             <div className="row">
                 <div className="row">
-                    <table>
+                    <table className="mt-sm">
                         <col style={{ width: '50%' }} />
                         <col style={{ width: '20%' }} />
                         <col style={{ width: '20%' }} />
