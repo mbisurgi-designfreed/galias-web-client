@@ -62,4 +62,13 @@
             color: darken($color-danger, 10%);
         }
     }
+
+    &--disabled {
+        color: $color-grey-light;
+
+        &:hover, &:hover > i{
+            color: $color-grey-light;
+            cursor: not-allowed;
+        }
+    }
 }

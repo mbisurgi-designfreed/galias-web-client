@@ -22,16 +22,12 @@ class ItemsForm extends Component {
     renderItems() {
         return (
             <table>
-                <col style={{ width: '50%' }} />
-                <col style={{ width: '20%' }} />
-                <col style={{ width: '20%' }} />
-                <col style={{ width: '10%' }} />
                 <thead>
                     <tr>
-                        <th>Articulo</th>
-                        <th>Pendiente</th>
-                        <th>Asignar</th>
-                        <th></th>
+                        <th style={{ width: '50%' }}>Articulo</th>
+                        <th style={{ width: '20%' }}>Pendiente</th>
+                        <th style={{ width: '20%' }}>Asignar</th>
+                        <th style={{ width: '10%' }}></th>
                     </tr>
                 </thead>
                 <tbody>

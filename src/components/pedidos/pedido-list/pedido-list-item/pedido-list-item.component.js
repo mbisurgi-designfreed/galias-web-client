@@ -32,7 +32,10 @@ const PedidoListItem = (props) => {
         <div className="list__item">
             <div className="list__item-header">
                 <h6 className="list__item-title">{formatDate()}</h6>
-                <Link className="list__item-icon" to={`/pedidos/${pedido._id}`}><i className="fa fa-list-alt"></i></Link>
+                <div className="list__item-menu">
+                    <Link className="list__item-icon" to={`/pedidos/${pedido._id}`}><i className="fa fa-list-alt"></i></Link>
+                    <input type="checkbox" className="list__item-check" />
+                </div>
             </div>
 
             <div className="list__item-content">

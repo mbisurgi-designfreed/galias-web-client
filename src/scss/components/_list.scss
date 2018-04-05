@@ -27,6 +27,11 @@
             font-size: 1.25rem;
             font-weight: 300;
         }
+
+        &-menu {
+            display: flex;
+            align-items: center;
+        }
     
         &-icon {
             cursor: pointer;
@@ -36,6 +41,10 @@
             &:hover {
                 color: darken($color-primary, 10%);
             }
+        }
+
+        &-check {
+            margin-left: 1rem;
         }
 
         &-content {

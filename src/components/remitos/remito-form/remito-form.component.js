@@ -92,9 +92,9 @@ class RemitoForm extends Component {
   renderAgregados = () => {
     const agregados = this.state.agregados;
 
-    return _.map(agregados, (agregado) => {
+    return _.map(agregados, (agregado, index) => {
       return (
-        <tr>
+        <tr key={index}>
           <td>{agregado.articulo.codigo}</td>
           <td>{agregado.articulo.descripcion}</td>
           <td className="text-right">{this.formatNumber(agregado.asignar)}</td>
@@ -127,21 +127,14 @@ class RemitoForm extends Component {
               {this.props.touched.pedido && this.props.errors.pedido && (<p className="form__field-error">{this.props.errors.pedido}</p>)}
             </div>
           </div>
-          {/* <div className="row">
-            <button className="btn-link" onClick={this.onAgregarClick}><i className="fa fa-plus-circle icon-small"></i>agregar items</button>
-          </div> */}
           <div className="row">
             <table>
-              <col style={{ width: '20%' }} />
-              <col style={{ width: '50%' }} />
-              <col style={{ width: '15%' }} />
-              <col style={{ width: '15%' }} />
               <thead>
                 <tr>
-                  <th>Codigo</th>
-                  <th>Articulo</th>
-                  <th>Cantidad</th>
-                  <th>Kilos</th>
+                  <th style={{ width: '20%' }}>Codigo</th>
+                  <th style={{ width: '50%' }}>Articulo</th>
+                  <th style={{ width: '15%' }}>Cantidad</th>
+                  <th style={{ width: '15%' }}>Kilos</th>
                 </tr>
               </thead>
               <tbody>
@@ -155,7 +148,7 @@ class RemitoForm extends Component {
             </Loader>
           </div>
         </Form>
-        <ItemsModal pedido={this.state.pedido} isOpen={this.state.pedido} onCloseModal={this.onCloseModal} onAgregar={this.onItemAgregado} onEliminar={this.onItemBorrado} />
+        <ItemsModal pedido={this.state.pedido} isOpen={!!this.state.pedido} onCloseModal={this.onCloseModal} onAgregar={this.onItemAgregado} onEliminar={this.onItemBorrado} />
       </div>
     )
   }
@@ -196,7 +189,7 @@ const onSubmit = (values, { props, resetForm }) => {
         cantidad: parseInt(item.asignar),
         precio: item.precio
       };
-    
+
       return ele;
     }),
     kilos: _.reduce(items, (sum, item) => {
