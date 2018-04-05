@@ -4,7 +4,6 @@ import { withFormik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
 import Loader from 'react-loader'
 import Pagination from "react-js-pagination";
-import Yup from 'yup';
 import moment from 'moment';
 import _ from 'lodash';
 

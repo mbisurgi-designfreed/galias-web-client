@@ -25,6 +25,29 @@ export const list = (desde, hasta) => {
     }
 };
 
+export const listToday = () => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/remito/today`;
+
+        dispatch({
+            type: 'remito_loading'
+        });
+
+        try {
+            const res = await axios.get(URL, { headers: { authorization: localStorage.getItem('token') } });
+
+            if (res) {
+                dispatch({
+                    type: 'remito_list',
+                    payload: res.data
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+};
+
 export const add = (remito, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/remito/new`;

@@ -2,14 +2,28 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withFormik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
+import Loader from 'react-loader'
+import Pagination from "react-js-pagination";
 import moment from 'moment';
 import _ from 'lodash';
 
-import { list } from '../../../actions/remito.action';
+import { list, listToday } from '../../../actions/remito.action';
 
 import RemitoListItem from './remito-list-item/remito-list-item.component';
 
+import remitoSelector from '../../../selectors/remito.selector';
+
 class RemitoList extends Component {
+    state = {
+        page: 1
+    }
+
+    componentWillMount() {
+        this.props.listToday();
+    }
+
+    VIEW_PER_PAGE = 10;
+
     renderBuscar() {
         const loading = this.props.loading;
 
@@ -50,7 +64,14 @@ class RemitoList extends Component {
                     </Form>
                 </div>
                 <div className="row">
-                    {this.renderItems()}
+                    <ul className="list list--small">
+                        <Loader className="spinner" loaded={!this.props.loading} color="#ed1c24" scale={0.5}>
+                            {this.renderItems()}
+                        </Loader>
+                    </ul>
+                </div>
+                <div className="row">
+                    <Pagination innerClass="pagination" itemClass="page-item" linkClass="page-link" activePage={this.state.page} itemsCountPerPage={this.VIEW_PER_PAGE} totalItemsCount={this.props.remitos.length} onChange={this.onPageClicked} />
                 </div>
             </div>
         );
@@ -69,10 +90,10 @@ const mapPropsToValues = (props) => ({
 });
 
 const mapStateToProps = (state) => {
-    return { remitos: state.remito.remitos, loading: state.remito.loading };
+    return { remitos: remitoSelector(state.remito.remitos), loading: state.remito.loading };
 }
 
-export default connect(mapStateToProps, { list })(withFormik({
+export default connect(mapStateToProps, { list, listToday })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
 })(RemitoList));
