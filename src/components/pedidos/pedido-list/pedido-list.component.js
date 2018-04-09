@@ -9,6 +9,7 @@ import _ from 'lodash';
 
 import { list, listToday } from '../../../actions/pedido.action';
 import { setTextFilter, searchByCliente, searchByEstado } from '../../../actions/pedido-filters.action';
+import { add } from '../../../actions/remito.action';
 
 import Filters from '../../filters/filters.component';
 import PedidoListItem from './pedido-list-item/pedido-list-item.component';
@@ -53,8 +54,37 @@ class PedidoList extends Component {
         this.props.setTextFilter(e.target.value);
     };
 
+    onGenerarRemito = () => {
+        if (this.props.selectedPedido._id) {
+            const pedido = this.props.selectedPedido;
+
+            const remito = {
+                fecha: moment(moment(new Date()).format('YYYY-MM-DD')).valueOf(),
+                pedido: pedido._id,
+                cliente: pedido.cliente._id,
+                items: _.map(pedido.items, (item) => {
+                    const ele = {
+                        item: item._id,
+                        articulo: item.articulo._id,
+                        cantidad: item.pendiente,
+                        precio: item.precio
+                    };
+
+                    return ele;
+                }),
+                kilos: _.reduce(pedido.items, (sum, item) => {
+                    const sub = item.pendiente * item.articulo.kilos;
+
+                    return sum + sub;
+                }, 0)
+            }
+
+            this.props.add(remito, this.props.history);
+        }
+    }
+
     renderBuscar() {
-        const loading = this.props.info.loading;
+        const loading = this.props.loading;
 
         if (loading) {
             return (
@@ -90,6 +120,7 @@ class PedidoList extends Component {
                         <div className="form__icon-container">
                             <Link className="icon-medium" to="/pedidos/new"><i className="fa fa-plus-circle"></i></Link>
                             <Link className="icon-medium" to="/pedidos/new"><i className="fa fa-download"></i></Link>
+                            <button className={`btn-link icon-medium`} onClick={this.onGenerarRemito} ><i className="fa fa-list"></i></button>
                         </div>
                     </Form>
                 </div>
@@ -123,10 +154,10 @@ const mapPropsToValues = (props) => ({
 });
 
 const mapStateToProps = (state) => {
-    return { info: state.info, pedidos: pedidoSelector(state.pedido.pedidos, state.pedidoFilters), loading: state.pedido.loading, filters: state.pedidoFilters };
+    return { pedidos: pedidoSelector(state.pedido.pedidos, state.pedidoFilters), loading: state.pedido.loading, filters: state.pedidoFilters, selectedPedido: state.selectedPedido };
 }
 
-export default connect(mapStateToProps, { list, listToday, setTextFilter, searchByCliente, searchByEstado })(withFormik({
+export default connect(mapStateToProps, { list, listToday, setTextFilter, searchByCliente, searchByEstado, add })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
 })(withRefresh(PedidoList)));

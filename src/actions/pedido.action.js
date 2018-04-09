@@ -70,3 +70,16 @@ export const pendienteCliente = (cliente) => {
         }
     }
 };
+
+export const select = (pedido, checked) => {
+    if (checked) {
+        return {
+            type: 'pedido_selected',
+            payload: pedido
+        }
+    }
+
+    return {
+        type: 'pedido_unselected'
+    }
+};

@@ -17,6 +17,7 @@ import clienteFiltersReducer from '../reducers/cliente-filters.reducer';
 import articuloReducer from '../reducers/articulo.reducer';
 import articuloFiltersReducer from '../reducers/articulo-filters.reducer';
 import pedidoReducer from '../reducers/pedido.reducer';
+import pedidoSelectedReducer from '../reducers/pedido-selected.reducer';
 import pedidoFiltersReducer from '../reducers/pedido-filters.reducer';
 import remitoReducer from '../reducers/remito.reducer';
 
@@ -34,6 +35,7 @@ export default () => {
             articulo: articuloReducer,
             articuloFilters: articuloFiltersReducer,
             pedido: pedidoReducer,
+            selectedPedido: pedidoSelectedReducer,
             pedidoFilters: pedidoFiltersReducer,
             remito: remitoReducer,
             canal: canalReducer,

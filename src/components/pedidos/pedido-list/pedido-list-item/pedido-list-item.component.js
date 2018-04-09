@@ -1,10 +1,35 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import numeral from 'numeral';
 
+import { select } from '../../../../actions/pedido.action';
+
 const PedidoListItem = (props) => {
-    const { pedido } = props;
+    const { pedido, selectedPedido, select } = props;
+
+    const onItemClicked = (value) => {
+        const checked = value.target.checked;
+
+        select(pedido, checked);
+    }
+
+    const isDisabled = () => {
+        if (pedido.estado === 'completo') {
+            return true;
+        }
+
+        return false;
+    }
+
+    const isChecked = () => {
+        if (selectedPedido._id === pedido._id) {
+            return true;
+        }
+
+        return false;
+    }
 
     const formatDate = () => {
         return moment(pedido.fecha).format('DD/MM/YYYY');
@@ -34,7 +59,7 @@ const PedidoListItem = (props) => {
                 <h6 className="list__item-title">{formatDate()}</h6>
                 <div className="list__item-menu">
                     <Link className="list__item-icon" to={`/pedidos/${pedido._id}`}><i className="fa fa-list-alt"></i></Link>
-                    <input type="checkbox" className="list__item-check" />
+                    <input type="checkbox" checked={isChecked()} className={`list__item-check ${isDisabled() ? 'list__item-check--disabled' : ''}`} disabled={isDisabled()} onChange={onItemClicked} />
                 </div>
             </div>
 
@@ -58,4 +83,8 @@ const PedidoListItem = (props) => {
     );
 };
 
-export default PedidoListItem;
+const mapStateToProps = (state) => {
+    return { selectedPedido: state.selectedPedido }
+}
+
+export default connect(mapStateToProps, { select })(PedidoListItem);
