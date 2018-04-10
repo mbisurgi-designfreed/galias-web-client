@@ -31,7 +31,7 @@ const RemitoListItem = (props) => {
     return (
         <div className="list__item">
             <div className="list__item-header">
-                <h6 className="list__item-title">{formatDate()}</h6>
+                <h6 className="list__item-title">{formatDate()} - {remito.numero}</h6>
                 <div className="list__item-menu">
                     <Link className="list__item-icon" to={`/remitos/${remito._id}`}><i className="fa fa-list-alt"></i></Link>
                     <input type="checkbox" className="list__item-check" />
