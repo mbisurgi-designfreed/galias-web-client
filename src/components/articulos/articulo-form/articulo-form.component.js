@@ -4,6 +4,7 @@ import { withFormik, Form, Field } from 'formik';
 import Loader from 'react-loader';
 import Select from 'react-select';
 import Yup from 'yup';
+import _ from 'lodash';
 
 import UnidadCompraModal from './unidad-compra-form/unidad-compra-modal.component';
 import UnidadVentaModal from './unidad-venta-form/unidad-venta-modal.component';
@@ -213,6 +214,16 @@ class ArticuloForm extends Component {
         this.setState(() => ({ unidadCpa: { item: this.props.values.unidadesCpa[i], index: i } }));
     }
 
+    onEliminarUnidadCpa = (i) => {
+        const unidad = this.props.values.unidadesCpa[i];
+
+        const unidadesCpa = _.filter(this.props.values.unidadesCpa, (uni) => {
+            return uni._id !== unidad._id;
+        });
+
+        this.props.setFieldValue('unidadesCpa', unidadesCpa);
+    }
+
     onCloseUnidadCpa = ({ unidadCpa, index }) => {
         if (unidadCpa && index == null) {
             const unidadesCpa = this.props.values.unidadesCpa;
@@ -237,6 +248,9 @@ class ArticuloForm extends Component {
                         <a onClick={() => this.onEditarUnidadCpa(i)}>
                             <i className="fa fa-pencil icon-small"></i>
                         </a>
+                        <a onClick={() => this.onEliminarUnidadCpa(i)}>
+                            <i className="fa fa-ban icon-small"></i>
+                        </a>
                         <p className="form__list-item--title">{`${this.formatUnidades(unidadCpa.unidad.label)}`}</p>
                         <p className="form__list-item--detail">{`${unidadCpa.equivalencia}`}</p>
                     </li>
@@ -251,6 +265,16 @@ class ArticuloForm extends Component {
 
     onEditarUnidadVta = (i) => {
         this.setState(() => ({ unidadVta: { item: this.props.values.unidadesVta[i], index: i } }));
+    }
+
+    onEliminarUnidadVta = (i) => {
+        const unidad = this.props.values.unidadesVta[i];
+
+        const unidadesVta = _.filter(this.props.values.unidadesVta, (uni) => {
+            return uni._id !== unidad._id;
+        });
+
+        this.props.setFieldValue('unidadesVta', unidadesVta);
     }
 
     onCloseUnidadVta = ({ unidadVta, index }) => {
@@ -276,6 +300,9 @@ class ArticuloForm extends Component {
                     <li className="form__list-item" key={i}>
                         <a onClick={() => this.onEditarUnidadVta(i)}>
                             <i className="fa fa-pencil icon-small"></i>
+                        </a>
+                        <a onClick={() => this.onEliminarUnidadVta(i)}>
+                            <i className="fa fa-ban icon-small"></i>
                         </a>
                         <p className="form__list-item--title">{`${this.formatUnidades(unidadVta.unidad.label)}`}</p>
                         <p className="form__list-item--detail">{`${unidadVta.equivalencia}`}</p>
