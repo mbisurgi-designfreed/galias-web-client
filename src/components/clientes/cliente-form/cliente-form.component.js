@@ -601,13 +601,13 @@ const onSubmit = (values, { props, resetForm }) => {
         canal: values.canal.value ? values.canal.value : values.canal,
         subcanal: values.subcanal.value ? values.subcanal.value : values.subcanal,
         division: values.division.value ? values.division.value : values.division,
-        clasificacion: values.clasificacion,
+        clasificacion: values.clasificacion.value,
         condicionPago: values.condicionPago.value ? values.condicionPago.value : values.condicionPago,
         diaVisita: typeof values.visita[0] === 'object' ? values.visita.map(visita => visita.value) : values.visita,
         diaEntrega: typeof values.entrega[0] === 'object' ? values.entrega.map(entrega => entrega.value) : values.entrega,
         personas
     }
-
+    
     props.accion(cliente);
 };
 
