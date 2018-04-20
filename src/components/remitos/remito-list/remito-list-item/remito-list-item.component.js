@@ -1,10 +1,27 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import numeral from 'numeral';
 
+import { select } from '../../../../actions/remito.action';
+
 const RemitoListItem = (props) => {
     const { remito } = props;
+
+    const onItemClicked = (value) => {
+        const checked = value.target.checked;
+
+        props.select(remito, checked);
+    }
+
+    const isDisabled = () => {
+        if (remito.estado === 'entregado') {
+            return true;
+        }
+
+        return false;
+    }
 
     const formatDate = () => {
         return moment(remito.fecha).format('DD/MM/YYYY');
@@ -19,11 +36,7 @@ const RemitoListItem = (props) => {
             return 'info__value--danger';
         }
 
-        if (estado === 'pendiente') {
-            return 'info__value--warning';
-        }
-
-        if (estado === 'completo') {
+        if (estado === 'entregado') {
             return 'info__value--success';
         }
     }
@@ -34,7 +47,7 @@ const RemitoListItem = (props) => {
                 <h6 className="list__item-title">{formatDate()} - {remito.numero}</h6>
                 <div className="list__item-menu">
                     <Link className="list__item-icon" to={`/remitos/${remito._id}`}><i className="fa fa-list-alt"></i></Link>
-                    <input type="checkbox" className="list__item-check" />
+                    <input type="checkbox" className={`list__item-check ${isDisabled() ? 'list__item-check--disabled' : ''}`} disabled={isDisabled()} onChange={onItemClicked} />
                 </div>
             </div>
 
@@ -58,4 +71,4 @@ const RemitoListItem = (props) => {
     );
 };
 
-export default RemitoListItem;
+export default connect(null, { select })(RemitoListItem);

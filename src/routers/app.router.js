@@ -21,6 +21,7 @@ import ArticulosList from '../components/articulos/articulos-list/articulos-list
 import ArticulosPrecio from '../components/articulos/articulos-precio/articulos-precio.component';
 import AddArticulo from '../components/articulos/add-articulo/add-articulo.component';
 import EditArticulo from '../components/articulos/edit-articulo/edit-articulo.component';
+import AddEntrega from '../components/entrega/add-entrega/add-entrega.component';
 
 import { list as getCanales } from '../actions/canal.action';
 import { list as getSubcanales } from '../actions/subcanal.action';
@@ -61,6 +62,7 @@ class AppRouter extends Component {
                         <Route exact path="/articulos/precios" component={authenticateRoute(ArticulosPrecio)} />
                         <Route exact path="/articulos/new" component={authenticateRoute(AddArticulo)} />
                         <Route exact path="/articulos/:id" component={authenticateRoute(EditArticulo)} />
+                        <Route exact path="/entregas/new" component={authenticateRoute(AddEntrega)} />
                     </Switch>
                 </div>
             </BrowserRouter>

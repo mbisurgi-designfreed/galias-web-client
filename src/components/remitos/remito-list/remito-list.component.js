@@ -39,9 +39,19 @@ class RemitoList extends Component {
     }
 
     renderItems() {
-        return _.map(this.props.remitos, (remito) => {
+        const SIZE = this.VIEW_PER_PAGE;
+
+        const start = (this.state.page - 1) * SIZE;
+        const end = this.state.page * SIZE;
+        const remitos = _.slice(this.props.remitos, start, end)
+
+        return _.map(remitos, (remito) => {
             return <RemitoListItem remito={remito} key={remito._id} />;
         });
+    }
+
+    onPageClicked = (page) => {
+        this.setState(() => ({ page }))
     }
 
     render() {
@@ -60,6 +70,7 @@ class RemitoList extends Component {
                         {this.renderBuscar()}
                         <div className="form__icon-container">
                             <Link className="icon-medium" to="/remitos/new"><i className="fa fa-plus-circle"></i></Link>
+                            <Link className="icon-medium" to="/entregas/new"><i className="fa fa-truck"></i></Link>
                         </div>
                     </Form>
                 </div>

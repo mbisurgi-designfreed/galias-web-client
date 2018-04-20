@@ -86,3 +86,23 @@ export const add = (remito, history) => {
         }
     }
 };
+
+export const select = (remito, checked) => {
+    if (checked) {
+        return {
+            type: 'remito_selected',
+            payload: remito
+        }
+    }
+
+    return {
+        type: 'remito_unselected',
+        payload: remito
+    }
+};
+
+export const unselectAll = () => {
+    return {
+        type: 'unselect_all'
+    }
+};

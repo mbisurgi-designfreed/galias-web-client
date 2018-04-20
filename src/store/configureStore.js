@@ -20,6 +20,7 @@ import pedidoReducer from '../reducers/pedido.reducer';
 import pedidoSelectedReducer from '../reducers/pedido-selected.reducer';
 import pedidoFiltersReducer from '../reducers/pedido-filters.reducer';
 import remitoReducer from '../reducers/remito.reducer';
+import remitoSelectedReducer from '../reducers/remito-selected.reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -38,6 +39,7 @@ export default () => {
             selectedPedido: pedidoSelectedReducer,
             pedidoFilters: pedidoFiltersReducer,
             remito: remitoReducer,
+            selectedRemito: remitoSelectedReducer,
             canal: canalReducer,
             subcanal: subcanalReducer,
             familia: familiaReducer,
