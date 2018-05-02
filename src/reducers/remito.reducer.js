@@ -10,6 +10,8 @@ const remitoReducer = (state = {}, action) => {
             return { ...state, loading: false };
         case 'remito_list':
             return { ...state, remitos: _.mapKeys(action.payload, '_id'), loading: false };
+        case 'proximo_get':
+            return { ...state, proximo: action.payload };
         default:
             return state;
     }

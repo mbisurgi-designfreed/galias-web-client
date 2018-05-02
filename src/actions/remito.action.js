@@ -48,6 +48,25 @@ export const listToday = () => {
     }
 };
 
+export const proximo = () => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/talonario/proximo`;
+
+        try {
+            const res = await axios.get(URL);
+
+            if (res.status === 200) {
+                dispatch({
+                    type: 'proximo_get',
+                    payload: res.data.proximo
+                });
+            }
+        } catch (err) {
+
+        }
+    }
+}
+
 export const add = (remito, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/remito/new`;
