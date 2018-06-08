@@ -1,0 +1,12 @@
+.accordion {
+    height: 100%;
+
+    &__title {
+        padding: 0 1.5rem;
+        outline: none;
+    }
+
+    &__body {
+        padding: 0 1.5rem;
+    }
+}

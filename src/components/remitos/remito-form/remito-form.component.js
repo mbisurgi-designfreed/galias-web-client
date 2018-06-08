@@ -11,12 +11,14 @@ import _ from 'lodash';
 import ItemsModal from './items-form/items-modal.component';
 
 import { list } from '../../../actions/cliente.action';
+import { list as listTalonario } from '../../../actions/talonario.action';
 import { pendienteCliente } from '../../../actions/pedido.action';
 
 class RemitoForm extends Component {
   state = {
     clientes: [],
     pendientes: [],
+    talonarios: [],
     pedido: null,
     agregados: {},
     items: false
@@ -24,6 +26,7 @@ class RemitoForm extends Component {
 
   componentWillMount() {
     this.props.list(1);
+    this.props.listTalonario();
   }
 
   componentWillReceiveProps(newProps) {
@@ -44,7 +47,18 @@ class RemitoForm extends Component {
       };
     });
 
-    this.setState(() => ({ clientes, pendientes }));
+    let talonarios = _.map(newProps.talonarios, (talonario) => {
+      return {
+        value: talonario,
+        label: talonario.descripcion
+      };
+    });
+
+    talonarios = talonarios.filter((talonario) => {
+      return talonario.value.tango === false;
+    });
+
+    this.setState(() => ({ clientes, pendientes, talonarios }));
   }
 
   clienteChanged = (cliente) => {
@@ -65,6 +79,16 @@ class RemitoForm extends Component {
 
   pedidoBlur = () => {
     this.props.setFieldTouched('pedido', true);
+  }
+
+  talonarioChanged = (talonario) => {
+    this.props.setFieldValue('talonario', talonario);
+
+    this.props.setFieldValue('talonario', talonario);
+  }
+
+  talonarioBlur = () => {
+    this.props.setFieldTouched('talonario', true);
   }
 
   onAgregarClick = () => {
@@ -128,6 +152,13 @@ class RemitoForm extends Component {
             </div>
           </div>
           <div className="row">
+            <div className="form-group col-1-of-4">
+              <label className="form__label" htmlFor="talonario">Talonario</label>
+              <Select id="talonario" options={this.state.talonarios} multi={false} value={this.props.values.talonario} onChange={this.talonarioChanged} onBlur={this.talonarioBlur} />
+              {this.props.touched.talonario && this.props.errors.talonario && (<p className="form__field-error">{this.props.errors.talonario}</p>)}
+            </div>
+          </div>
+          <div className="row">
             <table>
               <thead>
                 <tr>
@@ -158,6 +189,7 @@ const mapPropsToValues = (props) => ({
   fecha: '',
   cliente: '',
   pedido: '',
+  talonario: '',
   items: ''
 });
 
@@ -172,11 +204,15 @@ const validationSchema = () => Yup.object().shape({
   pedido: Yup
     .string()
     .nullable()
-    .required('Pedido es requerido')
+    .required('Pedido es requerido'),
+  talonario: Yup
+    .string()
+    .nullable()
+    .required('Talonario es requerido')
 });
 
 const onSubmit = (values, { props, resetForm }) => {
-  const { fecha, cliente, pedido, items } = values;
+  const { fecha, cliente, pedido, items, talonario } = values;
 
   const remito = {
     fecha: moment(fecha).valueOf(),
@@ -199,14 +235,14 @@ const onSubmit = (values, { props, resetForm }) => {
     }, 0)
   }
 
-  props.accion(remito);
+  props.accion(remito, talonario.value);
 };
 
 const mapStateToProps = (state) => {
-  return { clientes: state.cliente.clientes, pendientes: state.pedido.pendientes }
+  return { clientes: state.cliente.clientes, pendientes: state.pedido.pendientes, talonarios: state.talonario.talonarios }
 };
 
-export default connect(mapStateToProps, { list, pendienteCliente })(withFormik({
+export default connect(mapStateToProps, { list, pendienteCliente, listTalonario })(withFormik({
   mapPropsToValues,
   validationSchema,
   handleSubmit: onSubmit

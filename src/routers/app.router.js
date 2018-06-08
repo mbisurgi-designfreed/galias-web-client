@@ -14,6 +14,8 @@ import PedidoList from '../components/pedidos/pedido-list/pedido-list.component'
 import EditPedido from '../components/pedidos/edit-pedido/edit-pedido.component';
 import RemitoList from '../components/remitos/remito-list/remito-list.component';
 import AddRemito from '../components/remitos/add-remito/add-remito.component';
+import TalonarioList from '../components/talonarios/talonario-list/talonario-list.component';
+import AddTalonario from '../components/talonarios/add-talonario/add-talonario.component';
 import ClientesList from '../components/clientes/clientes-list/clientes-list.component';
 import EditCliente from '../components/clientes/edit-cliente/edit-cliente.component';
 import AddCliente from '../components/clientes/add-cliente/add-cliente.component';
@@ -22,6 +24,7 @@ import ArticulosPrecio from '../components/articulos/articulos-precio/articulos-
 import AddArticulo from '../components/articulos/add-articulo/add-articulo.component';
 import EditArticulo from '../components/articulos/edit-articulo/edit-articulo.component';
 import AddEntrega from '../components/entrega/add-entrega/add-entrega.component';
+import Reportes from '../components/reportes/reportes.component';
 
 import { list as getCanales } from '../actions/canal.action';
 import { list as getSubcanales } from '../actions/subcanal.action';
@@ -45,7 +48,7 @@ class AppRouter extends Component {
             <BrowserRouter>
                 <div>
                     <Header />
-                    <Switch>
+                    {/* <Switch> */}
                         <Route exact path="/" component={Home} />
                         <Route exact path="/signin" component={Signin} />
                         <Route exact path="/diaria" component={authenticateRoute(DiariaList)} />
@@ -55,6 +58,8 @@ class AppRouter extends Component {
                         <Route exact path="/pedidos/:id" component={authenticateRoute(EditPedido)} />
                         <Route exact path="/remitos" component={authenticateRoute(RemitoList)} />
                         <Route exact path="/remitos/new" component={authenticateRoute(AddRemito)} />
+                        <Route exact path="/talonarios" component={authenticateRoute(TalonarioList)} />
+                        <Route exact path="/talonarios/new" component={authenticateRoute(AddTalonario)} />
                         <Route exact path="/clientes" component={authenticateRoute(ClientesList)} />
                         <Route exact path="/clientes/new" component={authenticateRoute(AddCliente)} />
                         <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
@@ -63,7 +68,8 @@ class AppRouter extends Component {
                         <Route exact path="/articulos/new" component={authenticateRoute(AddArticulo)} />
                         <Route exact path="/articulos/:id" component={authenticateRoute(EditArticulo)} />
                         <Route exact path="/entregas/new" component={authenticateRoute(AddEntrega)} />
-                    </Switch>
+                        <Route path="/reportes" component={authenticateRoute(Reportes)} />
+                    {/* </Switch> */}
                 </div>
             </BrowserRouter>
         )

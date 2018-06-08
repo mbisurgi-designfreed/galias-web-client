@@ -25,6 +25,37 @@ export const list = (page) => {
     }
 };
 
+export const pendiente = () => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/articulo/pendiente`;
+
+        dispatch({
+            type: 'articulos_loading'
+        });
+
+        try {
+            const res = await axios.get(URL);
+
+            console.log(res.data);
+
+            if (res) {
+                dispatch({
+                    type: 'articulos_ped_pendiente_list',
+                    payload: res.data
+                })
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+};
+
+export const reset = () => {
+    return {
+        type: 'articulos_pendiente_reset'
+    }
+}
+
 export const add = (articulo, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/articulo/new`;

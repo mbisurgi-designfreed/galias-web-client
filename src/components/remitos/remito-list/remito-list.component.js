@@ -29,7 +29,7 @@ class RemitoList extends Component {
 
         if (loading) {
             return (
-                <button type="submit" className="btn btn--small" disabled ><i className="fa fa-circle-o-notch fa-spin" /> Buscando...</button>
+                <button type="submit" className="btn btn--small" disabled ><i className="fas fa-circle-o-notch fa-spin" /> Buscando...</button>
             );
         }
 
@@ -69,8 +69,9 @@ class RemitoList extends Component {
                         </div>
                         {this.renderBuscar()}
                         <div className="form__icon-container">
-                            <Link className="icon-medium" to="/remitos/new"><i className="fa fa-plus-circle"></i></Link>
-                            <Link className="icon-medium" to="/entregas/new"><i className="fa fa-truck"></i></Link>
+                            <Link className="icon-medium" to="/remitos/new"><i className="fas fa-plus-circle"></i></Link>
+                            <Link className="icon-medium" to="/entregas/new"><i className="fas fa-truck"></i></Link>
+                            <Link className="icon-medium" to="/talonarios"><i className="fas fa-receipt"></i></Link>
                         </div>
                     </Form>
                 </div>

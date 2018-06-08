@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import { list, listToday } from '../../../actions/pedido.action';
 import { setTextFilter, searchByCliente, searchByEstado } from '../../../actions/pedido-filters.action';
-import { add } from '../../../actions/remito.action';
+import { add, sync } from '../../../actions/remito.action';
 
 import Filters from '../../filters/filters.component';
 import PedidoListItem from './pedido-list-item/pedido-list-item.component';
@@ -53,6 +53,35 @@ class PedidoList extends Component {
         this.setState(() => ({ page: 1 }))
         this.props.setTextFilter(e.target.value);
     };
+
+    onSync = () => {
+        if (this.props.selectedPedido._id) {
+            const pedido = this.props.selectedPedido;
+
+            const remito = {
+                fecha: moment(moment(new Date()).format('YYYY-MM-DD')).valueOf(),
+                pedido: pedido._id,
+                cliente: pedido.cliente._id,
+                items: _.map(pedido.items, (item) => {
+                    const ele = {
+                        item: item._id,
+                        articulo: item.articulo._id,
+                        cantidad: item.pendiente,
+                        precio: item.precio
+                    };
+
+                    return ele;
+                }),
+                kilos: _.reduce(pedido.items, (sum, item) => {
+                    const sub = item.pendiente * item.articulo.kilos;
+
+                    return sum + sub;
+                }, 0)        
+            }
+
+            this.props.sync(remito, this.props.history);
+        }
+    }
 
     onGenerarRemito = () => {
         if (this.props.selectedPedido._id) {
@@ -118,9 +147,10 @@ class PedidoList extends Component {
                         </div>
                         {this.renderBuscar()}
                         <div className="form__icon-container">
-                            <Link className="icon-medium" to="/pedidos/new"><i className="fa fa-plus-circle"></i></Link>
-                            <Link className="icon-medium" to="/pedidos/new"><i className="fa fa-download"></i></Link>
-                            <button className={`btn-link icon-medium`} onClick={this.onGenerarRemito} ><i className="fa fa-list"></i></button>
+                            <Link className="icon-medium" to="/pedidos/new"><i className="fas fa-plus-circle"></i></Link>
+                            <Link className="icon-medium" to="/pedidos/new"><i className="fas fa-download"></i></Link>
+                            <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+                            <button className={`btn-link icon-medium`} onClick={this.onGenerarRemito} ><i className="fas fa-list"></i></button>
                         </div>
                     </Form>
                 </div>
@@ -157,7 +187,7 @@ const mapStateToProps = (state) => {
     return { pedidos: pedidoSelector(state.pedido.pedidos, state.pedidoFilters), loading: state.pedido.loading, filters: state.pedidoFilters, selectedPedido: state.selectedPedido };
 }
 
-export default connect(mapStateToProps, { list, listToday, setTextFilter, searchByCliente, searchByEstado, add })(withFormik({
+export default connect(mapStateToProps, { list, listToday, setTextFilter, searchByCliente, searchByEstado, add, sync })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
 })(withRefresh(PedidoList)));

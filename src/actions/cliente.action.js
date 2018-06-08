@@ -25,6 +25,35 @@ export const list = (page) => {
     }
 };
 
+export const pendiente = (id) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/cliente/${id}/pendiente`;
+
+        dispatch({
+            type: 'clientes_loading'
+        });
+
+        try {
+            const res = await axios.get(URL);
+
+            if (res) {
+                dispatch({
+                    type: 'clientes_ped_pendiente_list',
+                    payload: res.data
+                })
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+};
+
+export const reset = () => {
+    return {
+        type: 'clientes_pendiente_reset'
+    }
+}
+
 export const add = (cliente, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/cliente/new`;

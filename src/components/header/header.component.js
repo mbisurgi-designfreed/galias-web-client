@@ -8,12 +8,13 @@ import { resetNotification } from '../../actions/info.action';
 class Header extends Component {
     renderHeaderItems() {
         const items = [
-            { title: 'Home', path: '/', icon: 'fa fa-home icon-navbar' },
-            { title: 'Clientes', path: '/clientes', icon: 'fa fa-user icon-navbar' },
-            { title: 'Articulos', path: '/articulos', icon: 'fa fa-cubes icon-navbar' },
-            { title: 'Diaria', path: '/diaria', icon: 'fa fa-usd icon-navbar', onClick: this.onDiaria.bind(this), badge: this.renderBadge() },
-            { title: 'Pedidos', path: '/pedidos', icon: 'fa fa-shopping-cart icon-navbar' },
-            { title: 'Remitos', path: '/remitos', icon: 'fa fa-list icon-navbar' }
+            { title: 'Home', path: '/', icon: 'fas fa-home icon-navbar' },
+            { title: 'Clientes', path: '/clientes', icon: 'fas fa-users icon-navbar' },
+            { title: 'Articulos', path: '/articulos', icon: 'fas fa-cubes icon-navbar' },
+            { title: 'Diaria', path: '/diaria', icon: 'fas fa-dollar-sign icon-navbar', onClick: this.onDiaria.bind(this), badge: this.renderBadge() },
+            { title: 'Pedidos', path: '/pedidos', icon: 'fas fa-shopping-cart icon-navbar' },
+            { title: 'Remitos', path: '/remitos', icon: 'fas fa-list icon-navbar' },
+            { title: 'Reportes', path: '/reportes', icon: 'fas fa-book icon-navbar' }
         ];
 
         return items.map((item) => {

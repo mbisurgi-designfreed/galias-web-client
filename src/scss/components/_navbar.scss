@@ -32,6 +32,10 @@
         &:not(:last-child) {
             margin-right: 2.5rem;
         }
+
+        &--side {
+            display: block;
+        }
     }
 
     &__auth {

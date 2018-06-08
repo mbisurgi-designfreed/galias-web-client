@@ -8,27 +8,30 @@ import { proximo, add } from '../../../actions/remito.action';
 
 class AddRemito extends Component {
     state = {
-        remito: undefined
+        remito: undefined,
+        proximo: undefined
     }
 
     componentWillMount() {
         this.props.proximo();
     }
 
-    onAdd = (remito) => {
-        //this.props.add(remito, this.props.history);
+    onAdd = (remito, talonario) => {
         this.setState(() => ({
-            remito
+            remito,
+            proximo: talonario.proximo
         }));
     }
 
-    onCloseModal = (proximo) => {
-        const remito = {
-            remito: this.state.remito,
-            proximo
+    onCloseModal = (proximo, cancel) => {
+        if (!cancel) {
+            const remito = {
+                remito: this.state.remito,
+                proximo
+            }
+    
+            this.props.add(remito, this.props.history);
         }
-
-        this.props.add(remito, this.props.history);
 
         this.setState(() => ({
             remito: undefined
@@ -39,7 +42,7 @@ class AddRemito extends Component {
         return (
             <div className="mt-3">
                 <RemitoForm accion={this.onAdd} />
-                <ConfirmModal proximo={this.props.proximoNumero} isOpen={!!this.state.remito} onCloseModal={this.onCloseModal} />
+                <ConfirmModal proximo={this.state.proximo} isOpen={!!this.state.remito} onCloseModal={this.onCloseModal} />
             </div>
         )
     }

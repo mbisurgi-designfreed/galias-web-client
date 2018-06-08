@@ -67,6 +67,45 @@ export const proximo = () => {
     }
 }
 
+export const sync = (remito, history) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/remito/sync`;
+
+        dispatch({
+            type: 'remitos_adding'
+        });
+
+        try {   
+            const res = await axios.post(URL, remito);
+
+            if (res.status === 200) {
+                dispatch({
+                    type: 'remitos_adding_done'
+                });
+
+                history.push('/remitos');
+            }
+        } catch (err) {
+            if (err.response.status === 500) {
+                
+            }
+
+            if (err.response.status === 503) {
+                dispatch({
+                    type: 'remitos_adding_done'
+                });
+
+                dispatch({
+                    type: 'add_alert',
+                    payload: err.response.data
+                });
+
+                history.push('/remitos')
+            }
+        }
+    }
+};
+
 export const add = (remito, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/remito/new`;

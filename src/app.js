@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 
 import 'react-select/dist/react-select.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import 'react-accessible-accordion/dist/minimal-example.css';
+import 'react-accessible-accordion/dist/fancy-example.css';
 import './scss/styles.scss';
 
 import configureStore from './store/configureStore';
