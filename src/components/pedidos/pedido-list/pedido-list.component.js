@@ -58,6 +58,8 @@ class PedidoList extends Component {
         if (this.props.selectedPedido._id) {
             const pedido = this.props.selectedPedido;
 
+            console.log(pedido);
+
             const remito = {
                 fecha: moment(moment(new Date()).format('YYYY-MM-DD')).valueOf(),
                 pedido: pedido._id,

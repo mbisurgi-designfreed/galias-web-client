@@ -25,7 +25,16 @@ export default (NotificatedComponent) => {
                         }
                     }
                 };
+                this.props.dispatch(success(notification));
+            });
 
+            this.chat.bind('cliente', ({ cliente }) => {
+                const notification = {
+                    title: 'Sync Clientes',
+                    message: `El cliente ${cliente} se ha sincronizado`,
+                    position: 'tr',
+                    autoDismiss: 0,
+                }
                 this.props.dispatch(success(notification));
             })
         }

@@ -122,7 +122,7 @@ class ArticuloForm extends Component {
     }
 
     proveedorChanged = (proveedor) => {
-        this.props.setFieldValue('proveedor', proveedor);
+        this.props.setFieldValue('proveedor', proveedor.value);
     }
 
     proveedorBlur = () => {
@@ -130,7 +130,7 @@ class ArticuloForm extends Component {
     }
 
     unidadStockChanged = (unidadStock) => {
-        this.props.setFieldValue('unidadStock', unidadStock);
+        this.props.setFieldValue('unidadStock', unidadStock.value);
     }
 
     unidadStockBlur = () => {
@@ -138,7 +138,7 @@ class ArticuloForm extends Component {
     }
 
     ivaChanged = (iva) => {
-        this.props.setFieldValue('iva', iva);
+        this.props.setFieldValue('iva', iva.value);
     }
 
     ivaBlur = () => {
@@ -146,7 +146,7 @@ class ArticuloForm extends Component {
     }
 
     loteChanged = (lote) => {
-        this.props.setFieldValue('lote', lote);
+        this.props.setFieldValue('lote', lote.value);
     }
 
     loteBlur = () => {
@@ -154,7 +154,7 @@ class ArticuloForm extends Component {
     }
 
     familiaChanged = (familia) => {
-        this.props.setFieldValue('familia', familia);
+        this.props.setFieldValue('familia', familia.value);
         this.props.setFieldValue('grupo', '');
         this.props.setFieldValue('subgrupo', '');
 
@@ -177,7 +177,7 @@ class ArticuloForm extends Component {
     }
 
     grupoChanged = (grupo) => {
-        this.props.setFieldValue('grupo', grupo);
+        this.props.setFieldValue('grupo', grupo.value);
         this.props.setFieldValue('subgrupo', '');
 
         if (grupo) {
@@ -199,7 +199,7 @@ class ArticuloForm extends Component {
     }
 
     subgrupoChanged = (subgrupo) => {
-        this.props.setFieldValue('subgrupo', subgrupo);
+        this.props.setFieldValue('subgrupo', subgrupo.value);
     }
 
     subgrupoBlur = () => {
@@ -543,14 +543,14 @@ const onSubmit = (values, { props, resetForm }) => {
     const articulo = {
         codigo,
         descripcion,
-        proveedor: values.proveedor.value ? values.proveedor.value : values.proveedor,
+        proveedor: values.proveedor,
         iva: values.iva,
         kilos,
         lote: values.lote,
-        familia: values.familia.value ? values.familia.value : values.familia,
-        grupo: values.grupo.value ? values.grupo.value : values.grupo,
-        subgrupo: values.subgrupo.value ? values.subgrupo.value : values.subgrupo,
-        unidadStock: values.unidadStock.value ? values.unidadStock.value : values.unidadStock,
+        familia: values.familia,
+        grupo: values.grupo,
+        subgrupo: values.subgrupo,
+        unidadStock: values.unidadStock,
         unidadesCpa,
         unidadesVta,
         precioCpa,

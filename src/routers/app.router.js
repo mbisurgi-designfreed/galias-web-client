@@ -48,7 +48,7 @@ class AppRouter extends Component {
             <BrowserRouter>
                 <div>
                     <Header />
-                    {/* <Switch> */}
+                    <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/signin" component={Signin} />
                         <Route exact path="/diaria" component={authenticateRoute(DiariaList)} />
@@ -69,7 +69,7 @@ class AppRouter extends Component {
                         <Route exact path="/articulos/:id" component={authenticateRoute(EditArticulo)} />
                         <Route exact path="/entregas/new" component={authenticateRoute(AddEntrega)} />
                         <Route path="/reportes" component={authenticateRoute(Reportes)} />
-                    {/* </Switch> */}
+                    </Switch>
                 </div>
             </BrowserRouter>
         )

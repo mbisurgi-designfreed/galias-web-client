@@ -163,7 +163,7 @@ class ClienteForm extends Component {
     }
 
     ivaChanged = (iva) => {
-        this.props.setFieldValue('iva', iva);
+        this.props.setFieldValue('iva', iva.value);
     }
 
     ivaBlur = () => {
@@ -171,7 +171,7 @@ class ClienteForm extends Component {
     }
 
     pagoChanged = (pago) => {
-        this.props.setFieldValue('condicionPago', pago);
+        this.props.setFieldValue('condicionPago', pago.value);
     }
 
     pagoBlur = () => {
@@ -195,7 +195,7 @@ class ClienteForm extends Component {
     }
 
     canalChanged = (canal) => {
-        this.props.setFieldValue('canal', canal);
+        this.props.setFieldValue('canal', canal.value);
         this.props.setFieldValue('subcanal', '');
 
         if (canal) {
@@ -217,7 +217,7 @@ class ClienteForm extends Component {
     }
 
     subcanalChanged = (subcanal) => {
-        this.props.setFieldValue('subcanal', subcanal);
+        this.props.setFieldValue('subcanal', subcanal.value);
     }
 
     subcanalBlur = () => {
@@ -225,7 +225,7 @@ class ClienteForm extends Component {
     }
 
     divisionChanged = (division) => {
-        this.props.setFieldValue('division', division);
+        this.props.setFieldValue('division', division.value);
     }
 
     divisionBlur = () => {
@@ -233,7 +233,7 @@ class ClienteForm extends Component {
     }
 
     clasificacionChanged = (clasificacion) => {
-        this.props.setFieldValue('clasificacion', clasificacion);
+        this.props.setFieldValue('clasificacion', clasificacion.value);
     }
 
     clasificacionBlur = () => {
@@ -592,17 +592,17 @@ const onSubmit = (values, { props, resetForm }) => {
     const cliente = {
         razonSocial,
         cuit,
-        iva: values.iva.value ? values.iva.value : values.iva,
+        iva: values.iva,
         nombreComercial,
         direccion,
         telefonos,
         email,
         sucursales,
-        canal: values.canal.value ? values.canal.value : values.canal,
-        subcanal: values.subcanal.value ? values.subcanal.value : values.subcanal,
-        division: values.division.value ? values.division.value : values.division,
-        clasificacion: values.clasificacion.value,
-        condicionPago: values.condicionPago.value ? values.condicionPago.value : values.condicionPago,
+        canal: values.canal,
+        subcanal: values.subcanal,
+        division: values.division,
+        clasificacion: values.clasificacion,
+        condicionPago: values.condicionPago,
         diaVisita: typeof values.visita[0] === 'object' ? values.visita.map(visita => visita.value) : values.visita,
         diaEntrega: typeof values.entrega[0] === 'object' ? values.entrega.map(entrega => entrega.value) : values.entrega,
         personas
