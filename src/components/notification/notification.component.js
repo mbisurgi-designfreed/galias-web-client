@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
-import Notifications, { success } from 'react-notification-system-redux';
+import Notifications, { success, error } from 'react-notification-system-redux';
 
 export default (NotificatedComponent) => {
     class Notification extends Component {
@@ -30,13 +30,43 @@ export default (NotificatedComponent) => {
 
             this.chat.bind('cliente', ({ cliente }) => {
                 const notification = {
-                    title: 'Sync Clientes',
+                    title: 'Sync clientes',
                     message: `El cliente ${cliente} se ha sincronizado`,
                     position: 'tr',
                     autoDismiss: 0,
                 }
                 this.props.dispatch(success(notification));
-            })
+            });
+
+            this.chat.bind('cliente.error', ({ cliente }) => {
+                const notification = {
+                    title: 'Sync clientes',
+                    message: `El cliente ${cliente} no se ha podido sincronizar`,
+                    position: 'tr',
+                    autoDismiss: 0,
+                }
+                this.props.dispatch(error(notification));
+            });
+
+            this.chat.bind('articulo', ({ articulo }) => {
+                const notification = {
+                    title: 'Sync articulos',
+                    message: `El articulo ${articulo} se ha sincronizado`,
+                    position: 'tr',
+                    autoDismiss: 0,
+                }
+                this.props.dispatch(success(notification));
+            });
+
+            this.chat.bind('articulo.error', ({ articulo }) => {
+                const notification = {
+                    title: 'Sync articulos',
+                    message: `El articulo ${articulo} no se ha podido sincronizar`,
+                    position: 'tr',
+                    autoDismiss: 0,
+                }
+                this.props.dispatch(error(notification));
+            });
         }
 
         render() {

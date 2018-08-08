@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import notification from '../notification/notification.component';
+
 import { signout } from '../../actions/auth.action';
 import { resetNotification } from '../../actions/info.action';
 
@@ -67,4 +69,4 @@ const mapStateToProps = (state) => {
     return { auth: state.auth.authenticate, notifications: state.info.notifications };
 }
 
-export default connect(mapStateToProps, { signout, resetNotification })(Header);
+export default connect(mapStateToProps, { signout, resetNotification })(notification(Header));

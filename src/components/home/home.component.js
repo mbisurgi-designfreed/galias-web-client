@@ -1,7 +1,5 @@
 import React from 'react';
 
-import notification from '../notification/notification.component';
-
 const Home = () => {
     return (
         <div className="home">
@@ -13,4 +11,4 @@ const Home = () => {
     );
 };
 
-export default notification(Home);
+export default Home;
