@@ -67,6 +67,26 @@ export default (NotificatedComponent) => {
                 }
                 this.props.dispatch(error(notification));
             });
+
+            this.chat.bind('remito', ({ pedido }) => {
+                const notification = {
+                    title: 'Sync remitos',
+                    message: `El remito para el pedido ${pedido} se ha enviado a Tango`,
+                    position: 'tr',
+                    autoDismiss: 0,
+                }
+                this.props.dispatch(success(notification));
+            });
+
+            this.chat.bind('remito.error', ({ pedido }) => {
+                const notification = {
+                    title: 'Sync remitos',
+                    message: `El remito para el pedido ${pedido} no se ha podido enviar a Tango`,
+                    position: 'tr',
+                    autoDismiss: 0,
+                }
+                this.props.dispatch(error(notification));
+            });
         }
 
         render() {

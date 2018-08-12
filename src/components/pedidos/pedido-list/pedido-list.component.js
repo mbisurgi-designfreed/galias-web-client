@@ -63,22 +63,19 @@ class PedidoList extends Component {
             const remito = {
                 fecha: moment(moment(new Date()).format('YYYY-MM-DD')).valueOf(),
                 pedido: pedido._id,
-                cliente: pedido.cliente._id,
+                cliente: pedido.cliente.codigo,
                 items: _.map(pedido.items, (item) => {
-                    const ele = {
-                        item: item._id,
-                        articulo: item.articulo._id,
+                    return {
+                        articulo: item.articulo.codigo,
                         cantidad: item.pendiente,
                         precio: item.precio
-                    };
+                    }
+                })
+                // kilos: _.reduce(pedido.items, (sum, item) => {
+                //     const sub = item.pendiente * item.articulo.kilos;
 
-                    return ele;
-                }),
-                kilos: _.reduce(pedido.items, (sum, item) => {
-                    const sub = item.pendiente * item.articulo.kilos;
-
-                    return sum + sub;
-                }, 0)        
+                //     return sum + sub;
+                // }, 0)        
             }
 
             this.props.sync(remito, this.props.history);

@@ -7,7 +7,7 @@ const ArticuloListItem = (props) => {
 
     const renderSync = () => {
         if (articulo.sincronizado) {
-            return <i className="icon fa fa-cloud-upload"></i>
+            return <i className="icon fas fa-cloud-upload-alt"></i>
         }
     }
 

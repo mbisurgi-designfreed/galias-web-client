@@ -6,7 +6,7 @@ const ClienteListItem = (props) => {
 
     const renderSync = () => {
         if (cliente.sincronizado) {
-            return <i className="icon fa fa-cloud-upload"></i>
+            return <i className="icon fas fa-cloud-upload-alt"></i>
         }
     }
 
