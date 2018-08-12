@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Modal from 'react-modal';
+import moment from 'moment';
+import jsPDF from 'jspdf';
 
 class ConfirmModal extends Component {
+    IVA = {
+        ri: 'Responsable inscripto',
+        rs: 'Responsable monotributo',
+        cf: 'Consumidor final',
+        ex: 'Exento'
+    }
+    
     state = {
         proximo: 0,
         imprimiendo: false
@@ -35,6 +45,8 @@ class ConfirmModal extends Component {
         this.setState(() => ({
             imprimiendo: true
         }));
+
+        this.print();
     }
 
     onImprimiendo = () => {
@@ -62,6 +74,41 @@ class ConfirmModal extends Component {
         this.props.onCloseModal(this.state.proximo, cancel);
     }
 
+    print = () => {
+        const remito = this.props.remito;
+
+        const datos = {
+            fecha: moment(remito.fecha).format('DD/MM/YYYY'),
+            cliente: this.props.clientes[remito.cliente],
+            items: remito.items.map((item) => {
+                return { ...this.props.articulos[item.articulo], cantidad: item.cantidad }
+            })
+
+        }
+
+        const doc = new jsPDF({
+            orientation: 'p',
+            unit: 'cm',
+            format: 'a4'
+        });
+
+        doc.text(`${datos.fecha}`, 15, 4.8);
+        doc.text(datos.cliente.cuit, 3, 7.8);
+        doc.text(datos.cliente.razonSocial, 13.5, 7.8);
+        doc.text(this.IVA[datos.cliente.iva], 6, 8.6);
+        doc.text(`${datos.cliente.direccion.calle} ${datos.cliente.direccion.altura} - ${datos.cliente.direccion.codigoPostal}`, 3.5, 9.1);
+        doc.text(`Cuenta corriente a ${datos.cliente.condicionPago} dias`, 5, 9.8);
+
+        for (let i = 0; i < datos.items.length; i++) {
+            let top = 12 + (i / 2);
+            doc.text(datos.items[i].codigo, 1, top);
+            doc.text(datos.items[i].descripcion, 5, top);
+            doc.text(datos.items[i].cantidad.toString(), 17.5, top);
+        }
+
+        doc.save(`R${this.props.pv.toString().padStart(4, '0')}${this.props.numero.toString().padStart(8, '0')}.pdf`); 
+    }
+
     render() {
         return (
             <Modal className="modal" overlayClassName="overlay" isOpen={this.props.isOpen} onRequestClose={this.onCloseModal} shouldCloseOnOverlayClick={false} contentLabel="Selected Option" ariaHideApp={false} closeTimeoutMS={0}>
@@ -81,4 +128,8 @@ class ConfirmModal extends Component {
     }
 }
 
-export default ConfirmModal;
+const mapStateToProps = (state) => {
+    return { clientes: state.cliente.clientes, articulos: state.articulo.articulos };
+}
+
+export default connect(mapStateToProps)(ConfirmModal);

@@ -5,6 +5,7 @@ import RemitoForm from '../remito-form/remito-form.component';
 import ConfirmModal from './confirm-modal.component';
 
 import { proximo, add } from '../../../actions/remito.action';
+import { list } from '../../../actions/articulo.action';
 
 class AddRemito extends Component {
     state = {
@@ -15,6 +16,7 @@ class AddRemito extends Component {
 
     componentWillMount() {
         this.props.proximo();
+        this.props.list();
     }
 
     onAdd = (remito, talonario) => {
@@ -50,7 +52,7 @@ class AddRemito extends Component {
         return (
             <div className="mt-3">
                 <RemitoForm accion={this.onAdd} />
-                <ConfirmModal proximo={this.state.proximo} isOpen={!!this.state.remito} onCloseModal={this.onCloseModal} />
+                <ConfirmModal proximo={this.state.proximo} remito={this.state.remito} pv={this.state.pv} numero={this.state.proximo} isOpen={!!this.state.remito} onCloseModal={this.onCloseModal} />
             </div>
         )
     }
@@ -60,4 +62,4 @@ const mapStateToProps = (state) => {
     return { proximoNumero: state.remito.proximo };
 }
 
-export default connect(mapStateToProps, { proximo, add })(AddRemito);
+export default connect(mapStateToProps, { proximo, add, list })(AddRemito);
