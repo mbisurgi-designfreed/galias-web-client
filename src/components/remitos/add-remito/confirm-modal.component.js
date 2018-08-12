@@ -49,13 +49,13 @@ class ConfirmModal extends Component {
     }
 
     onPrintSuccess = () => {
-        
+        this.props.onCloseModal(this.state.proximo, false);
     }
 
     onPrintError = () => {
-        this.setState(() => {
+        this.setState(() => ({
             imprimiendo: false
-        });
+        }));
     }
 
     onCloseModal = (cancel) => {

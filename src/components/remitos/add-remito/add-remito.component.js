@@ -9,7 +9,8 @@ import { proximo, add } from '../../../actions/remito.action';
 class AddRemito extends Component {
     state = {
         remito: undefined,
-        proximo: undefined
+        pv: undefined,
+        proximo: undefined,
     }
 
     componentWillMount() {
@@ -19,23 +20,30 @@ class AddRemito extends Component {
     onAdd = (remito, talonario) => {
         this.setState(() => ({
             remito,
-            proximo: talonario.proximo
+            pv: talonario.pv,
+            proximo: talonario.proximo,
         }));
     }
 
     onCloseModal = (proximo, cancel) => {
         if (!cancel) {
             const remito = {
-                remito: this.state.remito,
+                remito: { ...this.state.remito, numero: this.generarNroRemito(this.state.pv, proximo) },
+                pv: this.state.pv,
                 proximo
-            }
-    
+            };
+
+            console.log(remito);
             this.props.add(remito, this.props.history);
         }
 
         this.setState(() => ({
             remito: undefined
         }));
+    }
+
+    generarNroRemito = (pv, numero) => {
+        return `R${pv.toString().padStart(4, '0')}${numero.toString().padStart(8, '0')}`;
     }
 
     render() {
