@@ -68,6 +68,26 @@ export default (NotificatedComponent) => {
                 this.props.dispatch(error(notification));
             });
 
+            this.chat.bind('precio', () => {
+                const notification = {
+                    title: 'Sync precios',
+                    message: `Los precios se han sincronizado`,
+                    position: 'tr',
+                    autoDismiss: 0,
+                }
+                this.props.dispatch(success(notification));
+            });
+
+            this.chat.bind('precio.error', () => {
+                const notification = {
+                    title: 'Sync precios',
+                    message: `Los precios no se han podido sincronizar`,
+                    position: 'tr',
+                    autoDismiss: 0,
+                }
+                this.props.dispatch(error(notification));
+            });
+
             this.chat.bind('remito', ({ pedido }) => {
                 const notification = {
                     title: 'Sync remitos',

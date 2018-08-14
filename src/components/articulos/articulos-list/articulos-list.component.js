@@ -88,8 +88,8 @@ class ArticulosList extends Component {
                 <div className="row">
                     <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged}>
                         <div className="form__icon-container">
-                            <Link className="icon-medium" to="/articulos/new"><i className="fa fa-plus-circle"></i></Link>
-                            <Link className="icon-medium" to="/articulos/precios"><i className="fa fa-usd"></i></Link>
+                            <Link className="icon-medium" to="/articulos/new"><i className="fas fa-plus-circle"></i></Link>
+                            <Link className="icon-medium" to="/articulos/precios"><i className="fas fa-dollar-sign"></i></Link>
                         </div>
                     </Filters>
                 </div>

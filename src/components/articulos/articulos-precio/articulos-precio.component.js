@@ -15,6 +15,7 @@ class ArticulosPrecio extends Component {
     updatePrecio = (id, precio) => {
         const articulo = this.state.articulos[id];
         articulo.precioVta = precio;
+        articulo.sincronizado = false;
     };
 
     renderArticulos = () => {
@@ -24,7 +25,11 @@ class ArticulosPrecio extends Component {
     };
 
     onActualizar = () => {
-        this.props.editPrice(_.map(this.state.articulos), this.props.history);
+        const articulos = _.filter(this.state.articulos, (articulo) => {
+            return !articulo.sincronizado;
+        });
+
+        this.props.editPrice(articulos, this.props.history);
     };
 
     render() {
