@@ -53,11 +53,18 @@ const PedidoListItem = (props) => {
         }
     }
 
+    const renderSync = () => {
+        if (pedido.sincronizado) {
+            return <i className="icon fas fa-cloud-upload-alt"></i>
+        }
+    }
+
     return (
         <div className="list__item">
             <div className="list__item-header">
                 <h6 className="list__item-title">{formatDate()}</h6>
                 <div className="list__item-menu">
+                    {renderSync()}
                     <Link className="list__item-icon" to={`/pedidos/${pedido._id}`}><i className="fa fa-list-alt"></i></Link>
                     <input type="checkbox" checked={isChecked()} className={`list__item-check ${isDisabled() ? 'list__item-check--disabled' : ''}`} disabled={isDisabled()} onChange={onItemClicked} />
                 </div>

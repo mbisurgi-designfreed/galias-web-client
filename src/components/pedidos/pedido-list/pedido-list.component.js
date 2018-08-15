@@ -111,6 +111,14 @@ class PedidoList extends Component {
         }
     }
 
+    renderSync() {
+        if (this.props.selectedPedido === null || this.props.selectedPedido.sincronizado === false) {
+            return <button disabled className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+        } else {
+            <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+        }
+    }
+
     renderBuscar() {
         const loading = this.props.loading;
 
@@ -148,7 +156,7 @@ class PedidoList extends Component {
                         <div className="form__icon-container">
                             <Link className="icon-medium" to="/pedidos/new"><i className="fas fa-plus-circle"></i></Link>
                             <Link className="icon-medium" to="/pedidos/new"><i className="fas fa-download"></i></Link>
-                            <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+                            {this.renderSync()}
                             <button className={`btn-link icon-medium`} onClick={this.onGenerarRemito} ><i className="fas fa-list"></i></button>
                         </div>
                     </Form>

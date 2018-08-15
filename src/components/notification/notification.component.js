@@ -14,7 +14,7 @@ export default (NotificatedComponent) => {
             this.chat = this.pusher.subscribe('crm');
             this.chat.bind('pedido', ({ pedido, cliente }) => {
                 const notification = {
-                    title: 'Nuevo Pedido',
+                    title: 'Nuevo pedido',
                     message: `Pedido ${pedido} para ${cliente}`,
                     position: 'tr',
                     autoDismiss: 0,
