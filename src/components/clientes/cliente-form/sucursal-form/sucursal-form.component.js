@@ -38,6 +38,12 @@ class SucursalForm extends Component {
         }
     }
 
+    renderMap = () => {
+        if (this.state.ubicacion) {
+            return <Map containerElement={<div style={{ width: '100%', height: 200 }} />} mapElement={<div style={{ height: `100%` }} />} ubicacion={this.state.ubicacion} />
+        }        
+    }
+
     render() {
         return (
             <div>
@@ -77,7 +83,7 @@ class SucursalForm extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        {this.state.ubicacion && <Map containerElement={<div style={{ width: '100%', height: 200 }} />} mapElement={<div style={{ height: `100%` }} />} ubicacion={this.state.ubicacion} />}
+                        {this.renderMap()}
                     </div>
                     <button className="btn">{this.props.sucursal.item ? 'Editar' : 'Agregar'}</button>
                 </Form>

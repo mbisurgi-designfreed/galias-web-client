@@ -49,8 +49,8 @@ class ClienteForm extends Component {
 
             if (this.props.cliente.direccion.geometry) {
                 ubicacion = {
-                    lat: this.props.cliente.direccion.geometry.coordinates[0],
-                    lng: this.props.cliente.direccion.geometry.coordinates[1]
+                    lat: this.props.cliente.direccion.geometry.coordinates[1],
+                    lng: this.props.cliente.direccion.geometry.coordinates[0]
                 }
             }
 
@@ -160,6 +160,8 @@ class ClienteForm extends Component {
         this.props.setFieldValue('codigoPostal', codigoPostal);
         this.props.setFieldValue('lat', ubicacion.lat);
         this.props.setFieldValue('lng', ubicacion.lng);
+
+        this.renderMap();
     }
 
     ivaChanged = (iva) => {
@@ -269,7 +271,7 @@ class ClienteForm extends Component {
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarPersona(i)}>
-                        <i className="fa fa-pencil icon-small"></i>
+                        <i className="fas fa-pencil-alt icon-small"></i>
                     </a>
                     <p className="form__list-item--title">{`${persona.cargo}`}</p>
                     <p className="form__list-item--detail">{`${persona.nombre}`}</p>
@@ -307,7 +309,7 @@ class ClienteForm extends Component {
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarTelefono(i)}>
-                        <i className="fa fa-pencil icon-small"></i>
+                        <i className="fas fa-pencil-alt icon-small"></i>
                     </a>
                     <p className="form__list-item--title">{`${telefono.tipo}`}</p>
                     <p className="form__list-item--detail">{`${telefono.numero}`}</p>
@@ -345,13 +347,19 @@ class ClienteForm extends Component {
             return (
                 <li className="form__list-item" key={i}>
                     <a onClick={() => this.onEditarSucursal(i)}>
-                        <i className="fa fa-pencil icon-small"></i>
+                        <i className="fas fa-pencil-alt icon-small"></i>
                     </a>
                     <p>{`${sucursal.calle} ${sucursal.altura}`}</p>
                 </li>
             )
         });
     };
+
+    renderMap = () => {
+        if (this.state.ubicacion) {
+            return <Map containerElement={<div style={{ width: '100%', height: 200 }} />} mapElement={<div style={{ height: `100%` }} />} ubicacion={this.state.ubicacion} />
+        }        
+    }
 
     render() {
         return (
@@ -422,7 +430,7 @@ class ClienteForm extends Component {
                     </div>
                     <div className="row">
                         <div className="col-1-of-2">
-                            {this.state.ubicacion && <Map containerElement={<div style={{ width: '100%', height: 200 }} />} mapElement={<div style={{ height: `100%` }} />} ubicacion={this.state.ubicacion} />}
+                            {this.renderMap()}
                         </div>
                     </div>
                     <div className="row">
@@ -431,21 +439,21 @@ class ClienteForm extends Component {
                             <ul className="form__list">
                                 {this.renderTelefonos()}
                             </ul>
-                            <button type="button" className="btn-link" onClick={this.onAgregarTelefono}><i className="fa fa-plus-circle icon-small"></i>agregar telefono</button>
+                            <button type="button" className="btn-link" onClick={this.onAgregarTelefono}><i className="fas fa-plus-circle icon-small"></i>agregar telefono</button>
                         </div>
                         <div className="form-group col-1-of-3">
                             <label className="form__label">Sucursales</label>
                             <ul className="form__list">
                                 {this.renderSucursales()}
                             </ul>
-                            <button type="button" className="btn-link" onClick={this.onAgregarSucursal}><i className="fa fa-plus-circle icon-small"></i>agregar sucursal</button>
+                            <button type="button" className="btn-link" onClick={this.onAgregarSucursal}><i className="fas fa-plus-circle icon-small"></i>agregar sucursal</button>
                         </div>
                         <div className="form-group col-1-of-3">
                             <label className="form__label">Personas de Interes</label>
                             <ul className="form__list">
                                 {this.renderPersonas()}
                             </ul>
-                            <button type="button" className="btn-link" onClick={this.onAgregarPersona}><i className="fa fa-plus-circle icon-small"></i>agregar persona de interes</button>
+                            <button type="button" className="btn-link" onClick={this.onAgregarPersona}><i className="fas fa-plus-circle icon-small"></i>agregar persona de interes</button>
                         </div>
                     </div>
                     <div className="row">

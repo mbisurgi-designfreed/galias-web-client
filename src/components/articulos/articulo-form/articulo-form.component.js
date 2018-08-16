@@ -246,10 +246,10 @@ class ArticuloForm extends Component {
                 return (
                     <li className="form__list-item" key={i}>
                         <a onClick={() => this.onEditarUnidadCpa(i)}>
-                            <i className="fa fa-pencil icon-small"></i>
+                            <i className="fas fa-pencil-alt icon-small"></i>
                         </a>
                         <a onClick={() => this.onEliminarUnidadCpa(i)}>
-                            <i className="fa fa-ban icon-small"></i>
+                            <i className="fas fa-ban icon-small"></i>
                         </a>
                         <p className="form__list-item--title">{`${this.formatUnidades(unidadCpa.unidad.label)}`}</p>
                         <p className="form__list-item--detail">{`${unidadCpa.equivalencia}`}</p>
@@ -299,10 +299,10 @@ class ArticuloForm extends Component {
                 return (
                     <li className="form__list-item" key={i}>
                         <a onClick={() => this.onEditarUnidadVta(i)}>
-                            <i className="fa fa-pencil icon-small"></i>
+                            <i className="fas fa-pencil-alt icon-small"></i>
                         </a>
                         <a onClick={() => this.onEliminarUnidadVta(i)}>
-                            <i className="fa fa-ban icon-small"></i>
+                            <i className="fas fa-ban icon-small"></i>
                         </a>
                         <p className="form__list-item--title">{`${this.formatUnidades(unidadVta.unidad.label)}`}</p>
                         <p className="form__list-item--detail">{`${unidadVta.equivalencia}`}</p>
@@ -350,7 +350,7 @@ class ArticuloForm extends Component {
                                 {this.renderUnidadesCpa()}
                             </ul>
                             {this.props.touched.unidadesCpa && this.props.errors.unidadesCpa && (<p className="form__field-error">{this.props.errors.unidadesCpa}</p>)}
-                            <button type="button" className="btn-link" onClick={this.onAgregarUnidadCpa}><i className="fa fa-plus-circle icon-small"></i>agregar unidad de compra</button>
+                            <button type="button" className="btn-link" onClick={this.onAgregarUnidadCpa}><i className="fas fa-plus-circle icon-small"></i>agregar unidad de compra</button>
                         </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label">Unidad de Venta</label>
@@ -358,7 +358,7 @@ class ArticuloForm extends Component {
                                 {this.renderUnidadesVta()}
                             </ul>
                             {this.props.touched.unidadesVta && this.props.errors.unidadesVta && (<p className="form__field-error">{this.props.errors.unidadesVta}</p>)}
-                            <button type="button" className="btn-link" onClick={this.onAgregarUnidadVta}><i className="fa fa-plus-circle icon-small"></i>agregar unidad de venta</button>
+                            <button type="button" className="btn-link" onClick={this.onAgregarUnidadVta}><i className="fas fa-plus-circle icon-small"></i>agregar unidad de venta</button>
                         </div>
                     </div>
                     <div className="row">

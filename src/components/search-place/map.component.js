@@ -7,7 +7,7 @@ class Map extends Component {
 
         return (
             <div>
-                <GoogleMap defaultZoom={16} defaultCenter={{ lat: loc.lat, lng: loc.lng }} >
+                <GoogleMap defaultZoom={16} center={{ lat: loc.lat, lng: loc.lng }} >
                     <Marker position={{ lat: loc.lat, lng: loc.lng }} />
                 </GoogleMap>
             </div>
