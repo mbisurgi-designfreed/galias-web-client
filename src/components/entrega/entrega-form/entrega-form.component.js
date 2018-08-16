@@ -53,6 +53,10 @@ class EntregaForm extends Component {
                 clientes[remito.cliente._id]._id = remito.cliente._id; 
                 clientes[remito.cliente._id].codigo = remito.cliente.codigo;
                 clientes[remito.cliente._id].razonSocial = remito.cliente.razonSocial;
+                clientes[remito.cliente._id].remito = remito.numero;
+            } else {
+                const remitos = clientes[remito.cliente._id].remito;
+                clientes[remito.cliente._id].remito = `${remitos} / ${remito.numero}`;
             }
         });
 
@@ -84,7 +88,7 @@ class EntregaForm extends Component {
                 <tr key={index}>
                     <td>{cliente.codigo}</td>
                     <td>{cliente.razonSocial}</td>
-                    <td></td>
+                    <td>{cliente.remito}</td>
                 </tr>
             )
         });
@@ -121,8 +125,8 @@ class EntregaForm extends Component {
                             <thead>
                                 <tr>
                                     <th style={{ width: '20%' }}>Codigo</th>
-                                    <th style={{ width: '50%' }}>Razon Social</th>
-                                    <th style={{ width: '30%' }}></th>
+                                    <th style={{ width: '35%' }}>Razon Social</th>
+                                    <th style={{ width: '45%' }}>Remitos</th>
                                 </tr>
                             </thead>
                             <tbody>
