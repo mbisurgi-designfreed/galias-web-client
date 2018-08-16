@@ -94,7 +94,7 @@ class ConfirmModal extends Component {
 
         doc.setFontSize(10);
 
-        doc.text(`${datos.fecha}`, 15.8, 4);
+        doc.text(`${datos.fecha}`, 16, 4);
         doc.text(`CUIT: ${datos.cliente.cuit}`, 1, 8.5);
         doc.text(`Razón Social: ${datos.cliente.razonSocial}`, 9, 8.5);
         doc.text(`Condición frente al IVA: ${this.IVA[datos.cliente.iva]}`, 1, 9);

@@ -7,6 +7,7 @@ import moment from 'moment';
 import numeral from 'numeral';
 import Yup from 'yup';
 import _ from 'lodash';
+import jsPDF from 'jspdf';
 
 import { list } from '../../../actions/cliente.action';
 import { pendienteCliente } from '../../../actions/pedido.action';
@@ -145,6 +146,60 @@ class EntregaForm extends Component {
     }
 }
 
+const print =(datos) => {
+    console.log(datos);
+
+    const doc = new jsPDF({
+        orientation: 'p',
+        unit: 'cm',
+        format: 'a4'
+    });
+
+    doc.setFontSize(10);
+
+    doc.text(`Fecha: ${datos.fecha}`, 13, 4);
+    doc.text(`Comprobante: 123456`, 13, 4.5);
+    doc.text(`ARTICULOS`, 1, 8.5);
+    doc.text(`CODIGO`, 1, 9);
+    doc.text(`ARTICULO`, 4, 9);
+    doc.text(`CANTIDAD`, 14, 9);
+    doc.text(`KILOS`, 17, 9);
+
+    let top = 9.5;
+    let kilos = 0;
+
+    for (let i = 0; i < datos.items.length; i++) {
+        top = top + (i / 2);
+        doc.text(datos.items[i].articulo.codigo, 1, top);
+        doc.text(datos.items[i].articulo.descripcion, 4, top);
+        doc.text(datos.items[i].cantidad.toString(), 14, top);
+        doc.text(numeral(datos.items[i].kilos).format('0,0.00') , 17, top);  
+        kilos = kilos + datos.items[i].kilos;
+    }
+
+    top = top + 1;
+    doc.text(`KILOS TOTALES`, 14, top);
+    doc.text(`${numeral(kilos).format('0,0.00') }`, 17, top);
+
+    top = top + 1.5;
+    doc.text(`CLIENTES`, 1, top);
+    top = top + 0.5;
+    doc.text(`CODIGO`, 1, top);
+    doc.text(`RAZON SOCIAL`, 4, top);
+    doc.text(`REMITOS`, 12, top);
+
+    top = top + 0.5;
+
+    for (let i = 0; i < datos.clientes.length; i++) {
+        top = top + (i / 2);
+        doc.text(datos.clientes[i].cliente.codigo.toString(), 1, top);
+        doc.text(datos.clientes[i].cliente.razonSocial, 4, top);
+        doc.text(datos.clientes[i].cliente.remito, 12, top);
+    }
+
+    doc.save(`entrega.pdf`); 
+};
+
 const mapPropsToValues = (props) => ({
     fecha: '',
     items: '',
@@ -159,6 +214,24 @@ const validationSchema = () => Yup.object().shape({
 
 const onSubmit = (values, { props, resetForm }) => {
     const { fecha, items, clientes } = values;
+
+    const datos = {
+        fecha: moment(fecha).format('DD/MM/YYYY'),
+        items: _.map(items, (item) => {
+            return {
+                articulo: item.articulo,
+                cantidad: item.cantidad,
+                kilos: item.kilos
+            };
+        }),
+        clientes: _.map(clientes, (cliente) => {
+            return {
+                cliente: cliente
+            }
+        })
+    }
+
+    print(datos);
 
     const entrega = {
         fecha: moment(fecha).valueOf(),
