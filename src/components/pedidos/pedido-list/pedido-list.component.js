@@ -55,6 +55,7 @@ class PedidoList extends Component {
     };
 
     onSync = () => {
+        console.log(this.props.selectedPedido);
         if (this.props.selectedPedido._id) {
             const pedido = this.props.selectedPedido;
 
@@ -113,7 +114,7 @@ class PedidoList extends Component {
 
     renderSync() {
         if (this.props.selectedPedido === null || this.props.selectedPedido.sincronizado === false) {
-            return <button disabled className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+            return <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
         } else {
             <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
         }
