@@ -53,6 +53,10 @@ const PedidoListItem = (props) => {
         }
     }
 
+    const isExtra = () => {
+        return pedido.extra ? 'Si' : 'No';
+    }
+
     const renderSync = () => {
         if (pedido.sincronizado) {
             return <i className="icon fas fa-cloud-upload-alt"></i>
@@ -83,6 +87,10 @@ const PedidoListItem = (props) => {
                     <div className="list__item-field list__item-field--direccion">
                         <p className="list__item-label">Estado:</p>
                         <p className={`list__item-value ${formatColor(pedido.estado)}`}>{pedido.estado.toUpperCase()}</p>
+                    </div>
+                    <div className="list__item-field list__item-field--direccion">
+                        <p className="list__item-label">Extra:</p>
+                        <p className={`list__item-value`}>{isExtra()}</p>
                     </div>
                 </div>
             </div>
