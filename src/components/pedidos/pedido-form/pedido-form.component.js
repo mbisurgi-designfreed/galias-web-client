@@ -16,6 +16,10 @@ class PedidoForm extends Component {
         return numeral(number).format('0,0.00');
     };
 
+    isExtra = () => {
+        return this.props.pedido.extra ? 'Si' : 'No';
+    }
+
     renderItems() {
         return this.props.pedido.items.map((item) => {
             return (
@@ -71,7 +75,15 @@ class PedidoForm extends Component {
                     <div className="list__item-group-field">
                         <div className="list__item-field">
                             <p className="list__item-label">Sucursal:</p>
-                            <p className="list__item-value">Independencia 185 - Monte Grande</p>
+                            <p className="list__item-value">{`${this.props.pedido.sucursal.calle} ${this.props.pedido.sucursal.altura} - ${this.props.pedido.sucursal.localidad}`}</p>
+                        </div>
+                        <div className="list__item-field">
+                            <p className="list__item-label">Comentario:</p>
+                            <p className="list__item-value">{this.props.pedido.comentario}</p>
+                        </div>
+                        <div className="list__item-field">
+                            <p className="list__item-label">Extra:</p>
+                            <p className="list__item-value">{this.isExtra()}</p>
                         </div>
                     </div>
                     <div className="list__item-group-field mt-sm">

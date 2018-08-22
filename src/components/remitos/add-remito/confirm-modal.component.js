@@ -105,7 +105,7 @@ class ConfirmModal extends Component {
             let top = 13.5 + (i / 2);
             doc.text(datos.items[i].codigo, 1, top);
             doc.text(datos.items[i].descripcion, 3.5, top);
-            doc.text(datos.items[i].cantidad.toString(), 18, top);
+            doc.text(datos.items[i].cantidad.toString(), 18.5, top);
         }
 
         doc.save(`R${this.props.pv.toString().padStart(4, '0')}${this.state.proximo.toString().padStart(8, '0')}.pdf`); 

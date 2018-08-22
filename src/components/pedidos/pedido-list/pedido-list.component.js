@@ -113,10 +113,12 @@ class PedidoList extends Component {
     }
 
     renderSync() {
-        if (this.props.selectedPedido === null || this.props.selectedPedido.sincronizado === false) {
-            return <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+        if (this.props.selectedPedido === null || this.props.selectedPedido === { } || this.props.selectedPedido.sincronizado === true || this.props.selectedPedido.extra === true) {
+            console.log('sin boton');
+            return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
         } else {
-            <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+            console.log('con boton');
+            return <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
         }
     }
 
