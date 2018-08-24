@@ -7,7 +7,7 @@ import Pagination from "react-js-pagination";
 import moment from 'moment';
 import _ from 'lodash';
 
-import { list, listToday } from '../../../actions/pedido.action';
+import { list, listToday, anular } from '../../../actions/pedido.action';
 import { setTextFilter, searchByCliente, searchByEstado } from '../../../actions/pedido-filters.action';
 import { add, sync } from '../../../actions/remito.action';
 
@@ -83,6 +83,13 @@ class PedidoList extends Component {
         }
     }
 
+    onAnular = () => {
+        console.log(this.props.selectedPedido);
+        if (this.props.selectedPedido._id) {
+            this.props.anular(this.props.selectedPedido._id, this.props.history);
+        }
+    }
+
     onGenerarRemito = () => {
         if (this.props.selectedPedido._id) {
             const pedido = this.props.selectedPedido;
@@ -113,12 +120,18 @@ class PedidoList extends Component {
     }
 
     renderSync() {
-        if (this.props.selectedPedido === null || this.props.selectedPedido === { } || this.props.selectedPedido.sincronizado === true || this.props.selectedPedido.extra === true) {
-            console.log('sin boton');
+        if (this.props.selectedPedido === null || this.props.selectedPedido === { } || this.props.selectedPedido.sincronizado === true || this.props.selectedPedido.extra === true || this.props.selectedPedido.estado === 'anulado') {
             return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
         } else {
-            console.log('con boton');
             return <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+        }
+    }
+
+    renderAnular() {
+        if (this.props.selectedPedido === null || this.props.selectedPedido === { } || this.props.selectedPedido.estado !== 'generado') {
+            return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onAnular} ><i className="fas fa-ban"></i></button>
+        } else {
+            return <button className={`btn-link icon-medium`} onClick={this.onAnular} ><i className="fas fa-ban"></i></button>
         }
     }
 
@@ -160,7 +173,7 @@ class PedidoList extends Component {
                             <Link className="icon-medium" to="/pedidos/new"><i className="fas fa-plus-circle"></i></Link>
                             <Link className="icon-medium" to="/pedidos/new"><i className="fas fa-download"></i></Link>
                             {this.renderSync()}
-                            <button className={`btn-link icon-medium`} onClick={this.onGenerarRemito} ><i className="fas fa-list"></i></button>
+                            {this.renderAnular()}
                         </div>
                     </Form>
                 </div>
@@ -197,7 +210,7 @@ const mapStateToProps = (state) => {
     return { pedidos: pedidoSelector(state.pedido.pedidos, state.pedidoFilters), loading: state.pedido.loading, filters: state.pedidoFilters, selectedPedido: state.selectedPedido };
 }
 
-export default connect(mapStateToProps, { list, listToday, setTextFilter, searchByCliente, searchByEstado, add, sync })(withFormik({
+export default connect(mapStateToProps, { list, listToday, anular, setTextFilter, searchByCliente, searchByEstado, add, sync })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
 })(withRefresh(PedidoList)));

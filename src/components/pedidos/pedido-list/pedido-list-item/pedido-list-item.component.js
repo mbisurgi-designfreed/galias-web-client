@@ -41,7 +41,7 @@ const PedidoListItem = (props) => {
 
     const formatColor = (estado) => {
         if (estado === 'generado') {
-            return 'info__value--danger';
+            return 'info__value--notify';
         }
 
         if (estado === 'pendiente') {
@@ -50,6 +50,10 @@ const PedidoListItem = (props) => {
 
         if (estado === 'completo') {
             return 'info__value--success';
+        }
+
+        if (estado === 'anulado') {
+            return 'info__value--danger'
         }
     }
 

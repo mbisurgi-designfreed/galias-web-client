@@ -83,3 +83,23 @@ export const select = (pedido, checked) => {
         type: 'pedido_unselected'
     }
 };
+
+export const anular = (id, history) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/pedido/anular`;
+
+        dispatch({
+            type: 'pedido_loading'
+        });
+
+        try {
+            const res = await axios.post(URL, { id });
+
+            if (res.status === 201) {
+                history.push('/pedidos');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
