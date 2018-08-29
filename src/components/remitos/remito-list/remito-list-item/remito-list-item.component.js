@@ -16,7 +16,16 @@ const RemitoListItem = (props) => {
     }
 
     const isDisabled = () => {
+        console.log(props);
         if (remito.estado === 'entregado') {
+            return true;
+        }
+
+        return false;
+    }
+
+    const isChecked = () => {
+        if (props.selected) {
             return true;
         }
 
@@ -47,7 +56,7 @@ const RemitoListItem = (props) => {
                 <h6 className="list__item-title">{formatDate()} - {remito.numero}</h6>
                 <div className="list__item-menu">
                     <Link className="list__item-icon" to={`/remitos/${remito._id}`}><i className="fa fa-list-alt"></i></Link>
-                    <input type="checkbox" className={`list__item-check ${isDisabled() ? 'list__item-check--disabled' : ''}`} disabled={isDisabled()} onChange={onItemClicked} />
+                    <input type="checkbox" className={`list__item-check ${isDisabled() ? 'list__item-check--disabled' : ''}`} disabled={isDisabled()} onChange={onItemClicked} checked={isChecked()} />
                 </div>
             </div>
 
@@ -71,4 +80,8 @@ const RemitoListItem = (props) => {
     );
 };
 
-export default connect(null, { select })(RemitoListItem);
+const mapStateToProps = (state, ownProps) => {
+    return { selected: state.selectedRemito[ownProps.remito._id] }
+};
+
+export default connect(mapStateToProps, { select })(RemitoListItem);
