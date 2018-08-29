@@ -189,10 +189,13 @@ const print = (datos) => {
     });
 
     doc.setFontSize(10);
+    doc.setLineWidth(0.05);
 
     doc.text(`Fecha: ${datos.fecha}`, 13, 6);
     doc.text(`Comprobante: ${datos.comprobante}`, 13, 6.5);
+    doc.rect(0.7, 8.1, 18.5, 0.5);
     doc.text(`ARTICULOS`, 1, 8.5);
+    doc.rect(0.7, 8.6, 18.5, 8);
     doc.text(`CODIGO`, 1, 9);
     doc.text(`ARTICULO`, 4, 9);
     doc.text(`CANTIDAD`, 14, 9);
@@ -210,13 +213,17 @@ const print = (datos) => {
         kilos = kilos + datos.items[i].kilos;
     }
 
-    top = top + 1;
+    //top = top + 1;
+    top = 17.5
+    doc.rect(13.7, top - 0.4, 5.5, 0.5);
     doc.text(`KILOS TOTALES`, 14, top);
     doc.text(`${numeral(kilos).format('0,0.00')}`, 17, top);
 
     top = top + 1.5;
+    doc.rect(0.7, top - 0.4, 18.5, 0.5);
     doc.text(`CLIENTES`, 1, top);
     top = top + 0.5;
+    doc.rect(0.7, top - 0.4, 18.5, 8);
     doc.text(`CODIGO`, 1, top);
     doc.text(`RAZON SOCIAL`, 4, top);
     doc.text(`REMITOS`, 12, top);
@@ -230,7 +237,7 @@ const print = (datos) => {
         doc.text(datos.clientes[i].cliente.remito, 12, top);
     }
 
-    doc.save(`entrega.pdf`);
+    doc.save(`${datos.comprobante}.pdf`);
 };
 
 const mapPropsToValues = (props) => ({
