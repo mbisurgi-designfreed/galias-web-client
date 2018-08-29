@@ -205,12 +205,13 @@ const print = (datos) => {
     let kilos = 0;
 
     for (let i = 0; i < datos.items.length; i++) {
-        top = top + (i / 2);
+        //top = top + (i / 2);
         doc.text(datos.items[i].articulo.codigo, 1, top);
         doc.text(datos.items[i].articulo.descripcion, 4, top);
         doc.text(datos.items[i].cantidad.toString(), 14, top);
         doc.text(numeral(datos.items[i].kilos).format('0,0.00'), 17, top);
         kilos = kilos + datos.items[i].kilos;
+        top = top + 0.5;
     }
 
     //top = top + 1;
@@ -231,10 +232,11 @@ const print = (datos) => {
     top = top + 0.5;
 
     for (let i = 0; i < datos.clientes.length; i++) {
-        top = top + (i / 2);
+        // top = top + (i / 2);
         doc.text(datos.clientes[i].cliente.codigo.toString(), 1, top);
         doc.text(datos.clientes[i].cliente.razonSocial, 4, top);
         doc.text(datos.clientes[i].cliente.remito, 12, top);
+        top = top + 0.5;
     }
 
     doc.save(`${datos.comprobante}.pdf`);
