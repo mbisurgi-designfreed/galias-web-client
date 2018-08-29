@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const list = () => {
+export const list = (tipo) => {
     return async (dispatch) => {
-        const URL = `${API_URL}/api/talonario/list`;
+        const URL = `${API_URL}/api/talonario/list/${tipo}`;
 
         dispatch({
             type: 'talonario_loading'

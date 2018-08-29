@@ -19,6 +19,10 @@ const TalonarioListItem = (props) => {
             <div className="list__item-content">
                 <div className="list__item-group-field">
                     <div className="list__item-field">
+                        <p className="list__item-label">Tipo:</p>
+                        <p className="list__item-value">{talonario.tipo}</p>
+                    </div>
+                    <div className="list__item-field">
                         <p className="list__item-label">Desde:</p>
                         <p className="list__item-value">{talonario.desde}</p>
                     </div>
@@ -29,10 +33,6 @@ const TalonarioListItem = (props) => {
                     <div className="list__item-field list__item-field--direccion">
                         <p className="list__item-label">Proximo:</p>
                         <p className="list__item-value">{talonario.proximo}</p>
-                    </div>
-                    <div className="list__item-field list__item-field--direccion">
-                        <p className="list__item-label">Tango:</p>
-                        {talonario.tango ? <i className="fas fa-check-circle icon-small text-success"></i> : <i className="fas fa-times-circle icon-small"></i>}
                     </div>
                     <div className="list__item-field list__item-field--direccion">
                         <p className="list__item-label">Habilitado:</p>

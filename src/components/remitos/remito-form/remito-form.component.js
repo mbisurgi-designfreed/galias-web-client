@@ -26,7 +26,7 @@ class RemitoForm extends Component {
 
   componentWillMount() {
     this.props.list(1);
-    this.props.listTalonario();
+    this.props.listTalonario('remito');
   }
 
   componentWillReceiveProps(newProps) {

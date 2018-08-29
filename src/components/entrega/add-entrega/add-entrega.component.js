@@ -6,8 +6,8 @@ import EntregaForm from '../entrega-form/entrega-form.component';
 import { add } from '../../../actions/entrega.action';
 
 class AddEntrega extends Component {
-    onAdd = (entrega) => {
-        this.props.add(entrega, this.props.history);
+    onAdd = (entrega, talonario) => {
+        this.props.add(entrega, talonario, this.props.history);
     }
 
     render() {

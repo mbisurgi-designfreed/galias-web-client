@@ -10,17 +10,41 @@ import _ from 'lodash';
 import jsPDF from 'jspdf';
 
 import { list } from '../../../actions/cliente.action';
+import { list as listTalonario } from '../../../actions/talonario.action';
 import { pendienteCliente } from '../../../actions/pedido.action';
 
 class EntregaForm extends Component {
     state = {
         items: {},
         clientes: {},
+        talonarios: []
     };
 
     componentWillMount() {
         this.generateItems();
         this.generateClientes();
+        this.props.listTalonario('entrega');
+    }
+
+    componentWillReceiveProps(newProps) {
+        let talonarios = _.map(newProps.talonarios, (talonario) => {
+            return {
+                value: talonario,
+                label: talonario.descripcion
+            };
+        });
+
+        this.setState(() => ({ talonarios }));
+    }
+
+    talonarioChanged = (talonario) => {
+        this.props.setFieldValue('talonario', talonario);
+
+        this.props.setFieldValue('talonario', talonario);
+    }
+
+    talonarioBlur = () => {
+        this.props.setFieldTouched('talonario', true);
     }
 
     generateItems = () => {
@@ -51,7 +75,7 @@ class EntregaForm extends Component {
         _.map(this.props.remitos, (remito) => {
             if (!clientes[remito.cliente._id]) {
                 clientes[remito.cliente._id] = {};
-                clientes[remito.cliente._id]._id = remito.cliente._id; 
+                clientes[remito.cliente._id]._id = remito.cliente._id;
                 clientes[remito.cliente._id].codigo = remito.cliente.codigo;
                 clientes[remito.cliente._id].razonSocial = remito.cliente.razonSocial;
                 clientes[remito.cliente._id].remito = remito.numero;
@@ -100,10 +124,19 @@ class EntregaForm extends Component {
             <div>
                 <Form className="form mb-xl">
                     <div className="row">
-                        <div className="form-group col-1-of-4">
-                            <label className="form__label" htmlFor="fecha">Fecha</label>
-                            <Field className="form__field" id="fecha" type="date" name="fecha" />
-                            {this.props.touched.fecha && this.props.errors.fecha && (<p className="form__field-error">{this.props.errors.fecha}</p>)}
+                        <div className="row">
+                            <div className="form-group col-1-of-4">
+                                <label className="form__label" htmlFor="fecha">Fecha</label>
+                                <Field className="form__field" id="fecha" type="date" name="fecha" />
+                                {this.props.touched.fecha && this.props.errors.fecha && (<p className="form__field-error">{this.props.errors.fecha}</p>)}
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="form-group col-1-of-4">
+                                <label className="form__label" htmlFor="talonario">Talonario</label>
+                                <Select id="talonario" options={this.state.talonarios} multi={false} value={this.props.values.talonario} onChange={this.talonarioChanged} onBlur={this.talonarioBlur} />
+                                {this.props.touched.talonario && this.props.errors.talonario && (<p className="form__field-error">{this.props.errors.talonario}</p>)}
+                            </div>
                         </div>
                     </div>
                     <div className="row">
@@ -146,7 +179,7 @@ class EntregaForm extends Component {
     }
 }
 
-const print =(datos) => {
+const print = (datos) => {
     console.log(datos);
 
     const doc = new jsPDF({
@@ -157,8 +190,8 @@ const print =(datos) => {
 
     doc.setFontSize(10);
 
-    doc.text(`Fecha: ${datos.fecha}`, 13, 4);
-    doc.text(`Comprobante: 123456`, 13, 4.5);
+    doc.text(`Fecha: ${datos.fecha}`, 13, 6);
+    doc.text(`Comprobante: ${datos.comprobante}`, 13, 6.5);
     doc.text(`ARTICULOS`, 1, 8.5);
     doc.text(`CODIGO`, 1, 9);
     doc.text(`ARTICULO`, 4, 9);
@@ -173,13 +206,13 @@ const print =(datos) => {
         doc.text(datos.items[i].articulo.codigo, 1, top);
         doc.text(datos.items[i].articulo.descripcion, 4, top);
         doc.text(datos.items[i].cantidad.toString(), 14, top);
-        doc.text(numeral(datos.items[i].kilos).format('0,0.00') , 17, top);  
+        doc.text(numeral(datos.items[i].kilos).format('0,0.00'), 17, top);
         kilos = kilos + datos.items[i].kilos;
     }
 
     top = top + 1;
     doc.text(`KILOS TOTALES`, 14, top);
-    doc.text(`${numeral(kilos).format('0,0.00') }`, 17, top);
+    doc.text(`${numeral(kilos).format('0,0.00')}`, 17, top);
 
     top = top + 1.5;
     doc.text(`CLIENTES`, 1, top);
@@ -197,26 +230,36 @@ const print =(datos) => {
         doc.text(datos.clientes[i].cliente.remito, 12, top);
     }
 
-    doc.save(`entrega.pdf`); 
+    doc.save(`entrega.pdf`);
 };
 
 const mapPropsToValues = (props) => ({
     fecha: '',
     items: '',
-    clientes: ''
+    clientes: '',
+    talonario: ''
 });
 
 const validationSchema = () => Yup.object().shape({
     fecha: Yup
         .string()
         .required('Fecha es requerido'),
+    talonario: Yup
+        .string()
+        .nullable()
+        .required('Talonario es requerido')
 });
 
 const onSubmit = (values, { props, resetForm }) => {
-    const { fecha, items, clientes } = values;
+    const { fecha, items, clientes, talonario } = values;
+
+    console.log(talonario);
+
+    const comprobante = `R${talonario.value.pv.toString().padStart(4, '0')}${talonario.value.proximo.toString().padStart(8, '0')}`;
 
     const datos = {
         fecha: moment(fecha).format('DD/MM/YYYY'),
+        comprobante,
         items: _.map(items, (item) => {
             return {
                 articulo: item.articulo,
@@ -235,6 +278,7 @@ const onSubmit = (values, { props, resetForm }) => {
 
     const entrega = {
         fecha: moment(fecha).valueOf(),
+        comprobante,
         items: _.map(items, (item) => {
             return {
                 articulo: item.articulo._id,
@@ -250,14 +294,14 @@ const onSubmit = (values, { props, resetForm }) => {
         })
     }
 
-    props.accion(entrega);
+    props.accion(entrega, talonario.value);
 };
 
 const mapStateToProps = (state) => {
-    return { remitos: state.selectedRemito };
+    return { remitos: state.selectedRemito, talonarios: state.talonario.talonarios };
 }
 
-export default connect(mapStateToProps)(withFormik({
+export default connect(mapStateToProps, { listTalonario })(withFormik({
     mapPropsToValues,
     validationSchema,
     handleSubmit: onSubmit

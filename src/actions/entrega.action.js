@@ -48,7 +48,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 //     }
 // };
 
-export const add = (entrega, history) => {
+export const add = (entrega, talonario, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/entrega/new`;
 
@@ -56,8 +56,8 @@ export const add = (entrega, history) => {
             type: 'entregas_adding'
         });
 
-        try {   
-            const res = await axios.post(URL, entrega);
+        try {
+            const res = await axios.post(URL, { entrega, talonario });
 
             if (res.status === 200) {
                 dispatch({
@@ -68,7 +68,7 @@ export const add = (entrega, history) => {
             }
         } catch (err) {
             if (err.response.status === 500) {
-                
+
             }
 
             if (err.response.status === 503) {
