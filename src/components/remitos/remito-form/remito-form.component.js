@@ -54,10 +54,6 @@ class RemitoForm extends Component {
       };
     });
 
-    talonarios = talonarios.filter((talonario) => {
-      return talonario.value.tango === false;
-    });
-
     this.setState(() => ({ clientes, pendientes, talonarios }));
   }
 
