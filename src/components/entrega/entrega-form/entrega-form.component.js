@@ -188,14 +188,17 @@ const print = (datos) => {
         format: 'a4'
     });
 
+    doc.addPage();
     doc.setFontSize(10);
+    
+    doc.setPage(1);
     doc.setLineWidth(0.05);
 
     doc.text(`Fecha: ${datos.fecha}`, 13, 6);
     doc.text(`Comprobante: ${datos.comprobante}`, 13, 6.5);
     doc.rect(0.7, 8.1, 18.5, 0.5);
     doc.text(`ARTICULOS`, 1, 8.5);
-    doc.rect(0.7, 8.6, 18.5, 8);
+    doc.rect(0.7, 8.6, 18.5, 20);
     doc.text(`CODIGO`, 1, 9);
     doc.text(`ARTICULO`, 4, 9);
     doc.text(`CANTIDAD`, 14, 9);
@@ -214,22 +217,24 @@ const print = (datos) => {
         top = top + 0.5;
     }
 
-    //top = top + 1;
-    top = 17.5
+    top = 29.2;
     doc.rect(13.7, top - 0.4, 5.5, 0.5);
     doc.text(`KILOS TOTALES`, 14, top);
     doc.text(`${numeral(kilos).format('0,0.00')}`, 17, top);
 
-    top = top + 1.5;
-    doc.rect(0.7, top - 0.4, 18.5, 0.5);
-    doc.text(`CLIENTES`, 1, top);
-    top = top + 0.5;
-    doc.rect(0.7, top - 0.4, 18.5, 8);
-    doc.text(`CODIGO`, 1, top);
-    doc.text(`RAZON SOCIAL`, 4, top);
-    doc.text(`REMITOS`, 12, top);
+    doc.setPage(2);
+    doc.setLineWidth(0.05);
 
-    top = top + 0.5;
+    doc.text(`Fecha: ${datos.fecha}`, 13, 6);
+    doc.text(`Comprobante: ${datos.comprobante}`, 13, 6.5);
+    doc.rect(0.7, 8.1, 18.5, 0.5);
+    doc.text(`CLIENTES`, 1, 8.5);
+    doc.rect(0.7, 8.6, 18.5, 20);
+    doc.text(`CODIGO`, 1, 9);
+    doc.text(`RAZON SOCIAL`, 4, 9);
+    doc.text(`REMITOS`, 12, 9);
+
+    top = 9.5;
 
     for (let i = 0; i < datos.clientes.length; i++) {
         // top = top + (i / 2);
