@@ -11,6 +11,7 @@ import jsPDF from 'jspdf';
 
 import { list } from '../../../actions/cliente.action';
 import { list as listTalonario } from '../../../actions/talonario.action';
+import { unselectAll } from '../../../actions/remito.action';
 import { pendienteCliente } from '../../../actions/pedido.action';
 
 class EntregaForm extends Component {
@@ -190,7 +191,7 @@ const print = (datos) => {
 
     doc.addPage();
     doc.setFontSize(10);
-    
+
     doc.setPage(1);
     doc.setLineWidth(0.05);
 

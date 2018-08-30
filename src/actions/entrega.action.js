@@ -64,6 +64,10 @@ export const add = (entrega, talonario, history) => {
                     type: 'entregas_adding_done'
                 });
 
+                dispatch({
+                    type: 'unselect_all'
+                });
+
                 history.push('/entregas');
             }
         } catch (err) {

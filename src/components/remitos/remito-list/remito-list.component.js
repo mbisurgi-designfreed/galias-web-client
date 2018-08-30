@@ -7,7 +7,7 @@ import Pagination from "react-js-pagination";
 import moment from 'moment';
 import _ from 'lodash';
 
-import { list, listToday } from '../../../actions/remito.action';
+import { list, listToday, unselectAll } from '../../../actions/remito.action';
 
 import RemitoListItem from './remito-list-item/remito-list-item.component';
 
@@ -20,6 +20,7 @@ class RemitoList extends Component {
 
     componentWillMount() {
         this.props.listToday();
+        this.props.unselectAll();
     }
 
     VIEW_PER_PAGE = 10;
@@ -105,7 +106,7 @@ const mapStateToProps = (state) => {
     return { remitos: remitoSelector(state.remito.remitos), loading: state.remito.loading };
 }
 
-export default connect(mapStateToProps, { list, listToday })(withFormik({
+export default connect(mapStateToProps, { list, listToday, unselectAll })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
 })(RemitoList));
