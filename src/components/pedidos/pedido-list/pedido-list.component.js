@@ -6,6 +6,8 @@ import Loader from 'react-loader'
 import Pagination from "react-js-pagination";
 import moment from 'moment';
 import _ from 'lodash';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 
 import { list, listToday, anular } from '../../../actions/pedido.action';
 import { setTextFilter, searchByCliente, searchByEstado } from '../../../actions/pedido-filters.action';
@@ -119,6 +121,59 @@ class PedidoList extends Component {
         }
     }
 
+    onExportar = () => {
+        const exportados = [];
+        const pedidos = _.toArray(this.props.pedidos);
+
+        pedidos.map((pedido) => {
+            return pedido.items.map((item) => {
+                const id = pedido._id;
+                const fecha = moment(pedido.fecha).format('DD/MM/YYYY');
+                const cliente = pedido.cliente;
+                const comentario = pedido.comentario;
+                const extra = pedido.extra;
+                const articulo = item.articulo;
+                const promocion = item.promocion;
+                const cantidad = item.cantidad;
+                const descuento = item.descuento;
+                const precio = item.precio;
+
+                exportados.push({
+                    Pedido: id,
+                    Fecha: fecha,
+                    CodigoCliente: cliente.codigo,
+                    RazonSocial: cliente.razonSocial,
+                    Comentario: comentario,
+                    CodigoArticulo: articulo.codigo,
+                    Descripcion: articulo.descripcion,
+                    Extra: extra,
+                    Promocion: promocion,
+                    Cantidad: cantidad,
+                    Descuento: descuento,
+                    Precio: precio,
+                    Total: cantidad * precio
+                });
+            });
+        });
+
+        this.exportAsExcelFile(exportados, 'Pedidos');
+    }
+
+    exportAsExcelFile = (json, excelFilename) => {
+        const worksheet = XLSX.utils.json_to_sheet(json);
+        const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+        this.saveAsExcelFile(excelBuffer, excelFilename);
+    }
+
+    saveAsExcelFile = (buffer, filename) => {
+        const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const EXCEL_EXTENSION = '.xlsx';
+        const data = new Blob([buffer], { type: EXCEL_TYPE });
+
+        FileSaver.saveAs(data, `${filename}_${new Date().getTime()}${EXCEL_EXTENSION}`);
+    }
+
     renderSync() {
         if (this.props.selectedPedido === null || this.props.selectedPedido === { } || this.props.selectedPedido.sincronizado === true || this.props.selectedPedido.extra === true || this.props.selectedPedido.estado === 'anulado') {
             return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
@@ -171,7 +226,7 @@ class PedidoList extends Component {
                         {this.renderBuscar()}
                         <div className="form__icon-container">
                             <Link className="icon-medium" to="/pedidos/new"><i className="fas fa-plus-circle"></i></Link>
-                            <Link className="icon-medium" to="/pedidos/new"><i className="fas fa-download"></i></Link>
+                            <button className="btn-link icon-medium" onClick={this.onExportar}><i className="fas fa-download"></i></button>
                             {this.renderSync()}
                             {this.renderAnular()}
                         </div>
