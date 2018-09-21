@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
 import Notifications, { success, error } from 'react-notification-system-redux';
 
+import { addPedido } from '../../actions/pedido.action';
+
 export default (NotificatedComponent) => {
     class Notification extends Component {
         componentWillMount() {
@@ -15,17 +17,18 @@ export default (NotificatedComponent) => {
             this.chat.bind('pedido', ({ pedido, cliente }) => {
                 const notification = {
                     title: 'Nuevo pedido',
-                    message: `Pedido ${pedido} para ${cliente}`,
+                    message: `Pedido ${pedido._id} para ${cliente}`,
                     position: 'tr',
                     autoDismiss: 0,
                     action: {
                         label: 'Ver',
                         callback: () => {
-                            this.props.history.push(`/pedido/${pedido}`);
+                            this.props.history.push(`/pedido/${pedido._id}`);
                         }
                     }
                 };
                 this.props.dispatch(success(notification));
+                this.props.dispatch(addPedido(pedido));
             });
 
             this.chat.bind('cliente', ({ cliente }) => {
@@ -55,7 +58,7 @@ export default (NotificatedComponent) => {
                     position: 'tr',
                     autoDismiss: 0,
                 }
-                this.props.dispatch(success(notification));
+                this.props.dispatch(success(notification));                
             });
 
             this.chat.bind('articulo.error', ({ articulo }) => {

@@ -14,7 +14,7 @@ export default (RefreshedComponent) => {
 
             this.chat = this.pusher.subscribe('crm');
             this.chat.bind('pedido', ({ pedido, cliente }) => {
-                this.props.listToday();
+                //this.props.listToday();
             });
         }
 

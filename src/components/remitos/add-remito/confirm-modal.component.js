@@ -94,19 +94,34 @@ class ConfirmModal extends Component {
 
         doc.setFontSize(10);
 
-        doc.text(`${datos.fecha}`, 16, 4);
-        doc.text(`CUIT: ${datos.cliente.cuit}`, 1, 8.5);
-        doc.text(`Razón Social: ${datos.cliente.razonSocial}`, 9, 8.5);
-        doc.text(`Condición frente al IVA: ${this.IVA[datos.cliente.iva]}`, 1, 9);
-        doc.text(`Domicilio: ${datos.cliente.direccion.calle} ${datos.cliente.direccion.altura} - ${datos.cliente.direccion.codigoPostal}`, 1, 9.5);
-        doc.text(`Condicion de venta: Cuenta corriente a ${datos.cliente.condicionPago} dias`, 1, 10);
+        // doc.text(`${datos.fecha}`, 16, 4);
+        // doc.text(`CUIT: ${datos.cliente.cuit}`, 1, 8.5);
+        // doc.text(`Razón Social: ${datos.cliente.razonSocial}`, 9, 8.5);
+        // doc.text(`Condición frente al IVA: ${this.IVA[datos.cliente.iva]}`, 1, 9);
+        // doc.text(`Domicilio: ${datos.cliente.direccion.calle} ${datos.cliente.direccion.altura} - ${datos.cliente.direccion.codigoPostal}`, 1, 9.5);
+        // doc.text(`Condicion de venta: Cuenta corriente a ${datos.cliente.condicionPago} dias`, 1, 10);
+
+        // for (let i = 0; i < datos.items.length; i++) {
+        //     let top = 13.5 + (i / 2);
+        //     doc.text(datos.items[i].codigo, 1, top);
+        //     doc.text(datos.items[i].descripcion, 3.5, top);
+        //     doc.text(datos.items[i].cantidad.toString(), 18.5, top);
+        // }
+
+        doc.text(`${datos.fecha}`, 16, 5);
+        doc.text(`CUIT: ${datos.cliente.cuit}`, 1, 9.5);
+        doc.text(`Razón Social: ${datos.cliente.razonSocial}`, 9, 9.5);
+        doc.text(`Condición frente al IVA: ${this.IVA[datos.cliente.iva]}`, 1, 10);
+        doc.text(`Domicilio: ${datos.cliente.direccion.calle} ${datos.cliente.direccion.altura} - ${datos.cliente.direccion.codigoPostal}`, 1, 10.5);
+        doc.text(`Condicion de venta: Cuenta corriente a ${datos.cliente.condicionPago} dias`, 1, 11);
 
         for (let i = 0; i < datos.items.length; i++) {
-            let top = 13.5 + (i / 2);
+            let top = 14.5 + (i / 2);
             doc.text(datos.items[i].codigo, 1, top);
             doc.text(datos.items[i].descripcion, 3.5, top);
             doc.text(datos.items[i].cantidad.toString(), 18.5, top);
         }
+
 
         doc.save(`R${this.props.pv.toString().padStart(4, '0')}${this.state.proximo.toString().padStart(8, '0')}.pdf`); 
     }

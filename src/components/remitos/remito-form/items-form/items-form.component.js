@@ -8,7 +8,8 @@ import AsignarItem from './asignar-item.component';
 
 class ItemsForm extends Component {
     state = {
-        asignados: {}
+        asignados: {},
+        cantidad: 0
     };
 
     formatDate = (fecha) => {
@@ -39,23 +40,27 @@ class ItemsForm extends Component {
 
     onAsignarItem = (item, cantidad) => {
         const asignados = this.state.asignados;
+        let cant = this.state.cantidad;
+        cant++;
 
         asignados[item._id] = item;
         asignados[item._id].asignar = cantidad;
 
-        this.setState(() => ({ asignados }), this.props.onAgregar(asignados[item._id]));
+        this.setState(() => ({ asignados, cantidad: cant }), this.props.onAgregar(asignados[item._id]));
     }
 
     onEliminarItem = (item) => {
         const asignados = _.omit(this.state.asignados, item._id);
+        let cant = this.state.cantidad;
+        cant--;
 
-        this.setState(() => ({ asignados }), this.props.onEliminar(item));
+        this.setState(() => ({ asignados, cantidad: cant }), this.props.onEliminar(item));
     }
 
     renderItemsPendiente(pendientes) {
         return pendientes.map((item) => {
             return (
-                <AsignarItem item={item} key={item._id} onAsignar={this.onAsignarItem} onEliminar={this.onEliminarItem} />
+                <AsignarItem item={item} key={item._id} onAsignar={this.onAsignarItem} onEliminar={this.onEliminarItem} cantidad={this.state.cantidad} />
             )
         });
     }

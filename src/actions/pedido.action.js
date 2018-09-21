@@ -48,6 +48,15 @@ export const listToday = () => {
     }
 };
 
+export const addPedido = (pedido) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'pedido_add',
+            payload: pedido
+        })
+    }
+}
+
 export const pendienteCliente = (cliente) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/pedido/pendiente/${cliente}`;

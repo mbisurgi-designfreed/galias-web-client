@@ -85,6 +85,7 @@ class ClientesList extends Component {
     }
 
     render() {
+        console.log('clientes', this);
         return (
             <div className="row">
                 <div className="alert-container">

@@ -14,7 +14,7 @@ class AsignarItem extends Component {
     onChange = (e) => {
         const asignar = e.target.value;
 
-        if (asignar > this.props.item.pendiente) {
+        if (asignar > this.props.item.pendiente || this.props.cantidad === 15) {
             this.setState(() => ({ disabled: true }));
         } else {
             this.setState(() => ({ disabled: false }));
