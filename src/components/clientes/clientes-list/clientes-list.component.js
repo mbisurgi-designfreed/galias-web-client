@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import Loader from 'react-loader'
 import Pagination from 'react-js-pagination';
 import _ from 'lodash';
+import axios from 'axios';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 
 import { list } from '../../../actions/cliente.action';
 import { setTextFilter, searchByRazonSocial, searchByCodigo, searchByCuit } from '../../../actions/cliente-filters.action';
@@ -84,6 +87,50 @@ class ClientesList extends Component {
         this.setState(() => ({ page }))
     }
 
+    onExportar = (e) => {
+        e.preventDefault();
+
+        const API_URL = process.env.REACT_APP_API_URL;
+        const URL = `${API_URL}/api/cliente/excel`;
+        const exportados = [];
+        
+        axios.get(URL).then((res) => {
+            res.data.forEach((cliente) => {
+                exportados.push({
+                    Codigo: cliente.codigo,
+                    RazonSocial: cliente.razonSocial,                    
+                    Domicilio: `${cliente.direccion.calle} ${cliente.direccion.altura ? cliente.direccion.altura : ''}`,
+                    Localidad: cliente.direccion.localidad,
+                    Cuit: cliente.cuit,
+                    Iva: cliente.iva,
+                    Division: cliente.division,
+                    Canal: cliente.canal ? cliente.canal.nombre : '',
+                    Subcanal: cliente.subcanal ? cliente.subcanal.nombre : '',
+                    Clasificacion: cliente.clasificacion,
+                    Visita: cliente.diaVisita.join('-'),
+                    Entrega: cliente.diaEntrega.join('-'),
+                });
+            });
+        
+            this.exportAsExcelFile(exportados, 'Clientes');
+        });
+    }
+
+    exportAsExcelFile = (json, excelFilename) => {
+        const worksheet = XLSX.utils.json_to_sheet(json);
+        const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+        this.saveAsExcelFile(excelBuffer, excelFilename);
+    }
+
+    saveAsExcelFile = (buffer, filename) => {
+        const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const EXCEL_EXTENSION = '.xlsx';
+        const data = new Blob([buffer], { type: EXCEL_TYPE });
+
+        FileSaver.saveAs(data, `${filename}_${new Date().getTime()}${EXCEL_EXTENSION}`);
+    }
+
     render() {
         console.log('clientes', this);
         return (
@@ -95,6 +142,7 @@ class ClientesList extends Component {
                     <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged}>
                         <div className="form__icon-container">
                             <Link className="icon-medium" to="/clientes/new"><i className="fa fa-plus-circle"></i></Link>
+                            <button className="btn-link icon-medium" onClick={this.onExportar}><i className="fas fa-download"></i></button>
                         </div>
                     </Filters>
                 </div>

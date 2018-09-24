@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import Loader from 'react-loader'
 import Pagination from "react-js-pagination";
 import _ from 'lodash';
+import axios from 'axios';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 
 import { list } from '../../../actions/articulo.action';
 import { setTextFilter, searchByDescripcion, searchByCodigo } from '../../../actions/articulo-filters.action';
@@ -79,6 +82,48 @@ class ArticulosList extends Component {
         this.setState(() => ({ page }))
     }
 
+    onExportar = (e) => {
+        e.preventDefault();
+
+        const API_URL = process.env.REACT_APP_API_URL;
+        const URL = `${API_URL}/api/articulo/excel`;
+        const exportados = [];
+        
+        axios.get(URL).then((res) => {
+            res.data.forEach((articulo) => {
+                exportados.push({
+                    Codigo: articulo.codigo,
+                    Descripcion: articulo.descripcion,                    
+                    Kilos: articulo.kilos,
+                    Proveedor: articulo.proveedor,
+                    Familia: articulo.familia.nombre,
+                    Grupo: articulo.grupo.nombre,
+                    Subgrupo: articulo.subgrupo.nombre,
+                    UnidadCpa: articulo.unidadesCpa[0].unidad.sigla,
+                    Equivalencia: articulo.unidadesCpa[0].equivalencia,
+                    UnidadVta: articulo.unidadesVta[0].unidad.sigla,
+                });
+            });
+        
+            this.exportAsExcelFile(exportados, 'Articulos');
+        });
+    }
+
+    exportAsExcelFile = (json, excelFilename) => {
+        const worksheet = XLSX.utils.json_to_sheet(json);
+        const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+        this.saveAsExcelFile(excelBuffer, excelFilename);
+    }
+
+    saveAsExcelFile = (buffer, filename) => {
+        const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const EXCEL_EXTENSION = '.xlsx';
+        const data = new Blob([buffer], { type: EXCEL_TYPE });
+
+        FileSaver.saveAs(data, `${filename}_${new Date().getTime()}${EXCEL_EXTENSION}`);
+    }
+
     render() {
         return (
             <div className="row">
@@ -90,6 +135,7 @@ class ArticulosList extends Component {
                         <div className="form__icon-container">
                             <Link className="icon-medium" to="/articulos/new"><i className="fas fa-plus-circle"></i></Link>
                             <Link className="icon-medium" to="/articulos/precios"><i className="fas fa-dollar-sign"></i></Link>
+                            <button className="btn-link icon-medium" onClick={this.onExportar}><i className="fas fa-download"></i></button>
                         </div>
                     </Filters>
                 </div>
