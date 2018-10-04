@@ -103,7 +103,7 @@ class ClientesList extends Component {
                     Localidad: cliente.direccion.localidad,
                     Cuit: cliente.cuit,
                     Iva: cliente.iva.toUpperCase(),
-                    Division: cliente.division,
+                    Division: cliente.division.toUpperCase(),
                     Canal: cliente.canal ? cliente.canal.nombre.toUpperCase() : '',
                     Subcanal: cliente.subcanal ? cliente.subcanal.nombre.toUpperCase() : '',
                     Clasificacion: cliente.clasificacion.toUpperCase(),
