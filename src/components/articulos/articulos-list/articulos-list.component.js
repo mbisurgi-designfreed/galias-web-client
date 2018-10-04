@@ -95,13 +95,13 @@ class ArticulosList extends Component {
                     Codigo: articulo.codigo,
                     Descripcion: articulo.descripcion,                    
                     Kilos: articulo.kilos,
-                    Proveedor: articulo.proveedor,
-                    Familia: articulo.familia.nombre,
-                    Grupo: articulo.grupo.nombre,
-                    Subgrupo: articulo.subgrupo.nombre,
-                    UnidadCpa: articulo.unidadesCpa[0].unidad.sigla,
-                    Equivalencia: articulo.unidadesCpa[0].equivalencia,
-                    UnidadVta: articulo.unidadesVta[0].unidad.sigla,
+                    Proveedor: articulo.proveedor.toUpperCase(),
+                    Familia: articulo.familia.nombre.toUpperCase(),
+                    Grupo: articulo.grupo.nombre.toUpperCase(),
+                    Subgrupo: articulo.subgrupo.nombre.toUpperCase(),
+                    UnidadCpa: articulo.unidadesCpa[0].unidad.sigla.toUpperCase(),
+                    Equivalencia: articulo.unidadesCpa[0].equivalencia.toUpperCase(),
+                    UnidadVta: articulo.unidadesVta[0].unidad.sigla.toUpperCase(),
                 });
             });
         
