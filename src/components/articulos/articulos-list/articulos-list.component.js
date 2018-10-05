@@ -100,7 +100,7 @@ class ArticulosList extends Component {
                     Grupo: articulo.grupo.nombre.toUpperCase(),
                     Subgrupo: articulo.subgrupo.nombre.toUpperCase(),
                     UnidadCpa: articulo.unidadesCpa[0].unidad.sigla.toUpperCase(),
-                    Equivalencia: articulo.unidadesCpa[0].equivalencia.toUpperCase(),
+                    Equivalencia: articulo.unidadesCpa[0].equivalencia,
                     UnidadVta: articulo.unidadesVta[0].unidad.sigla.toUpperCase(),
                 });
             });
