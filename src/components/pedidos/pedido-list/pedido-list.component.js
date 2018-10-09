@@ -73,12 +73,7 @@ class PedidoList extends Component {
                         cantidad: item.pendiente,
                         precio: item.precio
                     }
-                })
-                // kilos: _.reduce(pedido.items, (sum, item) => {
-                //     const sub = item.pendiente * item.articulo.kilos;
-
-                //     return sum + sub;
-                // }, 0)        
+                })      
             }
 
             this.props.sync(remito, this.props.history);

@@ -11,7 +11,13 @@ const pedidoReducer = (state = {}, action) => {
 
             pedidos[action.payload._id] = action.payload;
 
-            return { ...state,  pedidos};
+            return { ...state, pedidos };
+        case 'eliminar_item':
+            const pedido = state.pedidos[action.payload.pedidoId];
+            const items = pedido.items;
+            _.remove(items, item => item._id === action.payload.itemId);
+            
+            return {...state, loading: false};
         case 'pedido_list':
             return { ...state, pedidos: _.mapKeys(action.payload, '_id'), loading: false };
         case 'pedido_pendiente_list':

@@ -112,3 +112,27 @@ export const anular = (id, history) => {
         }
     }
 }
+
+export const eliminarItem = (pedidoId, itemId, history) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/pedido/item/eliminar`;
+
+        dispatch({
+            type: 'pedido_loading'
+        });
+
+        try {
+            const res = await axios.post(URL, { pedidoId, itemId });
+
+            if (res.status === 201) {
+                //history.push('/pedidos');
+                dispatch({
+                    type: 'eliminar_item',
+                    payload: { pedidoId, itemId }
+                })
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}

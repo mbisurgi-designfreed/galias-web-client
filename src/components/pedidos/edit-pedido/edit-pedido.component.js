@@ -9,7 +9,7 @@ class EditPedido extends Component {
     render() {
         return (
             <div className="row mt-3">
-                <PedidoForm pedido={this.props.pedido} />
+                <PedidoForm pedido={this.props.pedido} history={this.props.history} />
             </div>
         )
     }

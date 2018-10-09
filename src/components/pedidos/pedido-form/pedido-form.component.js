@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withFormik, Form, Field } from 'formik';
+import { eliminarItem } from '../../../actions/pedido.action';
 import moment from 'moment';
 import numeral from 'numeral';
 import Loader from 'react-loader';
@@ -20,8 +21,28 @@ class PedidoForm extends Component {
         return this.props.pedido.extra ? 'Si' : 'No';
     }
 
+    onEliminar = (i) => {
+        const item = this.props.pedido.items[i];
+
+        this.props.eliminarItem(this.props.pedido._id, item._id, this.props.history);
+    };
+
+    renderAction = (i) => {
+        if (this.props.loading) {
+            return (
+                <i class="fas fa-spinner fa-spin"></i>
+            )
+        } else {
+            return (
+                <a onClick={() => this.onEliminar(i)}>
+                    <i className="fas fa-ban icon-small" style={{ cursor: "pointer" }}></i>
+                </a>
+            )
+        }
+    }
+
     renderItems() {
-        return this.props.pedido.items.map((item) => {
+        return this.props.pedido.items.map((item, i) => {
             return (
                 <div className="list__item-group-field" key={item._id}>
                     <div className="list__item-field">
@@ -44,6 +65,9 @@ class PedidoForm extends Component {
                     </div>
                     <div className="list__item-field">
                         <p className="list__item-value">{this.formatNumber(item.pendiente)}</p>
+                    </div>
+                    <div className="list__item-field">
+                        {this.renderAction(i)}
                     </div>
                 </div>
             )
@@ -108,6 +132,9 @@ class PedidoForm extends Component {
                         <div className="list__item-field">
                             <p className="list__item-label">Pendiente:</p>
                         </div>
+                        <div className="list__item-field">
+
+                        </div>
                     </div>
                     {this.renderItems()}
                 </div>
@@ -120,4 +147,4 @@ const mapStateToProps = (state) => {
     return { loading: state.pedido.loading }
 };
 
-export default connect(null)(PedidoForm);
+export default connect(mapStateToProps, { eliminarItem })(PedidoForm);
