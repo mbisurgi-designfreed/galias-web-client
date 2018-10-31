@@ -24,7 +24,7 @@ class DiariaList extends Component {
 
         if (loading) {
             return (
-                <button type="submit" className="btn btn--small" disabled ><i className="fa fa-circle-o-notch fa-spin" /> Buscando...</button>
+                <button type="submit" className="btn btn--small" disabled ><i className="fas fa-circle-o-notch fa-spin" /> Buscando...</button>
             );
         }
 
@@ -54,8 +54,8 @@ class DiariaList extends Component {
                         </div>
                         {this.renderBuscar()}
                         <div className="form__icon-container">
-                            <Link className="icon-medium" to="/diaria/new"><i className="fa fa-plus-circle"></i></Link>
-                            <Link className="icon-medium" to="/diaria/compare"><i className="fa fa-line-chart"></i></Link>
+                            <Link className="icon-medium" to="/diaria/new"><i className="fas fa-plus-circle"></i></Link>
+                            <Link className="icon-medium" to="/diaria/compare"><i className="fas fa-chart-line"></i></Link>
                         </div>
                     </Form>
                 </div>
