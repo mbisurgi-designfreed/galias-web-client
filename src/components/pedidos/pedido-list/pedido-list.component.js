@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withFormik, Form, Field } from 'formik';
 import { Link } from 'react-router-dom';
+import Modal from 'react-modal';
 import Loader from 'react-loader'
 import Pagination from "react-js-pagination";
 import moment from 'moment';
@@ -23,7 +24,8 @@ import withRefresh from '../../notification/refresh.component';
 
 class PedidoList extends Component {
     state = {
-        page: 1
+        page: 1,
+        confirm: false
     }
 
     componentWillMount() {
@@ -73,7 +75,7 @@ class PedidoList extends Component {
                         cantidad: item.pendiente,
                         precio: item.precio
                     }
-                })      
+                })
             }
 
             this.props.sync(remito, this.props.history);
@@ -81,7 +83,15 @@ class PedidoList extends Component {
     }
 
     onAnular = () => {
-        console.log(this.props.selectedPedido);
+        // if (this.props.selectedPedido._id) {
+        //     this.props.anular(this.props.selectedPedido._id, this.props.history);
+        // }
+        this.setState({ confirm: true });
+    }
+
+    anular = () => {
+        this.setState({ confirm: false });
+        
         if (this.props.selectedPedido._id) {
             this.props.anular(this.props.selectedPedido._id, this.props.history);
         }
@@ -170,7 +180,7 @@ class PedidoList extends Component {
     }
 
     renderSync() {
-        if (this.props.selectedPedido === null || this.props.selectedPedido === { } || this.props.selectedPedido.sincronizado === true || this.props.selectedPedido.extra === true || this.props.selectedPedido.estado === 'anulado') {
+        if (this.props.selectedPedido === null || this.props.selectedPedido === {} || this.props.selectedPedido.sincronizado === true || this.props.selectedPedido.extra === true || this.props.selectedPedido.estado === 'anulado') {
             return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
         } else {
             return <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
@@ -178,7 +188,7 @@ class PedidoList extends Component {
     }
 
     renderAnular() {
-        if (this.props.selectedPedido === null || this.props.selectedPedido === { } || this.props.selectedPedido.estado !== 'generado') {
+        if (this.props.selectedPedido === null || this.props.selectedPedido === {} || this.props.selectedPedido.estado !== 'generado') {
             return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onAnular} ><i className="fas fa-ban"></i></button>
         } else {
             return <button className={`btn-link icon-medium`} onClick={this.onAnular} ><i className="fas fa-ban"></i></button>
@@ -240,6 +250,13 @@ class PedidoList extends Component {
                 <div className="row">
                     <Pagination innerClass="pagination" itemClass="page-item" linkClass="page-link" activePage={this.state.page} itemsCountPerPage={this.VIEW_PER_PAGE} totalItemsCount={this.props.pedidos.length} onChange={this.onPageClicked} />
                 </div>
+                <Modal className="modal" overlayClassName="overlay" style={{ content: { width: '20%' } }} isOpen={this.state.confirm} onRequestClose={() => this.setState({ confirm: false })} contentLabel="Confirm" ariaHideApp={false} closeTimeoutMS={0} >
+                    <p className="form__field-error" style={{ display: 'flex', alignItems: 'center', fontSize: '1.2rem', marginBottom: 15 }}>
+                        Esta seguro que desea anular el pedido?
+                    </p>
+                    <button className="btn mr-sm" style={{ width: '43px', backgroundColor: '#27ae60', borderColor: '#27ae60', textAlign: 'center' }} onClick={this.anular} >Si</button>
+                    <button className="btn" style={{ width: '43px', textAlign: 'center' }} onClick={() => this.setState({ confirm: false })}>No</button>
+                </Modal>
             </div>
         );
     }

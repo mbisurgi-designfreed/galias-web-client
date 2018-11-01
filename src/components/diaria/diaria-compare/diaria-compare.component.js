@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
+import { Carousel } from 'react-responsive-carousel';
 import moment from 'moment';
 import numeral from 'numeral';
 import _ from 'lodash';
