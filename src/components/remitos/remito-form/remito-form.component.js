@@ -164,7 +164,7 @@ class RemitoForm extends Component {
                   <th style={{ width: '15%' }}>Kilos</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody >
                 {this.renderAgregados()}
               </tbody>
             </table>

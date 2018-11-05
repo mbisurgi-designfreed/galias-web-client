@@ -67,7 +67,7 @@ class ItemsForm extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{ maxHeight: '80vh', overflowY: 'scroll' }}>
                 {this.renderItems()}
             </div>
         )
