@@ -10,3 +10,7 @@ export const searchByCliente = () => ({
 export const searchByEstado = () => ({
     type: 'search_by_estado'
 });
+
+export const searchByVendedor = () => ({
+    type: 'search_by_vendedor'
+});

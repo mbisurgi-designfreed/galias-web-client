@@ -11,7 +11,7 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
 import { list, listToday, anular, anularAll } from '../../../actions/pedido.action';
-import { setTextFilter, searchByCliente, searchByEstado } from '../../../actions/pedido-filters.action';
+import { setTextFilter, searchByCliente, searchByEstado, searchByVendedor } from '../../../actions/pedido-filters.action';
 import { add, sync, syncAll } from '../../../actions/remito.action';
 
 import Filters from '../../filters/filters.component';
@@ -40,6 +40,9 @@ class PedidoList extends Component {
     }, {
         value: 'estado',
         label: 'Estado'
+    }, {
+        value: 'vendedor',
+        label: 'Vendedor'
     }];
 
     onFilterChanged = (selectedOption) => {
@@ -50,6 +53,8 @@ class PedidoList extends Component {
                 return this.props.searchByCliente();
             case 'estado':
                 return this.props.searchByEstado();
+            case 'vendedor':
+                return this.props.searchByVendedor();
         }
     };
 
@@ -339,7 +344,7 @@ const mapStateToProps = (state) => {
     return { pedidos: pedidoSelector(state.pedido.pedidos, state.pedidoFilters), loading: state.pedido.loading, filters: state.pedidoFilters, selectedPedido: state.selectedPedido };
 }
 
-export default connect(mapStateToProps, { list, listToday, anular, anularAll, setTextFilter, searchByCliente, searchByEstado, add, sync, syncAll })(withFormik({
+export default connect(mapStateToProps, { list, listToday, anular, anularAll, setTextFilter, searchByCliente, searchByEstado, searchByVendedor, add, sync, syncAll })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
 })(withRefresh(PedidoList)));

@@ -6,6 +6,8 @@ const pedidoFiltersReducer = (state = { text: '', searchBy: 'cliente' }, action)
             return { ...state, searchBy: 'cliente' };
         case 'search_by_estado':
             return { ...state, searchBy: 'estado' };
+            case 'search_by_vendedor':
+            return { ...state, searchBy: 'vendedor' };
         case 'reset':
             return { text: '', searchBy: 'cliente' };
         default:

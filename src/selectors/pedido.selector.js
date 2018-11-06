@@ -15,6 +15,12 @@ const pedidoSelector = (pedidos, { text, searchBy, sortBy }) => {
 
             return textMatch;
         }
+
+        if (searchBy === 'vendedor') {
+            const textMatch = pedido.user.email.toLowerCase().includes(text.toLowerCase());
+
+            return textMatch;
+        }
     });
 };
 
