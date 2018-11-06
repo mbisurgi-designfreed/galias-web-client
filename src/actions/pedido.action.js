@@ -89,7 +89,8 @@ export const select = (pedido, checked) => {
     }
 
     return {
-        type: 'pedido_unselected'
+        type: 'pedido_unselected',
+        payload: pedido
     }
 };
 
@@ -103,6 +104,26 @@ export const anular = (id, history) => {
 
         try {
             const res = await axios.post(URL, { id });
+
+            if (res.status === 201) {
+                history.push('/pedidos');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
+export const anularAll = (pedidos, history) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/pedido/anularAll`;
+
+        dispatch({
+            type: 'pedido_loading'
+        });
+
+        try {
+            const res = await axios.post(URL, pedidos);
 
             if (res.status === 201) {
                 history.push('/pedidos');

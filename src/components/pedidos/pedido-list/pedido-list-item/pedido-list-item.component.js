@@ -24,7 +24,7 @@ const PedidoListItem = (props) => {
     }
 
     const isChecked = () => {
-        if (selectedPedido._id === pedido._id) {
+        if (selectedPedido[pedido._id] !== undefined) {
             return true;
         }
 
@@ -102,7 +102,7 @@ const PedidoListItem = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state,) => {
     return { selectedPedido: state.selectedPedido }
 }
 

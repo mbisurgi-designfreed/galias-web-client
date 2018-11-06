@@ -10,9 +10,9 @@ import _ from 'lodash';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
-import { list, listToday, anular } from '../../../actions/pedido.action';
+import { list, listToday, anular, anularAll } from '../../../actions/pedido.action';
 import { setTextFilter, searchByCliente, searchByEstado } from '../../../actions/pedido-filters.action';
-import { add, sync } from '../../../actions/remito.action';
+import { add, sync, syncAll } from '../../../actions/remito.action';
 
 import Filters from '../../filters/filters.component';
 import PedidoListItem from './pedido-list-item/pedido-list-item.component';
@@ -59,26 +59,47 @@ class PedidoList extends Component {
     };
 
     onSync = () => {
-        console.log(this.props.selectedPedido);
-        if (this.props.selectedPedido._id) {
-            const pedido = this.props.selectedPedido;
+        // console.log(this.props.selectedPedido);
+        // if (this.props.selectedPedido._id) {
+        //     const pedido = this.props.selectedPedido;
 
-            console.log(pedido);
+        //     console.log(pedido);
 
-            const remito = {
-                fecha: moment(moment(new Date()).format('YYYY-MM-DD')).valueOf(),
-                pedido: pedido._id,
-                cliente: pedido.cliente.codigo,
-                items: _.map(pedido.items, (item) => {
-                    return {
-                        articulo: item.articulo.codigo,
-                        cantidad: item.pendiente,
-                        precio: item.precio
-                    }
+        //     const remito = {
+        //         fecha: moment(moment(new Date()).format('YYYY-MM-DD')).valueOf(),
+        //         pedido: pedido._id,
+        //         cliente: pedido.cliente.codigo,
+        //         items: _.map(pedido.items, (item) => {
+        //             return {
+        //                 articulo: item.articulo.codigo,
+        //                 cantidad: item.pendiente,
+        //                 precio: item.precio
+        //             }
+        //         })
+        //     }
+
+        //     this.props.sync(remito, this.props.history);
+        // }
+        if (this.props.selectedPedido) {
+            const remitos = [];
+
+            _.map(this.props.selectedPedido, pedido => {
+                console.log(pedido);
+                remitos.push({
+                    fecha: moment(moment(new Date()).format('YYYY-MM-DD')).valueOf(),
+                    pedido: pedido._id,
+                    cliente: pedido.cliente.codigo,
+                    items: _.map(pedido.items, (item) => {
+                        return {
+                            articulo: item.articulo.codigo,
+                            cantidad: item.pendiente,
+                            precio: item.precio
+                        }
+                    })
                 })
-            }
+            });
 
-            this.props.sync(remito, this.props.history);
+            this.props.syncAll(remitos, this.props.history);
         }
     }
 
@@ -91,9 +112,15 @@ class PedidoList extends Component {
 
     anular = () => {
         this.setState({ confirm: false });
-        
-        if (this.props.selectedPedido._id) {
-            this.props.anular(this.props.selectedPedido._id, this.props.history);
+
+        // if (this.props.selectedPedido._id) {
+        //     this.props.anular(this.props.selectedPedido._id, this.props.history);
+        // }
+
+        if (_.keys(this.props.selectedPedido).length > 0) {
+            const pedidos = _.map(this.props.selectedPedido, pedido => pedido);
+
+            this.props.anularAll(pedidos, this.props.history);
         }
     }
 
@@ -180,7 +207,25 @@ class PedidoList extends Component {
     }
 
     renderSync() {
-        if (this.props.selectedPedido === null || this.props.selectedPedido === {} || this.props.selectedPedido.sincronizado === true || this.props.selectedPedido.extra === true || this.props.selectedPedido.estado === 'anulado') {
+        // if (this.props.selectedPedido === null || this.props.selectedPedido === {} || this.props.selectedPedido.sincronizado === true || this.props.selectedPedido.extra === true || this.props.selectedPedido.estado === 'anulado') {
+        //     return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+        // } else {
+        //     return <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
+        // }
+
+        let disabled = false;
+
+        if (this.props.selectedPedido === null || this.props.selectedPedido === {}) {
+            disabled = true;
+        }
+
+        _.map(this.props.selectedPedido, pedido => {
+            if (pedido.estado !== 'generado' || pedido.sincronizado === true) {
+                disabled = true;
+            }
+        });
+
+        if (disabled) {
             return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
         } else {
             return <button className={`btn-link icon-medium`} onClick={this.onSync} ><i className="fas fa-cloud-upload-alt"></i></button>
@@ -188,7 +233,24 @@ class PedidoList extends Component {
     }
 
     renderAnular() {
-        if (this.props.selectedPedido === null || this.props.selectedPedido === {} || this.props.selectedPedido.estado !== 'generado') {
+        // if (this.props.selectedPedido === null || this.props.selectedPedido === {} || this.props.selectedPedido.estado !== 'generado') {
+        //     return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onAnular} ><i className="fas fa-ban"></i></button>
+        // } else {
+        //     return <button className={`btn-link icon-medium`} onClick={this.onAnular} ><i className="fas fa-ban"></i></button>
+        // }
+        let disabled = false;
+
+        if (this.props.selectedPedido === null || this.props.selectedPedido === {}) {
+            disabled = true;
+        }
+
+        _.map(this.props.selectedPedido, pedido => {
+            if (pedido.estado !== 'generado' || pedido.sincronizado === true) {
+                disabled = true;
+            }
+        });
+
+        if (disabled) {
             return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onAnular} ><i className="fas fa-ban"></i></button>
         } else {
             return <button className={`btn-link icon-medium`} onClick={this.onAnular} ><i className="fas fa-ban"></i></button>
@@ -277,7 +339,7 @@ const mapStateToProps = (state) => {
     return { pedidos: pedidoSelector(state.pedido.pedidos, state.pedidoFilters), loading: state.pedido.loading, filters: state.pedidoFilters, selectedPedido: state.selectedPedido };
 }
 
-export default connect(mapStateToProps, { list, listToday, anular, setTextFilter, searchByCliente, searchByEstado, add, sync })(withFormik({
+export default connect(mapStateToProps, { list, listToday, anular, anularAll, setTextFilter, searchByCliente, searchByEstado, add, sync, syncAll })(withFormik({
     mapPropsToValues,
     handleSubmit: onSubmit
 })(withRefresh(PedidoList)));

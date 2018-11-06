@@ -3,9 +3,9 @@ import _ from 'lodash';
 const pedidoSelectedReducer = (state = {}, action) => {
     switch (action.type) {
         case 'pedido_selected':
-            return action.payload;
+            return { ...state, [action.payload._id]: action.payload };
         case 'pedido_unselected':
-            return {};
+            return _.omit(state, action.payload._id);
         case 'unselect':
             return {};
         default:

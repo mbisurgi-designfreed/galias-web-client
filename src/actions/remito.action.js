@@ -106,6 +106,45 @@ export const sync = (remito, history) => {
     }
 };
 
+export const syncAll = (remitos, history) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/remito/syncAll`;
+
+        dispatch({
+            type: 'remitos_adding'
+        });
+
+        try {   
+            const res = await axios.post(URL, remitos);
+
+            if (res.status === 200) {
+                dispatch({
+                    type: 'unselect'
+                });
+
+                dispatch({
+                    type: 'remitos_adding_done'
+                });
+            }
+        } catch (err) {
+            if (err.response.status === 500) {
+                
+            }
+
+            if (err.response.status === 503) {
+                dispatch({
+                    type: 'remitos_adding_done'
+                });
+
+                dispatch({
+                    type: 'add_alert',
+                    payload: err.response.data
+                });
+            }
+        }
+    }
+};
+
 export const add = (remito, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/remito/new`;
