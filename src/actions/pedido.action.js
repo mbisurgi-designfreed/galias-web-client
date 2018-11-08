@@ -134,6 +134,26 @@ export const anularAll = (pedidos, history) => {
     }
 }
 
+export const editarPedido = (pedido, history) => {
+    return async (dispatch) => {
+        const URL = `${API_URL}/api/pedido/editar`;
+
+        dispatch({
+            type: 'pedido_loading'
+        });
+
+        try {
+            const res = await axios.post(URL, pedido);
+
+            if (res.status === 201) {
+                history.push('/pedidos');
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+
 export const eliminarItem = (pedidoId, itemId, history) => {
     return async (dispatch) => {
         const URL = `${API_URL}/api/pedido/item/eliminar`;

@@ -26,6 +26,15 @@
     &--small {
         padding: 0.5rem 0.75rem;
     }
+
+    &--disabled {
+        background-color: $color-grey-light;
+
+        &:hover, &:hover > i{
+            color: $color-grey-light;
+            cursor: not-allowed;
+        }
+    }
 }
 
 .btn-link {

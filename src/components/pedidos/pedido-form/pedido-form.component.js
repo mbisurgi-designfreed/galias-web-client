@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withFormik, Form, Field } from 'formik';
-import { eliminarItem } from '../../../actions/pedido.action';
 import moment from 'moment';
 import numeral from 'numeral';
 import Loader from 'react-loader';
 import Select from 'react-select';
 import Yup from 'yup';
+
+import { editarPedido, eliminarItem } from '../../../actions/pedido.action';
 
 class PedidoForm extends Component {
     formatDate = () => {
@@ -21,16 +22,43 @@ class PedidoForm extends Component {
         return this.props.pedido.extra ? 'Si' : 'No';
     }
 
+    onEditar = () => {
+        this.props.editarPedido(this.props.pedido, this.props.history);
+    };
+
     onEliminar = (i) => {
         const item = this.props.pedido.items[i];
 
         this.props.eliminarItem(this.props.pedido._id, item._id, this.props.history);
     };
 
+    updateCantidad = (e, item, i) => {
+        const cantidad = parseInt(e.target.value, 10);
+
+        item.cantidad = cantidad;
+        item.pendiente = cantidad;
+
+        this.forceUpdate();
+    };
+
+    renderEditar() {
+        let disabled = false;
+
+        if (this.props.pedido.estado !== 'generado' || this.props.pedido.sincronizado === true) {
+            disabled = true;
+        }
+
+        if (disabled) {
+            return null;
+        } else {
+            return <button className="btn" style={{ marginTop: 10 }} onClick={this.onEditar}>Editar</button>
+        }
+    }
+
     renderAction = (i) => {
         if (this.props.loading) {
             return (
-                <i class="fas fa-spinner fa-spin"></i>
+                <i className="fas fa-spinner fa-spin"></i>
             )
         } else {
             return (
@@ -43,16 +71,18 @@ class PedidoForm extends Component {
 
     renderItems() {
         return this.props.pedido.items.map((item, i) => {
+            console.log(item);
             return (
-                <div className="list__item-group-field" key={item._id}>
+                <div className="list__item-group-field" key={item._id} style={{ display: 'flex', alignItems: 'center' }}>
                     <div className="list__item-field">
                         <p className="list__item-value">{item.articulo.descripcion}</p>
                     </div>
                     <div className="list__item-field">
                         <p className="list__item-value">{item.promocion.toUpperCase()}</p>
                     </div>
-                    <div className="list__item-field">
-                        <p className="list__item-value">{this.formatNumber(item.cantidad)}</p>
+                    <div className="list__item-field" style={{ marginRight: 10 }}>
+                        {/* <p className="list__item-value">{this.formatNumber(item.cantidad)}</p> */}
+                        <input className="form__field-table" id="cantidad" type="number" name="cantidad" onChange={(e) => this.updateCantidad(e, item, i)} value={item.cantidad} />
                     </div>
                     <div className="list__item-field">
                         <p className="list__item-value">{this.formatNumber(item.descuento)}</p>
@@ -81,7 +111,7 @@ class PedidoForm extends Component {
                     <h6 className="list__item-title">{this.props.pedido._id}</h6>
                 </div>
 
-                <div className="list__item-content" style={{ height: '80vh' }}>
+                <div className="list__item-content" style={{ maxHeight: '80vh' }}>
                     <div className="list__item-group-field">
                         <div className="list__item-field">
                             <p className="list__item-label">Fecha:</p>
@@ -138,6 +168,7 @@ class PedidoForm extends Component {
                     </div>
                     {this.renderItems()}
                 </div>
+                {this.renderEditar()}
             </div>
         );
     }
@@ -147,4 +178,4 @@ const mapStateToProps = (state) => {
     return { loading: state.pedido.loading }
 };
 
-export default connect(mapStateToProps, { eliminarItem })(PedidoForm);
+export default connect(mapStateToProps, { editarPedido, eliminarItem })(PedidoForm);
