@@ -225,7 +225,7 @@ class PedidoList extends Component {
         }
 
         _.map(this.props.selectedPedido, pedido => {
-            if (pedido.estado !== 'generado' || pedido.sincronizado === true) {
+            if (pedido.estado !== 'generado' || pedido.sincronizado === true || pedido.extra === true) {
                 disabled = true;
             }
         });
