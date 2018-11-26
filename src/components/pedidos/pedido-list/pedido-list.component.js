@@ -167,6 +167,7 @@ class PedidoList extends Component {
                 const id = pedido._id;
                 const fecha = moment(pedido.fecha).format('DD/MM/YYYY');
                 const cliente = pedido.cliente;
+                const sucursal = pedido.sucursal;
                 const comentario = pedido.comentario;
                 const extra = pedido.extra;
                 const articulo = item.articulo;
@@ -180,6 +181,7 @@ class PedidoList extends Component {
                     Fecha: fecha,
                     CodigoCliente: cliente.codigo,
                     RazonSocial: cliente.razonSocial,
+                    Sucursal: `${sucursal.calle} ${sucursal.altura} - ${sucursal.localidad}`,
                     Comentario: comentario,
                     CodigoArticulo: articulo.codigo,
                     Descripcion: articulo.descripcion,
