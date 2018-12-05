@@ -10,6 +10,7 @@ import { list } from '../../../actions/articulo.action';
 class AddRemito extends Component {
     state = {
         remito: undefined,
+        pedido: undefined,
         pv: undefined,
         proximo: undefined,
     }
@@ -19,9 +20,11 @@ class AddRemito extends Component {
         this.props.list();
     }
 
-    onAdd = (remito, talonario) => {
+    onAdd = (remito, talonario, pedido) => {
+        console.log(pedido);
         this.setState(() => ({
             remito,
+            pedido,
             pv: talonario.pv,
             proximo: talonario.proximo,
         }));
@@ -52,7 +55,7 @@ class AddRemito extends Component {
         return (
             <div className="mt-3">
                 <RemitoForm accion={this.onAdd} />
-                <ConfirmModal proximo={this.state.proximo} remito={this.state.remito} pv={this.state.pv} numero={this.state.proximo} isOpen={!!this.state.remito} onCloseModal={this.onCloseModal} />
+                <ConfirmModal pedido={this.state.pedido} proximo={this.state.proximo} remito={this.state.remito} pv={this.state.pv} numero={this.state.proximo} isOpen={!!this.state.remito} onCloseModal={this.onCloseModal} />
             </div>
         )
     }

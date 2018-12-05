@@ -76,10 +76,12 @@ class ConfirmModal extends Component {
 
     print = () => {
         const remito = this.props.remito;
+        console.log(remito);
 
         const datos = {
             fecha: moment(remito.fecha).format('DD/MM/YYYY'),
             cliente: this.props.clientes[remito.cliente],
+            sucursal: this.props.pedido.sucursal,
             items: remito.items.map((item) => {
                 return { ...this.props.articulos[item.articulo], cantidad: item.cantidad }
             })
@@ -113,6 +115,7 @@ class ConfirmModal extends Component {
         doc.text(`Razón Social: ${datos.cliente.razonSocial}`, 9, 9.5);
         doc.text(`Condición frente al IVA: ${this.IVA[datos.cliente.iva]}`, 1, 10);
         doc.text(`Domicilio: ${datos.cliente.direccion.calle} ${datos.cliente.direccion.altura} - ${datos.cliente.direccion.codigoPostal}`, 1, 10.5);
+        doc.text(`Sucursal: ${datos.sucursal.calle} ${datos.sucursal.altura} - ${datos.sucursal.localidad}`, 12, 10.5);
         doc.text(`Condicion de venta: Cuenta corriente a ${datos.cliente.condicionPago} dias`, 1, 11);
 
         for (let i = 0; i < datos.items.length; i++) {

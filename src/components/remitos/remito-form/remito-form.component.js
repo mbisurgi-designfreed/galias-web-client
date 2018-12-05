@@ -231,7 +231,7 @@ const onSubmit = (values, { props, resetForm }) => {
     }, 0)
   }
 
-  props.accion(remito, talonario.value);
+  props.accion(remito, talonario.value, props.pendientes[remito.pedido]);
 };
 
 const mapStateToProps = (state) => {
