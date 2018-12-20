@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Pusher from 'pusher-js';
-import Notifications, { success, error } from 'react-notification-system-redux';
+import Notifications, { success, error, warning } from 'react-notification-system-redux';
+import _ from 'lodash';
 
 import { addPedido } from '../../actions/pedido.action';
 
@@ -111,6 +112,18 @@ export default (NotificatedComponent) => {
                     }
                     this.props.dispatch(success(notification));
                 });
+            });
+
+            this.chat.bind('remitos.advertencias', ({ pedidos }) => {
+                _.map(pedidos, (value, key) => {
+                    const notification = {
+                        title: 'Sync remitos',
+                        message: `El remito para el pedido ${key} no se ha podido enviar a Tango`,
+                        position: 'tr',
+                        autoDismiss: 0,
+                    }
+                    this.props.dispatch(warning(notification));
+                })
             });
 
             this.chat.bind('remitos.error', ({ pedidos }) => {
