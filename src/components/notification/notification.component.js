@@ -116,9 +116,14 @@ export default (NotificatedComponent) => {
 
             this.chat.bind('remitos.advertencias', ({ pedidos }) => {
                 _.map(pedidos, (value, key) => {
+                    const pedido = this.props.pedidos[key];
+                    console.log('key', key);
+                    console.log('value', value);
+                    console.log('pedido', pedido);
+
                     const notification = {
                         title: 'Sync remitos',
-                        message: `El remito para el pedido ${key} no se ha podido enviar a Tango`,
+                        message: `El remito para el pedido del cliente ${pedido.cliente.razonSocial} no se ha podido enviar a Tango por falta de stock. Articulos faltantes: ${value}`,
                         position: 'tr',
                         autoDismiss: 0,
                     }
@@ -160,7 +165,7 @@ export default (NotificatedComponent) => {
     }
 
     const mapStateToProps = (state) => {
-        return { notifications: state.notifications };
+        return { notifications: state.notifications, pedidos: state.pedido.pedidos };
     }
 
     return connect(mapStateToProps)(Notification);
