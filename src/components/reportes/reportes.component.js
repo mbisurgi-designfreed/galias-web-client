@@ -1,17 +1,97 @@
 import React, { Component } from 'react';
 import { Accordion, AccordionItem, AccordionItemTitle, AccordionItemBody } from 'react-accessible-accordion';
 import { Link, Route, Switch } from 'react-router-dom';
+import readXlsxFile from 'read-excel-file';
+import axios from 'axios';
 
 import authenticateRoute from '../auth/authenticate-route/authenticate-route.component';
 
 import ReportesPendientesClientes from './pendientes/reportes-pendientes-clientes.component';
 import ReportesPendientesArticulos from './pendientes/reportes-pendientes-articulos.component';
 
+const schema = {
+    'FECHA_CONT': {
+        prop: 'fecha',
+        type: Date
+    },
+    'T_COMP': {
+        prop: 'tipo',
+        type: String
+    },
+    'N_COMP': {
+        prop: 'comprobante',
+        type: String
+    },
+    'COD_VENDED': {
+        prop: 'codigoVendedor',
+        type: String
+    },
+    'NOMBRE_VEN': {
+        prop: 'vendedor',
+        type: String
+    },
+    'COD_CLIENT': {
+        prop: 'codigoCliente',
+        type: String
+    },
+    'RAZON_SOCI': {
+        prop: 'razonSocial',
+        type: String
+    },
+    'COD_ARTICU': {
+        prop: 'codigoArticulo',
+        type: String
+    },
+    'DES_ARTICU': {
+        prop: 'descripcion',
+        type: String
+    },
+    'CANTIDAD': {
+        prop: 'cantidad',
+        type: Number
+    },
+    'PRECIO_NET': {
+        prop: 'precio',
+        type: Number
+    },
+    'UNIDAD_MED': {
+        prop: 'unidad',
+        type: String
+    }
+};
+
 class Reportes extends Component {
+    state = {
+        loading: false
+    }
+
+    handleFile = async (e) => {
+        this.setState({ loading: true });
+        const file = e.target.files[0];
+
+        try {
+            const rows = await readXlsxFile(file, { schema });
+        
+            await axios.post('http://localhost:4000/api/files/ventas', rows);
+            this.setState({ loading: false });
+        } catch (err) {
+            this.setState({ loading: false });
+        }
+    }
+
     render() {
         return (
             <div style={{ height: '100vh', display: 'flex' }}>
                 <div style={{ width: '15%', margin: 5 }}>
+                    <p>
+                        Importar ventas
+                    </p>
+                    <input type='file' onChange={this.handleFile} />
+                    {this.state.loading && (
+                        <p>
+                            Cargando...
+                        </p>
+                    )}
                     <Accordion>
                         <AccordionItem>
                             <AccordionItemTitle>
