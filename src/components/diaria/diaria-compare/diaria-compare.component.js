@@ -109,8 +109,8 @@ class DiariaCompare extends Component {
         });
 
         const datasets = [
-            this.configData('TOT', '39,174,96', _.map(infos, (info) => info.debito.total)),
-            this.configData('VEN', '231,76,60', _.map(infos, (info) => info.debito.vencido))
+            this.configData('TOT', '39,174,96', _.map(infos, (info) => info.debito.total - info.debito.nc)),
+            this.configData('VEN', '231,76,60', _.map(infos, (info) => info.debito.vencido - info.debito.nc))
         ];
 
         return {
