@@ -25,8 +25,10 @@ import AddArticulo from '../components/articulos/add-articulo/add-articulo.compo
 import EditArticulo from '../components/articulos/edit-articulo/edit-articulo.component';
 import AddEntrega from '../components/entrega/add-entrega/add-entrega.component';
 import Reportes from '../components/reportes/reportes.component';
-import AddArticuloCompetencia from '../components/articulos-competencia/add-articulo-competencia/add-articulo-competencia.component';
 import ArticulosCompetenciaList from '../components/articulos-competencia/articulos-competencia-list/articulos-competencia-list.component';
+import AddArticuloCompetencia from '../components/articulos-competencia/add-articulo-competencia/add-articulo-competencia.component';
+import EditArticuloCompetencia from '../components/articulos-competencia/edit-articulo-competencia/edit-articulo-competencia.component';
+
 
 import { list as getCanales } from '../actions/canal.action';
 import { list as getSubcanales } from '../actions/subcanal.action';
@@ -71,6 +73,7 @@ class AppRouter extends Component {
                         <Route exact path="/articulos/:id" component={authenticateRoute(EditArticulo)} />
                         <Route exact path="/articulos-competencia" component={authenticateRoute(ArticulosCompetenciaList)} />
                         <Route exact path="/articulos-competencia/new" component={authenticateRoute(AddArticuloCompetencia)} />
+                        <Route exact path="/articulos-competencia/:id" component={authenticateRoute(EditArticuloCompetencia)} />
                         <Route exact path="/entregas/new" component={authenticateRoute(AddEntrega)} />
                         <Route path="/reportes" component={authenticateRoute(Reportes)} />
                     </Switch>
