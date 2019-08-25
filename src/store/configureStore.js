@@ -22,6 +22,7 @@ import pedidoFiltersReducer from '../reducers/pedido-filters.reducer';
 import remitoReducer from '../reducers/remito.reducer';
 import remitoSelectedReducer from '../reducers/remito-selected.reducer';
 import talonarioReducer from '../reducers/talonario.reducer';
+import articuloCompetenciaReducer from '../reducers/articuloCompetencia.reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -48,7 +49,8 @@ export default () => {
             grupo: grupoReducer,
             subgrupo: subgrupoReducer,
             unidad: unidadReducer,
-            notifications: notificationsReducer
+            notifications: notificationsReducer,
+                articuloCompetencia: articuloCompetenciaReducer,
         }),
         composeEnhancers(applyMiddleware(thunk))
     );

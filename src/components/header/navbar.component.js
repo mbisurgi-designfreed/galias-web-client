@@ -7,7 +7,7 @@ import notification from '../notification/notification.component';
 import { signout } from '../../actions/auth.action';
 import { resetNotification } from '../../actions/info.action';
 
-class Header extends Component {
+class Navbar extends Component {
     renderHeaderItems() {
         const items = [
             { title: 'Home', path: '/', icon: 'fas fa-home icon-navbar' },
@@ -16,8 +16,7 @@ class Header extends Component {
             { title: 'Diaria', path: '/diaria', icon: 'fas fa-dollar-sign icon-navbar', onClick: this.onDiaria.bind(this), badge: this.renderBadge() },
             { title: 'Pedidos', path: '/pedidos', icon: 'fas fa-shopping-cart icon-navbar' },
             { title: 'Remitos', path: '/remitos', icon: 'fas fa-list icon-navbar' },
-            { title: 'Reportes', path: '/reportes', icon: 'fas fa-book icon-navbar' },
-            { title: 'Competencia', path: '/articulos-competencia', icon: 'fas fa-cubes icon-navbar' }
+            { title: 'Reportes', path: '/reportes', icon: 'fas fa-book icon-navbar' }
         ];
 
         return items.map((item) => {
@@ -53,14 +52,8 @@ class Header extends Component {
 
     render() {
         return (
-            <nav className="navbar">
-                <Link className="navbar__brand" to="/">
-                    Galias
-                </Link>
-                <ul className="navbar__nav">
-                    {this.renderHeaderItems()}
-                </ul>
-                {this.renderAuthButtons()}
+            <nav className="navbar-vertical">
+                
             </nav>
         );
     }
@@ -70,4 +63,4 @@ const mapStateToProps = (state) => {
     return { auth: state.auth.authenticate, notifications: state.info.notifications };
 }
 
-export default connect(mapStateToProps, { signout, resetNotification })(notification(Header));
+export default connect(mapStateToProps, { signout, resetNotification })(notification(Navbar));
