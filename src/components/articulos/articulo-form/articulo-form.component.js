@@ -384,7 +384,7 @@ class ArticuloForm extends Component {
                         </div>
                     </div>
                     <div className="row">
-                    <div className="form-group col-1-of-4">
+                        <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="grupo">Familia</label>
                             <Select id="familia" options={this.state.familias} multi={false} value={this.props.values.familia} onChange={this.familiaChanged} onBlur={this.familiaBlur} />
                             {this.props.touched.familia && this.props.errors.familia && (<p className="form__field-error">{this.props.errors.familia}</p>)}

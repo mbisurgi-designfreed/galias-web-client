@@ -17,7 +17,8 @@ class Header extends Component {
             { title: 'Pedidos', path: '/pedidos', icon: 'fas fa-shopping-cart icon-navbar' },
             { title: 'Remitos', path: '/remitos', icon: 'fas fa-list icon-navbar' },
             { title: 'Reportes', path: '/reportes', icon: 'fas fa-book icon-navbar' },
-            { title: 'Competencia', path: '/articulos-competencia', icon: 'fas fa-cubes icon-navbar' }
+            { title: 'Competencia', path: '/articulos-competencia', icon: 'fas fa-cubes icon-navbar' },
+            { title: 'Proveedores', path: '/proveedores', icon: 'fas fa-users icon-navbar' },
         ];
 
         return items.map((item) => {

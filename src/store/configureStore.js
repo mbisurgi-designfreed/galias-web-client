@@ -1,5 +1,5 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { reducer as notificationsReducer } from 'react-notification-system-redux';
+import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
+import {reducer as notificationsReducer} from 'react-notification-system-redux';
 import thunk from 'redux-thunk';
 
 import authReducer from '../reducers/auth.reducer';
@@ -23,6 +23,7 @@ import remitoReducer from '../reducers/remito.reducer';
 import remitoSelectedReducer from '../reducers/remito-selected.reducer';
 import talonarioReducer from '../reducers/talonario.reducer';
 import articuloCompetenciaReducer from '../reducers/articuloCompetencia.reducer';
+import proveedorReducer from '../reducers/proveedor.reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -50,7 +51,8 @@ export default () => {
             subgrupo: subgrupoReducer,
             unidad: unidadReducer,
             notifications: notificationsReducer,
-                articuloCompetencia: articuloCompetenciaReducer,
+            articuloCompetencia: articuloCompetenciaReducer,
+            proveedor: proveedorReducer
         }),
         composeEnhancers(applyMiddleware(thunk))
     );

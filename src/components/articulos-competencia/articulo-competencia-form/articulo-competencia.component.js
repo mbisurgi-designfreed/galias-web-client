@@ -5,13 +5,127 @@ import Loader from 'react-loader';
 import Select from 'react-select';
 import Yup from 'yup';
 
-class ArticuloCompetenciaForm extends Component {
-    componentWillMount() {
+import proveedorSelector from '../../../selectors/proveedor.selector';
 
+class ArticuloCompetenciaForm extends Component {
+    state = {
+        proveedores: [],
+        familias: [],
+        grupos: [],
+        subgrupos: []
+    };
+
+    componentWillMount() {
+        const proveedores = this.props.proveedores.map((proveedor) => {
+            return {
+                value: proveedor._id,
+                label: proveedor.nombre
+            };
+        });
+
+        const familias = this.props.familias.map((familia) => {
+            return {
+                value: familia._id,
+                label: familia.nombre
+            };
+        });
+
+        const grupos = this.props.grupos.map((grupo) => {
+            return {
+                value: grupo._id,
+                label: grupo.nombre
+            };
+        });
+
+        if (this.props.articulo) {
+            const grupos = this.props.grupos.filter((grupo) => {
+                return grupo.familia === this.props.articulo.familia;
+            }).map((grupo) => {
+                return {
+                    value: grupo._id,
+                    label: grupo.nombre
+                };
+            });
+
+
+            const subgrupos = this.props.subgrupos.filter((subgrupo) => {
+                return subgrupo.grupo === this.props.articulo.grupo;
+            }).map((subgrupo) => {
+                return {
+                    value: subgrupo._id,
+                    label: subgrupo.nombre
+                };
+            });
+
+            this.setState(() => ({ grupos, subgrupos }));
+        }
+
+        this.setState(() => ({ proveedores, familias }));
     };
 
     componentWillReceiveProps(nextProps) {
 
+    };
+
+    familiaChanged = (familia) => {
+        this.props.setFieldValue('familia', familia.value);
+        this.props.setFieldValue('grupo', '');
+        this.props.setFieldValue('subgrupo', '');
+
+        if (familia) {
+            const grupos = this.props.grupos.filter((grupo) => {
+                return grupo.familia === familia.value;
+            }).map((grupo) => {
+                return {
+                    value: grupo._id,
+                    label: grupo.nombre
+                };
+            });
+
+            this.setState(() => ({ grupos }));
+        }
+    };
+
+    familiaBlur = () => {
+        this.props.setFieldTouched('familia', true);
+    };
+
+    grupoChanged = (grupo) => {
+        this.props.setFieldValue('grupo', grupo.value);
+        this.props.setFieldValue('subgrupo', '');
+
+        if (grupo) {
+            const subgrupos = this.props.subgrupos.filter((subgrupo) => {
+                return subgrupo.grupo === grupo.value;
+            }).map((subgrupo) => {
+                return {
+                    value: subgrupo._id,
+                    label: subgrupo.nombre
+                };
+            });
+
+            this.setState(() => ({ subgrupos }));
+        }
+    };
+
+    grupoBlur = () => {
+        this.props.setFieldTouched('grupo', true);
+    };
+
+    subgrupoChanged = (subgrupo) => {
+        this.props.setFieldValue('subgrupo', subgrupo.value);
+    };
+
+    subgrupoBlur = () => {
+        this.props.setFieldTouched('subgrupo', true);
+    };
+
+    proveedorChanged = (proveedor) => {
+        this.props.setFieldValue('proveedor', proveedor.value);
+    };
+
+    proveedorBlur = () => {
+        this.props.setFieldTouched('proveedor', true);
     };
 
     render() {
@@ -30,8 +144,25 @@ class ArticuloCompetenciaForm extends Component {
                         </div>
                         <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="proveedor">Proveedor</label>
-                            <Field className="form__field" id="proveedor" type="text" name="proveedor" />
+                            <Select id="proveedor" options={this.state.proveedores} multi={false} value={this.props.values.proveedor} onChange={this.proveedorChanged} onBlur={this.proovedorBlur} />
                             {this.props.touched.proveedor && this.props.errors.proveedor && (<p className="form__field-error">{this.props.errors.proveedor}</p>)}
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="grupo">Familia</label>
+                            <Select id="familia" options={this.state.familias} multi={false} value={this.props.values.familia} onChange={this.familiaChanged} onBlur={this.familiaBlur} />
+                            {this.props.touched.familia && this.props.errors.familia && (<p className="form__field-error">{this.props.errors.familia}</p>)}
+                        </div>
+                        <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="grupo">Grupo</label>
+                            <Select id="grupo" options={this.state.grupos} multi={false} value={this.props.values.grupo} onChange={this.grupoChanged} onBlur={this.grupoBlur} />
+                            {this.props.touched.grupo && this.props.errors.grupo && (<p className="form__field-error">{this.props.errors.grupo}</p>)}
+                        </div>
+                        <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="subgrupo">Sub Grupo</label>
+                            <Select id="subgrupo" options={this.state.subgrupos} multi={false} value={this.props.values.subgrupo} onChange={this.subgrupoChanged} onBlur={this.subgrupoBlur} />
+                            {this.props.touched.subgrupo && this.props.errors.subgrupo && (<p className="form__field-error">{this.props.errors.subgrupo}</p>)}
                         </div>
                     </div>
                     <div className="row">
@@ -50,6 +181,9 @@ const mapPropsToValues = ({ articulo }) => {
         codigo: articulo ? articulo.codigo : '',
         descripcion: articulo ? articulo.descripcion : '',
         proveedor: articulo ? articulo.proveedor : '',
+        familia: articulo ? articulo.familia : '',
+        grupo: articulo ? articulo.grupo : '',
+        subgrupo: articulo ? articulo.subgrupo : ''
     }
 };
 
@@ -59,22 +193,38 @@ const validationSchema = () => Yup.object().shape({
         .required('Descripcion es requerido'),
     proveedor: Yup
         .string()
-        .required('Proveedor es requerido')
+        .nullable()
+        .required('Proveedor es requerido'),
+    familia: Yup
+        .string()
+        .nullable()
+        .required('Familia es requerido'),
+    grupo: Yup
+        .string()
+        .nullable()
+        .required('Grupo es requerido'),
+    subgrupo: Yup
+        .string()
+        .nullable()
+        .required('Subgrupo es requerido')
 });
 
 const onSubmit = (values, { props, resetForm }) => {
-    const { descripcion, proveedor } = values;
+    const { descripcion } = values;
 
     const articulo = {
         descripcion,
-        proveedor
+        proveedor: values.proveedor,
+        familia: values.familia,
+        grupo: values.grupo,
+        subgrupo: values.subgrupo
     };
 
     props.accion(articulo);
 };
 
 const mapStateToProps = (state) => {
-    return { loading: state.articulo.loading }
+    return { proveedores: proveedorSelector(state.proveedor.proveedores), familias: state.familia, grupos: state.grupo, subgrupos: state.subgrupo, loading: state.articulo.loading }
 };
 
 export default connect(mapStateToProps)(withFormik({

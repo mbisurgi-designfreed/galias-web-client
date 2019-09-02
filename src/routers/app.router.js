@@ -28,6 +28,8 @@ import Reportes from '../components/reportes/reportes.component';
 import ArticulosCompetenciaList from '../components/articulos-competencia/articulos-competencia-list/articulos-competencia-list.component';
 import AddArticuloCompetencia from '../components/articulos-competencia/add-articulo-competencia/add-articulo-competencia.component';
 import EditArticuloCompetencia from '../components/articulos-competencia/edit-articulo-competencia/edit-articulo-competencia.component';
+import ProveedoresList from '../components/proveedores/proveedores-list/proveedores-list.component';
+import AddProveedor from '../components/proveedores/add-proveedor/add-proveedor.component'
 
 
 import { list as getCanales } from '../actions/canal.action';
@@ -36,6 +38,7 @@ import { list as getFamilias } from '../actions/familia.action';
 import { list as getGrupos } from '../actions/grupo.action';
 import { list as getSubgrupos } from '../actions/subgrupo.action';
 import { list as getUnidades } from '../actions/unidad.action';
+import { list as getProveedores } from '../actions/proveedor.action';
 
 class AppRouter extends Component {
     componentWillMount() {
@@ -45,6 +48,7 @@ class AppRouter extends Component {
         this.props.getGrupos();
         this.props.getSubgrupos();
         this.props.getUnidades();
+        this.props.getProveedores();
     }
 
     render() {
@@ -74,6 +78,8 @@ class AppRouter extends Component {
                         <Route exact path="/articulos-competencia" component={authenticateRoute(ArticulosCompetenciaList)} />
                         <Route exact path="/articulos-competencia/new" component={authenticateRoute(AddArticuloCompetencia)} />
                         <Route exact path="/articulos-competencia/:id" component={authenticateRoute(EditArticuloCompetencia)} />
+                        <Route exact path="/proveedores" component={authenticateRoute(ProveedoresList)} />
+                        <Route exact path="/proveedores/new" component={authenticateRoute(AddProveedor)} />
                         <Route exact path="/entregas/new" component={authenticateRoute(AddEntrega)} />
                         <Route path="/reportes" component={authenticateRoute(Reportes)} />
                     </Switch>
@@ -83,4 +89,4 @@ class AppRouter extends Component {
     }
 }
 
-export default connect(null, { getCanales, getSubcanales, getFamilias, getGrupos, getSubgrupos, getUnidades })(AppRouter);
+export default connect(null, { getCanales, getSubcanales, getFamilias, getGrupos, getSubgrupos, getUnidades, getProveedores })(AppRouter);
