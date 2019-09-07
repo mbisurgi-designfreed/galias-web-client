@@ -110,6 +110,7 @@ class ArticulosCompetenciaList extends Component {
                     <Filters filterValue={this.props.filters.searchBy} textValue={this.props.filters.text} options={this.options} onFilterChange={this.onFilterChanged} onTextChange={this.onTextChanged}>
                         <div className="form__icon-container">
                             <Link className="icon-medium" to="/articulos-competencia/new"><i className="fas fa-plus-circle"></i></Link>
+                            <Link className="icon-medium" to="/competencia/new"><i className="fas fa-dollar-sign"></i></Link>
                             <button className="btn-link icon-medium" onClick={this.onExportar}><i className="fas fa-download"></i></button>
                         </div>
                     </Filters>

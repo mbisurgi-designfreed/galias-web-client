@@ -29,7 +29,8 @@ import ArticulosCompetenciaList from '../components/articulos-competencia/articu
 import AddArticuloCompetencia from '../components/articulos-competencia/add-articulo-competencia/add-articulo-competencia.component';
 import EditArticuloCompetencia from '../components/articulos-competencia/edit-articulo-competencia/edit-articulo-competencia.component';
 import ProveedoresList from '../components/proveedores/proveedores-list/proveedores-list.component';
-import AddProveedor from '../components/proveedores/add-proveedor/add-proveedor.component'
+import AddProveedor from '../components/proveedores/add-proveedor/add-proveedor.component';
+import AddCompetencia from '../components/competencia/add-competencia.component';
 
 
 import { list as getCanales } from '../actions/canal.action';
@@ -80,6 +81,7 @@ class AppRouter extends Component {
                         <Route exact path="/articulos-competencia/:id" component={authenticateRoute(EditArticuloCompetencia)} />
                         <Route exact path="/proveedores" component={authenticateRoute(ProveedoresList)} />
                         <Route exact path="/proveedores/new" component={authenticateRoute(AddProveedor)} />
+                        <Route exact path="/competencia/new" component={authenticateRoute(AddCompetencia)} />
                         <Route exact path="/entregas/new" component={authenticateRoute(AddEntrega)} />
                         <Route path="/reportes" component={authenticateRoute(Reportes)} />
                     </Switch>
