@@ -9,20 +9,12 @@ import proveedorSelector from '../../../selectors/proveedor.selector';
 
 class ArticuloCompetenciaForm extends Component {
     state = {
-        proveedores: [],
         familias: [],
         grupos: [],
         subgrupos: []
     };
 
     componentWillMount() {
-        const proveedores = this.props.proveedores.map((proveedor) => {
-            return {
-                value: proveedor._id,
-                label: proveedor.nombre
-            };
-        });
-
         const familias = this.props.familias.map((familia) => {
             return {
                 value: familia._id,
@@ -60,7 +52,7 @@ class ArticuloCompetenciaForm extends Component {
             this.setState(() => ({ grupos, subgrupos }));
         }
 
-        this.setState(() => ({ proveedores, familias }));
+        this.setState(() => ({ familias }));
     };
 
     componentWillReceiveProps(nextProps) {
@@ -120,14 +112,6 @@ class ArticuloCompetenciaForm extends Component {
         this.props.setFieldTouched('subgrupo', true);
     };
 
-    proveedorChanged = (proveedor) => {
-        this.props.setFieldValue('proveedor', proveedor.value);
-    };
-
-    proveedorBlur = () => {
-        this.props.setFieldTouched('proveedor', true);
-    };
-
     render() {
         return (
             <div>
@@ -141,11 +125,6 @@ class ArticuloCompetenciaForm extends Component {
                             <label className="form__label" htmlFor="descripcion">Descripcion</label>
                             <Field className="form__field" id="descripcion" type="text" name="descripcion" />
                             {this.props.touched.descripcion && this.props.errors.descripcion && (<p className="form__field-error">{this.props.errors.descripcion}</p>)}
-                        </div>
-                        <div className="form-group col-1-of-4">
-                            <label className="form__label" htmlFor="proveedor">Proveedor</label>
-                            <Select id="proveedor" options={this.state.proveedores} multi={false} value={this.props.values.proveedor} onChange={this.proveedorChanged} onBlur={this.proovedorBlur} />
-                            {this.props.touched.proveedor && this.props.errors.proveedor && (<p className="form__field-error">{this.props.errors.proveedor}</p>)}
                         </div>
                     </div>
                     <div className="row">
@@ -191,10 +170,6 @@ const validationSchema = () => Yup.object().shape({
     descripcion: Yup
         .string()
         .required('Descripcion es requerido'),
-    proveedor: Yup
-        .string()
-        .nullable()
-        .required('Proveedor es requerido'),
     familia: Yup
         .string()
         .nullable()
@@ -214,7 +189,6 @@ const onSubmit = (values, { props, resetForm }) => {
 
     const articulo = {
         descripcion,
-        proveedor: values.proveedor,
         familia: values.familia,
         grupo: values.grupo,
         subgrupo: values.subgrupo

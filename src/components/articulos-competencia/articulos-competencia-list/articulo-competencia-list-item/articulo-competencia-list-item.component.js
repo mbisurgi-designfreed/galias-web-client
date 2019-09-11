@@ -27,10 +27,6 @@ const ArticuloCompetenciaListItem = (props) => {
                         <p className="list__item-label">Descripcion:</p>
                         <p className="list__item-value">{articulo.descripcion}</p>
                     </div>
-                    <div className="list__item-field">
-                        <p className="list__item-label">Proveedor:</p>
-                        <p className="list__item-value">{articulo.proveedor}</p>
-                    </div>
                 </div>
             </div>
         </div>

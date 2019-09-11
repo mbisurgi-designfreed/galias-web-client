@@ -7,10 +7,13 @@ import Yup from 'yup';
 import numeral from "numeral";
 import axios from 'axios';
 
+import proveedorSelector from "../../selectors/proveedor.selector";
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 class CompetenciaForm extends Component {
     state = {
+        proveedores: [],
         clientes: [],
         articulos: [],
         articulosFiltrados: [],
@@ -22,6 +25,13 @@ class CompetenciaForm extends Component {
     };
 
     async componentWillMount() {
+        const proveedores = this.props.proveedores.map((proveedor) => {
+            return {
+                value: proveedor._id,
+                label: proveedor.nombre
+            };
+        });
+
         const familias = this.props.familias.map((familia) => {
             return {
                 value: familia._id,
@@ -39,7 +49,7 @@ class CompetenciaForm extends Component {
         const articulos = await this.fetchArticulos();
         const competencias = await this.fetchCompetencias();
 
-        this.setState(() => ({ clientes, articulos, competencias, familias }));
+        this.setState(() => ({ proveedores, clientes, articulos, competencias, familias }));
     };
 
     componentWillReceiveProps(nextProps) {
@@ -149,6 +159,14 @@ class CompetenciaForm extends Component {
         this.props.setFieldTouched('subgrupo', true);
     };
 
+    proveedorChanged = (proveedor) => {
+        this.props.setFieldValue('proveedor', proveedor.value);
+    };
+
+    proveedorBlur = () => {
+        this.props.setFieldTouched('proveedor', true);
+    };
+
     articuloChanged = (articulo) => {
         this.props.setFieldValue('articulo', articulo.value);
     };
@@ -231,7 +249,12 @@ class CompetenciaForm extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="form-group col-2-of-4">
+                        <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="proveedor">Proveedor</label>
+                            <Select id="proveedor" options={this.state.proveedores} multi={false} value={this.props.values.proveedor} onChange={this.proveedorChanged} onBlur={this.proovedorBlur} />
+                            {this.props.touched.proveedor && this.props.errors.proveedor && (<p className="form__field-error">{this.props.errors.proveedor}</p>)}
+                        </div>
+                        <div className="form-group col-1-of-4">
                             <label className="form__label" htmlFor="competencia">Articulo Competencia</label>
                             <Select id="competencia" options={this.state.competenciasFiltrados} multi={false} value={this.props.values.competencia} onChange={this.competenciaChanged} onBlur={this.competenciaBlur} />
                             {this.props.touched.competencia && this.props.errors.competencia && (<p className="form__field-error">{this.props.errors.competencia}</p>)}
@@ -318,6 +341,10 @@ const validationSchema = () => Yup.object().shape({
     precioCompetencia: Yup
         .string()
         .required('Precio es requerido'),
+    proveedor: Yup
+        .string()
+        .nullable()
+        .required('Proveedor es requerido'),
 });
 
 const onSubmit = (values, { props, resetForm }) => {
@@ -334,6 +361,7 @@ const onSubmit = (values, { props, resetForm }) => {
         competencia: values.competencia,
         cantidadCompetencia: numeral(cantidadCompetencia).value(),
         precioCompetencia: numeral(precioCompetencia).value(),
+        proveedor: values.proveedor,
         observaciones
     };
 
@@ -341,7 +369,7 @@ const onSubmit = (values, { props, resetForm }) => {
 };
 
 const mapStateToProps = (state) => {
-    return { familias: state.familia, grupos: state.grupo, subgrupos: state.subgrupo }
+    return { proveedores: proveedorSelector(state.proveedor.proveedores), familias: state.familia, grupos: state.grupo, subgrupos: state.subgrupo }
 };
 
 export default connect(mapStateToProps)(withFormik({
