@@ -88,6 +88,36 @@ class ArticulosCompetenciaList extends Component {
         });
     };
 
+    onExportarCompetencias = (e) => {
+        const API_URL = process.env.REACT_APP_API_URL;
+        const URL = `${API_URL}/api/competencia/excel`;
+        const exportados = [];
+
+        axios.get(URL).then((res) => {
+            res.data.forEach((competencia) => {
+                exportados.push({
+                    CodigoCliente: competencia.cliente.codigo,
+                    RazonSocial: competencia.cliente.razonSocial,
+                    Familia: competencia.familia.nombre,
+                    Grupo: competencia.grupo.nombre,
+                    Subgrupo: competencia.subgrupo.nombre,
+                    CodigoArticulo: competencia.articulo.codigo,
+                    DescripcionArticulo: competencia.articulo.descripcion,
+                    Cantidad: competencia.cantidad,
+                    Precio: competencia.precio,
+                    CodigoArticuloCompetencia: competencia.articuloCompetencia.codigo,
+                    DescripcionArticuloCompetencia: competencia.articuloCompetencia.descripcion,
+                    CantidadCompetencia: competencia.cantidadCompetencia,
+                    PrecioCompetencia: competencia.precioCompetencia,
+                    CodigoProveedor: competencia.proveedor.codigo,
+                    NombreProveedor: competencia.proveedor.codigo
+                });
+            });
+
+            this.exportAsExcelFile(exportados, 'Matriz Competencia');
+        });
+    };
+
     exportAsExcelFile = (json, excelFilename) => {
         const worksheet = XLSX.utils.json_to_sheet(json);
         const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
@@ -112,6 +142,7 @@ class ArticulosCompetenciaList extends Component {
                             <Link className="icon-medium" to="/articulos-competencia/new"><i className="fas fa-plus-circle"></i></Link>
                             <Link className="icon-medium" to="/competencia/new"><i className="fas fa-dollar-sign"></i></Link>
                             <button className="btn-link icon-medium" onClick={this.onExportar}><i className="fas fa-download"></i></button>
+                            <button className="btn-link icon-medium" onClick={this.onExportarCompetencias}><i className="fas fa-download"></i></button>
                         </div>
                     </Filters>
                 </div>
