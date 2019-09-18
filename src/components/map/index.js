@@ -5,7 +5,7 @@ import axios from "axios";
 class Map extends Component {
     map = null;
 
-    componentDidMount() {
+    async componentDidMount() {
         this.map = L.map('map').setView([-26.839895, -65.235839], 15);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
@@ -15,6 +15,8 @@ class Map extends Component {
 
         let icon = L.divIcon({className: 'depo-div-icon'});
         let deposito = L.marker([-26.839895, -65.23583], {icon}).addTo(this.map);
+
+        await this.fetchClientes
     }
 
     fetchClientes = async () => {
