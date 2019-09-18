@@ -24,7 +24,7 @@ class Map extends Component {
         const URL = `${API_URL}/api/cliente/list`;
 
         let res = await axios.get(URL);
-        let clientes = res.data;
+        let clientes = res.data.clientes;
         console.log('clientes', clientes);
 
         let iconCalsa = L.divIcon({className: 'calsa-div-icon'});
