@@ -16,7 +16,7 @@ class Map extends Component {
         let icon = L.divIcon({className: 'depo-div-icon'});
         let deposito = L.marker([-26.839895, -65.23583], {icon}).addTo(this.map);
 
-        await this.fetchClientes
+        await this.fetchClientes()
     }
 
     fetchClientes = async () => {
