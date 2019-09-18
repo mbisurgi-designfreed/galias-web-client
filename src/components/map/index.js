@@ -30,19 +30,25 @@ class Map extends Component {
         let iconCalsa = L.divIcon({className: 'calsa-div-icon'});
         let iconNoCalsa = L.divIcon({className: 'no-calsa-div-icon'});
 
+        let markers = L.markerClusterGroup();
+
         clientes.forEach(cliente => {
             if (cliente.direccion.geometry) {
                 let coords = cliente.direccion.geometry.coordinates;
 
                 if (cliente.division === 'calsa') {
-                    L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
+                    markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
+                    //L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
                 }
 
                 if (cliente.division === 'no calsa') {
-                    L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
+                    markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
+                    //L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
                 }
             }
         });
+
+        this.map.addLayer(markers);
     };
 
     render() {
