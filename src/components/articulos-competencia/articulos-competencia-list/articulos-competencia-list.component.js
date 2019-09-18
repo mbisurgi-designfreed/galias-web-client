@@ -96,6 +96,7 @@ class ArticulosCompetenciaList extends Component {
         const exportados = [];
 
         axios.get(URL).then((res) => {
+            console.log('res.data', res.data);
             res.data.forEach((competencia) => {
                 exportados.push({
                     CodigoCliente: competencia.cliente.codigo,
