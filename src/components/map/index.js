@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import L from 'leaflet';
 import axios from "axios";
+import 'leaflet.markercluster';
 
 class Map extends Component {
     map = null;
