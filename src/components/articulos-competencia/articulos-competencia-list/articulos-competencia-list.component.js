@@ -89,6 +89,8 @@ class ArticulosCompetenciaList extends Component {
     };
 
     onExportarCompetencias = (e) => {
+        e.preventDefault();
+        
         const API_URL = process.env.REACT_APP_API_URL;
         const URL = `${API_URL}/api/competencia/excel`;
         const exportados = [];
