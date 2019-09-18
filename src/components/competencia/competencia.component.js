@@ -38,7 +38,7 @@ class CompetenciaForm extends Component {
                 label: familia.nombre
             };
         });
-        
+
         const clientes = (await this.fetchClients()).map(cliente => {
             return {
                 value: cliente._id,
@@ -358,7 +358,7 @@ const onSubmit = (values, { props, resetForm }) => {
         articulo: values.articulo,
         cantidad: numeral(cantidad).value(),
         precio: numeral(precio).value(),
-        competencia: values.competencia,
+        articuloCompetencia: values.competencia,
         cantidadCompetencia: numeral(cantidadCompetencia).value(),
         precioCompetencia: numeral(precioCompetencia).value(),
         proveedor: values.proveedor,

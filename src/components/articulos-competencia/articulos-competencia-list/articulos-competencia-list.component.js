@@ -90,7 +90,7 @@ class ArticulosCompetenciaList extends Component {
 
     onExportarCompetencias = (e) => {
         e.preventDefault();
-        
+
         const API_URL = process.env.REACT_APP_API_URL;
         const URL = `${API_URL}/api/competencia/excel`;
         const exportados = [];
@@ -108,12 +108,12 @@ class ArticulosCompetenciaList extends Component {
                     DescripcionArticulo: competencia.articulo.descripcion,
                     Cantidad: competencia.cantidad,
                     Precio: competencia.precio,
-                    CodigoArticuloCompetencia: competencia.articuloCompetencia.codigo,
-                    DescripcionArticuloCompetencia: competencia.articuloCompetencia.descripcion,
+                    //CodigoArticuloCompetencia: competencia.articuloCompetencia.codigo,
+                    //DescripcionArticuloCompetencia: competencia.articuloCompetencia.descripcion,
                     CantidadCompetencia: competencia.cantidadCompetencia,
                     PrecioCompetencia: competencia.precioCompetencia,
                     CodigoProveedor: competencia.proveedor.codigo,
-                    NombreProveedor: competencia.proveedor.codigo
+                    NombreProveedor: competencia.proveedor.nombre
                 });
             });
 
