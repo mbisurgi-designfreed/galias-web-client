@@ -31,6 +31,7 @@ import EditArticuloCompetencia from '../components/articulos-competencia/edit-ar
 import ProveedoresList from '../components/proveedores/proveedores-list/proveedores-list.component';
 import AddProveedor from '../components/proveedores/add-proveedor/add-proveedor.component';
 import AddCompetencia from '../components/competencia/add-competencia.component';
+import Map from '../components/map';
 
 
 import { list as getCanales } from '../actions/canal.action';
@@ -84,6 +85,7 @@ class AppRouter extends Component {
                         <Route exact path="/competencia/new" component={authenticateRoute(AddCompetencia)} />
                         <Route exact path="/entregas/new" component={authenticateRoute(AddEntrega)} />
                         <Route path="/reportes" component={authenticateRoute(Reportes)} />
+                        <Route path="/map" component={Map} />
                     </Switch>
                 </div>
             </BrowserRouter>

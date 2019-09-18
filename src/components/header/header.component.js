@@ -19,6 +19,7 @@ class Header extends Component {
             { title: 'Reportes', path: '/reportes', icon: 'fas fa-book icon-navbar' },
             { title: 'Competencia', path: '/articulos-competencia', icon: 'fas fa-cubes icon-navbar' },
             { title: 'Proveedores', path: '/proveedores', icon: 'fas fa-users icon-navbar' },
+            { title: 'Mapa', path: '/map', icon: 'fas fa-map icon-navbar' },
         ];
 
         return items.map((item) => {
