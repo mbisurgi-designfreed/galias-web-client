@@ -35,11 +35,11 @@ class Map extends Component {
                 let coords = cliente.direccion.geometry.coordinates;
 
                 if (cliente.division === 'calsa') {
-                    L.marker([coords[1], coords[0]], {iconCalsa}).addTo(this.map);
+                    L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
                 }
 
                 if (cliente.division === 'no calsa') {
-                    L.marker([coords[1], coords[0]], {iconNoCalsa}).addTo(this.map);
+                    L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
                 }
             }
         });
