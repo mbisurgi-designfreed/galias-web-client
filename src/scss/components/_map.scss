@@ -21,3 +21,10 @@
   border-radius: 50px;
   background-color:$color-warning;
 }
+
+.map-checkbox {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  z-index: 9999;
+}

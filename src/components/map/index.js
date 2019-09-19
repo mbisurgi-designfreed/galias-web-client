@@ -2,10 +2,20 @@ import React, { Component } from 'react';
 import L from 'leaflet';
 import axios from "axios";
 import 'leaflet.markercluster';
+import 'leaflet.markercluster.freezable';
 import 'leaflet.markercluster.layersupport';
 
 class Map extends Component {
     map = null;
+    clusters = null;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            enableClusters: true
+        }
+    }
 
     async componentDidMount() {
         this.map = L.map('map').setView([-26.839895, -65.235839], 15);
@@ -27,6 +37,16 @@ class Map extends Component {
         await this.fetchClientes()
     }
 
+    componentDidUpdate() {
+        if (this.clusters && this.state.enableClusters) {
+            this.clusters.enableClustering();
+        }
+
+        if (this.clusters && !this.state.enableClusters) {
+            this.clusters.disableClustering();
+        }
+    }
+
     fetchClientes = async () => {
         const API_URL = process.env.REACT_APP_API_URL;
         const URL = `${API_URL}/api/cliente/list`;
@@ -37,7 +57,7 @@ class Map extends Component {
         let iconCalsa = L.divIcon({className: 'calsa-div-icon'});
         let iconNoCalsa = L.divIcon({className: 'no-calsa-div-icon'});
 
-        let markers = L.markerClusterGroup.layerSupport().addTo(this.map);
+        this.clusters = L.markerClusterGroup.layerSupport().addTo(this.map);
 
         let layerCalsa = L.layerGroup();
         let layerNoCalsa = L.layerGroup();
@@ -80,7 +100,7 @@ class Map extends Component {
             // }
         });
 
-        markers.checkIn([layerCalsa, layerNoCalsa]);
+        this.clusters.checkIn([layerCalsa, layerNoCalsa]);
 
         let overlays = {
           'Calsa': layerCalsa,
@@ -92,7 +112,15 @@ class Map extends Component {
 
     render() {
         return (
-            <div id='map' style={{ height: '100vh' }} />
+            <div style={{position: 'relative'}}>
+                <div id='map' style={{ height: '100vh' }} />
+                <input
+                    type='checkbox'
+                    className='map-checkbox'
+                    checked={this.state.enableClusters}
+                    onChange={e => this.setState({enableClusters: !this.state.enableClusters})}
+                />
+            </div>
         )
     }
 }
