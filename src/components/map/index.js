@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import L from 'leaflet';
 import axios from "axios";
 import 'leaflet.markercluster';
+import 'leaflet.markercluster.layersupport';
 
 class Map extends Component {
     map = null;
@@ -32,30 +33,41 @@ class Map extends Component {
 
         let res = await axios.get(URL);
         let clientes = res.data.clientes;
-        console.log('clientes', clientes);
 
         let iconCalsa = L.divIcon({className: 'calsa-div-icon'});
         let iconNoCalsa = L.divIcon({className: 'no-calsa-div-icon'});
 
-        let markers = L.markerClusterGroup();
+        let markers = L.markerClusterGroup.layerSupport().addTo(this.map);
+
+        let layerCalsa = L.layerGroup();
+        let layerNoCalsa = L.layerGroup();
 
         clientes.forEach(cliente => {
             if (cliente.direccion.geometry) {
                 let coords = cliente.direccion.geometry.coordinates;
 
                 if (cliente.division === 'calsa') {
-                    markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
+                    layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
+                    //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
                     //L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
                 }
 
                 if (cliente.division === 'no calsa') {
-                    markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
+                    layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
+                    //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
                     //L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
                 }
             }
         });
 
-        this.map.addLayer(markers);
+        markers.checkIn([layerCalsa, layerNoCalsa]);
+
+        let overlays = {
+          'Calsa': layerCalsa,
+          'Consumo Masivo': layerNoCalsa
+        };
+
+        L.control.layers(null, overlays).addTo(this.map);
     };
 
     render() {

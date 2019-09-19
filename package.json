@@ -13,6 +13,7 @@
     "jspdf": "^1.4.1",
     "leaflet": "^1.5.1",
     "leaflet.markercluster": "^1.4.1",
+    "leaflet.markercluster.layersupport": "^2.0.1",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "numeral": "^2.0.6",
