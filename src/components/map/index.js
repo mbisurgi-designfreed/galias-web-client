@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import L from 'leaflet';
 import axios from "axios";
 import 'leaflet.markercluster';
@@ -27,12 +27,13 @@ class Map extends Component {
 
         let greenIcon = L.icon({
             iconUrl: '/images/galias.png',
-            iconSize:     [25, 35], // size of the icon
-            iconAnchor:   [15, 25], // point of the icon which will correspond to marker's location
+            iconSize: [25, 35], // size of the icon
+            iconAnchor: [15, 25], // point of the icon which will correspond to marker's location
         });
 
         let icon = L.divIcon({className: 'depo-div-icon'});
-        let deposito = L.marker([-26.839895, -65.23583], {icon: greenIcon}).addTo(this.map);
+        let deposito = L.marker([-26.839895, -65.23583], {icon: greenIcon})
+            .addTo(this.map);
 
         await this.fetchClientes()
     }
@@ -69,7 +70,13 @@ class Map extends Component {
                         let coords = sucursal.geometry.coordinates;
 
                         if (cliente.division === 'calsa') {
-                            layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
+                            layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa})
+                                .bindPopup(`
+                                    <div>
+                                        <p>${cliente.razonSocial}</p>
+                                        <span>${sucursal.calle} ${sucursal.altura}</span>
+                                    </div>
+                                `));
                             //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
                             //L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
                         }
@@ -103,8 +110,8 @@ class Map extends Component {
         this.clusters.checkIn([layerCalsa, layerNoCalsa]);
 
         let overlays = {
-          'Calsa': layerCalsa,
-          'Consumo Masivo': layerNoCalsa
+            'Calsa': layerCalsa,
+            'Consumo Masivo': layerNoCalsa
         };
 
         L.control.layers(null, overlays).addTo(this.map);
@@ -113,7 +120,7 @@ class Map extends Component {
     render() {
         return (
             <div style={{position: 'relative'}}>
-                <div id='map' style={{ height: '100vh' }} />
+                <div id='map' style={{height: '100vh'}}/>
                 <input
                     type='checkbox'
                     className='map-checkbox'

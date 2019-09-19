@@ -28,3 +28,21 @@
   left: 20px;
   z-index: 9999;
 }
+
+.leaflet-popup-content {
+  p {
+    font-size: 14px;
+    font-weight: bold;
+    color: $color-grey-dark;
+    margin: 0 !important;
+  }
+
+  span {
+    font-size: 14px;
+    color: $color-grey-light;
+  }
+}
+.leaflet-container a.leaflet-popup-close-button {
+  top: 2px !important;
+  right: 5px !important;
+}
