@@ -14,8 +14,14 @@ class Map extends Component {
             maxZoom: 18
         }).addTo(this.map);
 
+        let greenIcon = L.icon({
+            iconUrl: '/images/galias.png',
+            iconSize:     [25, 35], // size of the icon
+            iconAnchor:   [15, 25], // point of the icon which will correspond to marker's location
+        });
+
         let icon = L.divIcon({className: 'depo-div-icon'});
-        let deposito = L.marker([-26.839895, -65.23583], {icon}).addTo(this.map);
+        let deposito = L.marker([-26.839895, -65.23583], {icon: greenIcon}).addTo(this.map);
 
         await this.fetchClientes()
     }
