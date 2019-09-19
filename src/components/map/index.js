@@ -82,7 +82,13 @@ class Map extends Component {
                         }
 
                         if (cliente.division === 'no calsa') {
-                            layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
+                            layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa})
+                                .bindPopup(`
+                                    <div>
+                                        <p>${cliente.razonSocial}</p>
+                                        <span>${sucursal.calle} ${sucursal.altura}</span>
+                                    </div>
+                                `));
                             //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
                             //L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
                         }
