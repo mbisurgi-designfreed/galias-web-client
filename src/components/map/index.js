@@ -43,21 +43,41 @@ class Map extends Component {
         let layerNoCalsa = L.layerGroup();
 
         clientes.forEach(cliente => {
-            if (cliente.direccion.geometry) {
-                let coords = cliente.direccion.geometry.coordinates;
+            if (cliente.sucursales) {
+                cliente.sucursales.forEach(sucursal => {
+                    if (sucursal.geometry) {
+                        let coords = sucursal.geometry.coordinates;
 
-                if (cliente.division === 'calsa') {
-                    layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
-                    //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
-                    //L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
-                }
+                        if (cliente.division === 'calsa') {
+                            layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
+                            //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
+                            //L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
+                        }
 
-                if (cliente.division === 'no calsa') {
-                    layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
-                    //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
-                    //L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
-                }
+                        if (cliente.division === 'no calsa') {
+                            layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
+                            //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
+                            //L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
+                        }
+                    }
+                })
             }
+
+            // if (cliente.direccion.geometry) {
+            //     let coords = cliente.direccion.geometry.coordinates;
+            //
+            //     if (cliente.division === 'calsa') {
+            //         layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
+            //         //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
+            //         //L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
+            //     }
+            //
+            //     if (cliente.division === 'no calsa') {
+            //         layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
+            //         //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
+            //         //L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
+            //     }
+            // }
         });
 
         markers.checkIn([layerCalsa, layerNoCalsa]);
