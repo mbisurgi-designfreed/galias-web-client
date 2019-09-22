@@ -10,6 +10,7 @@ import Map from '../../search-place/map.component';
 import PersonaModal from './persona-form/persona-modal.component';
 import SucursalModal from './sucursal-form/sucursal-modal.component';
 import TelefonoModal from './telefono-form/telefono-modal.component';
+import ClientMap from './clientMap';
 
 import { list as getCanales } from '../../../actions/canal.action';
 import { list as getSubcanales } from '../../../actions/subcanal.action';
@@ -23,7 +24,7 @@ class ClienteForm extends Component {
         persona: { item: undefined },
         telefono: { item: undefined },
         sucursal: { item: undefined },
-    }
+    };
 
     componentWillMount() {
         const canales = this.props.canales.map((canal) => {
@@ -70,7 +71,7 @@ class ClienteForm extends Component {
     }, {
         value: 'ex',
         label: 'Exento'
-    }]
+    }];
 
     PAGO = [{
         value: 0,
@@ -90,7 +91,7 @@ class ClienteForm extends Component {
     }, {
         value: 45,
         label: 45
-    }]
+    }];
 
     DIAS = [{
         value: 'lunes',
@@ -135,15 +136,15 @@ class ClienteForm extends Component {
         if (this.props.alert.alert) {
             setTimeout(() => {
                 this.props.removeAlert();
-            }, 3000)
+            }, 3000);
 
             return <a className="alert" onClick={this.onAlertClick}>{this.props.alert.alert}</a>
         }
-    }
+    };
 
     onAlertClick = () => {
         this.props.removeAlert();
-    }
+    };
 
     placeChanged = (place) => {
         if (place === undefined) {
@@ -162,39 +163,39 @@ class ClienteForm extends Component {
         this.props.setFieldValue('lng', ubicacion.lng);
 
         this.renderMap();
-    }
+    };
 
     ivaChanged = (iva) => {
         this.props.setFieldValue('iva', iva.value);
-    }
+    };
 
     ivaBlur = () => {
         this.props.setFieldTouched('iva', true);
-    }
+    };
 
     pagoChanged = (pago) => {
         this.props.setFieldValue('condicionPago', pago.value);
-    }
+    };
 
     pagoBlur = () => {
         this.props.setFieldTouched('condicionPago', true);
-    }
+    };
 
     visitaChanged = (dia) => {
         this.props.setFieldValue('visita', dia);
-    }
+    };
 
     visitaBlur = () => {
         this.props.setFieldTouched('visita', true);
-    }
+    };
 
     entregaChanged = (dia) => {
         this.props.setFieldValue('entrega', dia);
-    }
+    };
 
     entregaBlur = () => {
         this.props.setFieldTouched('entrega', true);
-    }
+    };
 
     canalChanged = (canal) => {
         this.props.setFieldValue('canal', canal.value);
@@ -212,43 +213,43 @@ class ClienteForm extends Component {
 
             this.setState(() => ({ subcanales }));
         }
-    }
+    };
 
     canalBlur = () => {
         this.props.setFieldTouched('canal', true);
-    }
+    };
 
     subcanalChanged = (subcanal) => {
         this.props.setFieldValue('subcanal', subcanal.value);
-    }
+    };
 
     subcanalBlur = () => {
         this.props.setFieldTouched('subcanal', true);
-    }
+    };
 
     divisionChanged = (division) => {
         this.props.setFieldValue('division', division.value);
-    }
+    };
 
     divisionBlur = () => {
         this.props.setFieldTouched('division', true);
-    }
+    };
 
     clasificacionChanged = (clasificacion) => {
         this.props.setFieldValue('clasificacion', clasificacion.value);
-    }
+    };
 
     clasificacionBlur = () => {
         this.props.setFieldTouched('clasificacion', true);
-    }
+    };
 
     onAgregarPersona = () => {
         this.setState(() => ({ persona: { item: null } }));
-    }
+    };
 
     onEditarPersona = (i) => {
         this.setState(() => ({ persona: { item: this.props.values.personas[i], index: i } }));
-    }
+    };
 
     onClosePersona = ({ persona, index }) => {
         if (persona && index == null) {
@@ -264,7 +265,7 @@ class ClienteForm extends Component {
         }
 
         this.setState(() => ({ persona: { item: undefined } }));
-    }
+    };
 
     renderPersonas = () => {
         return this.props.values.personas.map((persona, i) => {
@@ -282,11 +283,11 @@ class ClienteForm extends Component {
 
     onAgregarTelefono = () => {
         this.setState(() => ({ telefono: { item: null } }));
-    }
+    };
 
     onEditarTelefono = (i) => {
         this.setState(() => ({ telefono: { item: this.props.values.telefonos[i], index: i } }));
-    }
+    };
 
     onCloseTelefono = ({ telefono, index }) => {
         if (telefono && index == null) {
@@ -302,7 +303,7 @@ class ClienteForm extends Component {
         }
 
         this.setState(() => ({ telefono: { item: undefined } }));
-    }
+    };
 
     renderTelefonos = () => {
         return this.props.values.telefonos.map((telefono, i) => {
@@ -320,11 +321,11 @@ class ClienteForm extends Component {
 
     onAgregarSucursal = () => {
         this.setState(() => ({ sucursal: { item: null } }));
-    }
+    };
 
     onEditarSucursal = (i) => {
         this.setState(() => ({ sucursal: { item: this.props.values.sucursales[i], index: i } }));
-    }
+    };
 
     onCloseSucursal = ({ sucursal, index }) => {
         if (sucursal && index == null) {
@@ -340,7 +341,7 @@ class ClienteForm extends Component {
         }
 
         this.setState(() => ({ sucursal: { item: undefined } }));
-    }
+    };
 
     renderSucursales = () => {
         return this.props.values.sucursales.map((sucursal, i) => {
@@ -358,8 +359,13 @@ class ClienteForm extends Component {
     renderMap = () => {
         if (this.state.ubicacion) {
             return <Map containerElement={<div style={{ width: '100%', height: 200 }} />} mapElement={<div style={{ height: `100%` }} />} ubicacion={this.state.ubicacion} />
-        }        
-    }
+        }
+    };
+
+    onSetCoords = (lat, lng) => {
+        this.props.setFieldValue('lat', lat);
+        this.props.setFieldValue('lng', lng);
+    };
 
     render() {
         return (
@@ -395,8 +401,11 @@ class ClienteForm extends Component {
                             <Field className="form__field" id="nombreComercial" type="text" name="nombreComercial" />
                         </div>
                     </div>
-                    <div className="row">
-                        <SearchPlace placeChanged={this.placeChanged} />
+                    {/*<div className="row">*/}
+                    {/*    <SearchPlace placeChanged={this.placeChanged} />*/}
+                    {/*</div>*/}
+                    <div className="row" style={{height: '250px'}}>
+                        <ClientMap setCoords={this.onSetCoords} lat={this.state.ubicacion && this.state.ubicacion.lat} lng={this.state.ubicacion && this.state.ubicacion.lng} />
                     </div>
                     <div className="row">
                         <div className="form-group col-1-of-4">
@@ -428,11 +437,11 @@ class ClienteForm extends Component {
                             <Field className="form__field" id="lng" type="text" name="lng" disabled />
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-1-of-2">
-                            {this.renderMap()}
-                        </div>
-                    </div>
+                    {/*<div className="row">*/}
+                    {/*    <div className="col-1-of-2">*/}
+                    {/*        {this.renderMap()}*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                     <div className="row">
                         <div className="form-group col-1-of-3">
                             <label className="form__label">Telefonos</label>
@@ -615,7 +624,7 @@ const onSubmit = (values, { props, resetForm }) => {
         diaEntrega: typeof values.entrega[0] === 'object' ? values.entrega.map(entrega => entrega.value) : values.entrega,
         personas
     }
-    
+
     props.accion(cliente);
 };
 

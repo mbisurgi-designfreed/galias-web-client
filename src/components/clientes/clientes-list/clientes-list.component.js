@@ -20,7 +20,7 @@ import clienteSelector from '../../../selectors/cliente.selector';
 class ClientesList extends Component {
     state = {
         page: 1
-    }
+    };
 
     componentWillMount() {
         this.props.list(1);
@@ -43,15 +43,15 @@ class ClientesList extends Component {
         if (this.props.alert.alert) {
             setTimeout(() => {
                 this.props.removeAlert();
-            }, 3000)
+            }, 3000);
 
             return <a className="alert" onClick={this.onAlertClick}>{this.props.alert.alert}</a>
         }
-    }
+    };
 
     onAlertClick = () => {
         this.props.removeAlert();
-    }
+    };
 
     onFilterChanged = (selectedOption) => {
         this.props.setTextFilter('');
@@ -81,11 +81,11 @@ class ClientesList extends Component {
         return _.map(clientes, (cliente) => {
             return <ClienteListItem cliente={cliente} key={cliente._id} />;
         });
-    }
+    };
 
     onPageClicked = (page) => {
         this.setState(() => ({ page }))
-    }
+    };
 
     onExportar = (e) => {
         e.preventDefault();
@@ -93,12 +93,12 @@ class ClientesList extends Component {
         const API_URL = process.env.REACT_APP_API_URL;
         const URL = `${API_URL}/api/cliente/excel`;
         const exportados = [];
-        
+
         axios.get(URL).then((res) => {
             res.data.forEach((cliente) => {
                 exportados.push({
                     Codigo: cliente.codigo,
-                    RazonSocial: cliente.razonSocial,                    
+                    RazonSocial: cliente.razonSocial,
                     Domicilio: `${cliente.direccion.calle} ${cliente.direccion.altura ? cliente.direccion.altura : ''}`,
                     Localidad: cliente.direccion.localidad,
                     Cuit: cliente.cuit,
@@ -111,17 +111,17 @@ class ClientesList extends Component {
                     Entrega: cliente.diaEntrega.join('-'),
                 });
             });
-        
+
             this.exportAsExcelFile(exportados, 'Clientes');
         });
-    }
+    };
 
     exportAsExcelFile = (json, excelFilename) => {
         const worksheet = XLSX.utils.json_to_sheet(json);
         const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
         const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
         this.saveAsExcelFile(excelBuffer, excelFilename);
-    }
+    };
 
     saveAsExcelFile = (buffer, filename) => {
         const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -129,10 +129,9 @@ class ClientesList extends Component {
         const data = new Blob([buffer], { type: EXCEL_TYPE });
 
         FileSaver.saveAs(data, `${filename}_${new Date().getTime()}${EXCEL_EXTENSION}`);
-    }
+    };
 
     render() {
-        console.log('clientes', this);
         return (
             <div className="row">
                 <div className="alert-container">

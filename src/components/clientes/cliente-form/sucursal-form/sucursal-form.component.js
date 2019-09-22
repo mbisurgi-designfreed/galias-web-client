@@ -4,6 +4,7 @@ import Yup from 'yup';
 
 import SearchPlace from '../../../search-place/search-place.component';
 import Map from '../../../search-place/map.component';
+import SucursalMap from "./sucursalMap";
 
 class SucursalForm extends Component {
     state = {
@@ -41,16 +42,24 @@ class SucursalForm extends Component {
     renderMap = () => {
         if (this.state.ubicacion) {
             return <Map containerElement={<div style={{ width: '100%', height: 200 }} />} mapElement={<div style={{ height: `100%` }} />} ubicacion={this.state.ubicacion} />
-        }        
+        }
     }
+
+    onSetCoords = (lat, lng) => {
+        this.props.setFieldValue('lat', lat);
+        this.props.setFieldValue('lng', lng);
+    };
 
     render() {
         return (
             <div>
                 <h3 className="modal-title" >Sucursal</h3>
                 <Form className="form">
-                    <div className="row">
-                        <SearchPlace placeChanged={this.placeChanged} />
+                    {/*<div className="row">*/}
+                    {/*    <SearchPlace placeChanged={this.placeChanged} />*/}
+                    {/*</div>*/}
+                    <div className="row" style={{height: '250px'}}>
+                        <SucursalMap setCoords={this.onSetCoords} lat={this.state.ubicacion && this.state.ubicacion.lat} lng={this.state.ubicacion && this.state.ubicacion.lng} />
                     </div>
                     <div className="row">
                         <div className="form-group col-1-of-4">
@@ -82,9 +91,9 @@ class SucursalForm extends Component {
                             <Field className="form__field" id="lng" type="text" name="lng" disabled />
                         </div>
                     </div>
-                    <div className="row">
-                        {this.renderMap()}
-                    </div>
+                    {/*<div className="row">*/}
+                    {/*    {this.renderMap()}*/}
+                    {/*</div>*/}
                     <button className="btn">{this.props.sucursal.item ? 'Editar' : 'Agregar'}</button>
                 </Form>
             </div>
