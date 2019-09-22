@@ -78,7 +78,7 @@ export default class ClientMap extends Component {
 
     render() {
         return (
-            <div id='clientmap' style={{width: '100%', height: '100%', zIndex: -1}} />
+            <div id='clientmap' style={{width: '100%', height: '100%', zIndex: 0}} />
         )
     }
 }
