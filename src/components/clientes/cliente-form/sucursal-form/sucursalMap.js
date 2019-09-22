@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import L from 'leaflet';
+import * as esriGeocoder from 'esri-leaflet-geocoder';
 import {GeoSearchControl, EsriProvider} from 'leaflet-geosearch';
 
 const provider = new EsriProvider();
@@ -33,7 +34,22 @@ export default class SucursalMap extends Component {
 
         const lat = e.location.y;
         const lng = e.location.x;
-        this.props.setCoords(lat, lng);
+
+        esriGeocoder.geocode().text(e.location.label).run((err, res, response) => {
+            if (err) {
+                this.props.setCoords(lat, lng);
+                return;
+            }
+
+            let results = res.results;
+
+            if (results) {
+                const {StName, AddNum, Nbrhd, Postal} = results[0].properties;
+                this.props.setCoords(lat, lng, StName, AddNum, Nbrhd, Postal);
+            } else {
+                this.props.setCoords(lat, lng);
+            }
+        });
     };
 
     onSearchMarkerMove = (e) => {

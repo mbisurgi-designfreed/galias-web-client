@@ -43,11 +43,36 @@ class SucursalForm extends Component {
         if (this.state.ubicacion) {
             return <Map containerElement={<div style={{ width: '100%', height: 200 }} />} mapElement={<div style={{ height: `100%` }} />} ubicacion={this.state.ubicacion} />
         }
-    }
+    };
 
-    onSetCoords = (lat, lng) => {
+    onSetCoords = (lat, lng, calle, altura, localidad, codigoPostal) => {
+        this.resetDireccion();
+
+        if (calle) {
+            this.props.setFieldValue('calle', calle);
+        }
+
+        if (altura) {
+            this.props.setFieldValue('altura', altura);
+        }
+
+        if (localidad) {
+            this.props.setFieldValue('localidad', localidad);
+        }
+
+        if (codigoPostal) {
+            this.props.setFieldValue('codigoPostal', codigoPostal);
+        }
+
         this.props.setFieldValue('lat', lat);
         this.props.setFieldValue('lng', lng);
+    };
+
+    resetDireccion = () => {
+        this.props.setFieldValue('calle', '');
+        this.props.setFieldValue('altura', '');
+        this.props.setFieldValue('localidad', '');
+        this.props.setFieldValue('codigoPostal', '');
     };
 
     render() {
