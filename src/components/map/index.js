@@ -67,6 +67,12 @@ class Map extends Component {
         let layerB = L.layerGroup();
         let layerC = L.layerGroup();
 
+        let cantidadCalsa = 0;
+        let cantidadNoCalsa = 0;
+        let cantidadA = 0;
+        let cantidadB = 0;
+        let cantidadC = 0;
+
         clientes.forEach(cliente => {
             if (cliente.sucursales) {
                 cliente.sucursales.forEach(sucursal => {
@@ -81,6 +87,7 @@ class Map extends Component {
                                         `);
 
                         if (cliente.division === 'calsa') {
+                            cantidadCalsa++;
                             // layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa})
                             //     .bindPopup(`
                             //         <div>
@@ -91,22 +98,26 @@ class Map extends Component {
                             //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
                             //L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
                             if (cliente.clasificacion === 'a') {
+                                cantidadA++;
                                 layerCalsa.addLayer(point.setIcon(iconCalsa));
                                 layerA.addLayer(point.setIcon(iconCalsa))
                             }
 
                             if (cliente.clasificacion === 'b') {
+                                cantidadB++;
                                 layerCalsa.addLayer(point.setIcon(iconCalsa));
                                 layerB.addLayer(point.setIcon(iconCalsa))
                             }
 
                             if (cliente.clasificacion === 'c') {
+                                cantidadC++;
                                 layerCalsa.addLayer(point.setIcon(iconCalsa));
                                 layerC.addLayer(point.setIcon(iconCalsa))
                             }
                         }
 
                         if (cliente.division === 'no calsa') {
+                            cantidadNoCalsa++;
                             // layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa})
                             //     .bindPopup(`
                             //         <div>
@@ -117,16 +128,19 @@ class Map extends Component {
                             //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
                             //L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
                             if (cliente.clasificacion === 'a') {
+                                cantidadA++;
                                 layerNoCalsa.addLayer(point.setIcon(iconNoCalsa));
                                 layerA.addLayer(point.setIcon(iconNoCalsa))
                             }
 
                             if (cliente.clasificacion === 'b') {
+                                cantidadB++;
                                 layerNoCalsa.addLayer(point.setIcon(iconNoCalsa));
                                 layerB.addLayer(point.setIcon(iconNoCalsa))
                             }
 
                             if (cliente.clasificacion === 'c') {
+                                cantidadC++;
                                 layerNoCalsa.addLayer(point.setIcon(iconNoCalsa));
                                 layerC.addLayer(point.setIcon(iconNoCalsa))
                             }
@@ -140,13 +154,13 @@ class Map extends Component {
 
         let overlays = {
             'Unidad de Negocio': {
-                'Calsa': layerCalsa,
-                'Consumo Masivo': layerNoCalsa
+                [`Calsa (${cantidadCalsa})`]: layerCalsa,
+                [`Consumo Masivo (${cantidadNoCalsa})`]: layerNoCalsa
             },
             'Clasificacion': {
-                'A': layerA,
-                'B': layerB,
-                'C': layerC
+                [`A (${cantidadA})`]: layerA,
+                [`B (${cantidadB})`]: layerB,
+                [`C (${cantidadC})`]: layerC
             }
         };
 
