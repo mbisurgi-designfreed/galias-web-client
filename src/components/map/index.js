@@ -4,6 +4,7 @@ import axios from "axios";
 import 'leaflet.markercluster';
 import 'leaflet.markercluster.freezable';
 import 'leaflet.markercluster.layersupport';
+import 'leaflet-groupedlayercontrol';
 
 class Map extends Component {
     map = null;
@@ -62,65 +63,94 @@ class Map extends Component {
 
         let layerCalsa = L.layerGroup();
         let layerNoCalsa = L.layerGroup();
+        let layerA = L.layerGroup();
+        let layerB = L.layerGroup();
+        let layerC = L.layerGroup();
 
         clientes.forEach(cliente => {
             if (cliente.sucursales) {
                 cliente.sucursales.forEach(sucursal => {
-                    if (sucursal.geometry) {
+                    if (sucursal.geometry && sucursal.geometry.coordinates) {
                         let coords = sucursal.geometry.coordinates;
+                        let point = L.marker([coords[1], coords[0]])
+                                        .bindPopup(`
+                                                <div>
+                                                    <p>${cliente.razonSocial}</p>
+                                                    <span>${sucursal.calle} ${sucursal.altura}</span>
+                                                </div>
+                                        `);
 
                         if (cliente.division === 'calsa') {
-                            layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa})
-                                .bindPopup(`
-                                    <div>
-                                        <p>${cliente.razonSocial}</p>
-                                        <span>${sucursal.calle} ${sucursal.altura}</span>
-                                    </div>
-                                `));
+                            // layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa})
+                            //     .bindPopup(`
+                            //         <div>
+                            //             <p>${cliente.razonSocial}</p>
+                            //             <span>${sucursal.calle} ${sucursal.altura}</span>
+                            //         </div>
+                            //     `));
                             //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
                             //L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
+                            if (cliente.clasificacion === 'a') {
+                                layerCalsa.addLayer(point.setIcon(iconCalsa));
+                                layerA.addLayer(point.setIcon(iconCalsa))
+                            }
+
+                            if (cliente.clasificacion === 'b') {
+                                layerCalsa.addLayer(point.setIcon(iconCalsa));
+                                layerB.addLayer(point.setIcon(iconCalsa))
+                            }
+
+                            if (cliente.clasificacion === 'c') {
+                                layerCalsa.addLayer(point.setIcon(iconCalsa));
+                                layerC.addLayer(point.setIcon(iconCalsa))
+                            }
                         }
 
                         if (cliente.division === 'no calsa') {
-                            layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa})
-                                .bindPopup(`
-                                    <div>
-                                        <p>${cliente.razonSocial}</p>
-                                        <span>${sucursal.calle} ${sucursal.altura}</span>
-                                    </div>
-                                `));
+                            // layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa})
+                            //     .bindPopup(`
+                            //         <div>
+                            //             <p>${cliente.razonSocial}</p>
+                            //             <span>${sucursal.calle} ${sucursal.altura}</span>
+                            //         </div>
+                            //     `));
                             //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
                             //L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
+                            if (cliente.clasificacion === 'a') {
+                                layerNoCalsa.addLayer(point.setIcon(iconNoCalsa));
+                                layerA.addLayer(point.setIcon(iconNoCalsa))
+                            }
+
+                            if (cliente.clasificacion === 'b') {
+                                layerNoCalsa.addLayer(point.setIcon(iconNoCalsa));
+                                layerB.addLayer(point.setIcon(iconNoCalsa))
+                            }
+
+                            if (cliente.clasificacion === 'c') {
+                                layerNoCalsa.addLayer(point.setIcon(iconNoCalsa));
+                                layerC.addLayer(point.setIcon(iconNoCalsa))
+                            }
                         }
                     }
                 })
             }
-
-            // if (cliente.direccion.geometry) {
-            //     let coords = cliente.direccion.geometry.coordinates;
-            //
-            //     if (cliente.division === 'calsa') {
-            //         layerCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
-            //         //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconCalsa}));
-            //         //L.marker([coords[1], coords[0]], {icon: iconCalsa}).addTo(this.map);
-            //     }
-            //
-            //     if (cliente.division === 'no calsa') {
-            //         layerNoCalsa.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
-            //         //markers.addLayer(L.marker([coords[1], coords[0]], {icon: iconNoCalsa}));
-            //         //L.marker([coords[1], coords[0]], {icon: iconNoCalsa}).addTo(this.map);
-            //     }
-            // }
         });
 
         this.clusters.checkIn([layerCalsa, layerNoCalsa]);
 
         let overlays = {
-            'Calsa': layerCalsa,
-            'Consumo Masivo': layerNoCalsa
+            'Unidad de Negocio': {
+                'Calsa': layerCalsa,
+                'Consumo Masivo': layerNoCalsa
+            },
+            'Clasificacion': {
+                'A': layerA,
+                'B': layerB,
+                'C': layerC
+            }
         };
 
-        L.control.layers(null, overlays).addTo(this.map);
+        L.control.groupedLayers(null, overlays).addTo(this.map);
     };
 
     render() {
