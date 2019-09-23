@@ -362,7 +362,12 @@ class ClienteForm extends Component {
         }
     };
 
-    onSetCoords = (lat, lng, calle, altura, localidad, codigoPostal) => {
+    onSetCoords = (lat, lng) => {
+        this.props.setFieldValue('lat', lat);
+        this.props.setFieldValue('lng', lng);
+    };
+
+    onLocationChanged = (lat, lng, calle, altura, localidad, codigoPostal) => {
         this.resetDireccion();
 
         if (calle) {
@@ -430,7 +435,7 @@ class ClienteForm extends Component {
                     {/*    <SearchPlace placeChanged={this.placeChanged} />*/}
                     {/*</div>*/}
                     <div className="row" style={{height: '250px'}}>
-                        <ClientMap setCoords={this.onSetCoords} lat={this.state.ubicacion && this.state.ubicacion.lat} lng={this.state.ubicacion && this.state.ubicacion.lng} />
+                        <ClientMap onLocationChanged={this.onLocationChanged} setCoords={this.onSetCoords} lat={this.state.ubicacion && this.state.ubicacion.lat} lng={this.state.ubicacion && this.state.ubicacion.lng} />
                     </div>
                     <div className="row">
                         <div className="form-group col-1-of-4">

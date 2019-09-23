@@ -9,7 +9,7 @@ import SucursalMap from "./sucursalMap";
 class SucursalForm extends Component {
     state = {
         ubicacion: undefined
-    }
+    };
 
     placeChanged = (place) => {
         if (place === undefined) {
@@ -45,7 +45,12 @@ class SucursalForm extends Component {
         }
     };
 
-    onSetCoords = (lat, lng, calle, altura, localidad, codigoPostal) => {
+    onSetCoords = (lat, lng) => {
+        this.props.setFieldValue('lat', lat);
+        this.props.setFieldValue('lng', lng);
+    };
+
+    onLocationChanged = (lat, lng, calle, altura, localidad, codigoPostal) => {
         this.resetDireccion();
 
         if (calle) {
@@ -84,7 +89,7 @@ class SucursalForm extends Component {
                     {/*    <SearchPlace placeChanged={this.placeChanged} />*/}
                     {/*</div>*/}
                     <div className="row" style={{height: '250px'}}>
-                        <SucursalMap setCoords={this.onSetCoords} lat={this.state.ubicacion && this.state.ubicacion.lat} lng={this.state.ubicacion && this.state.ubicacion.lng} />
+                        <SucursalMap onLocationChanged={this.onLocationChanged} setCoords={this.onSetCoords} lat={this.state.ubicacion && this.state.ubicacion.lat} lng={this.state.ubicacion && this.state.ubicacion.lng} />
                     </div>
                     <div className="row">
                         <div className="form-group col-1-of-4">
@@ -158,7 +163,7 @@ const onSubmit = (values, { props, resetForm }) => {
 
     resetForm();
     props.onSubmit({ sucursal, index: props.sucursal.item ? props.sucursal.index : null });
-}
+};
 
 export default withFormik({
     mapPropsToValues,

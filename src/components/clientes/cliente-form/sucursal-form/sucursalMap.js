@@ -37,7 +37,7 @@ export default class SucursalMap extends Component {
 
         esriGeocoder.geocode().text(e.location.label).run((err, res, response) => {
             if (err) {
-                this.props.setCoords(lat, lng);
+                this.props.onLocationChanged(lat, lng);
                 return;
             }
 
@@ -45,9 +45,9 @@ export default class SucursalMap extends Component {
 
             if (results) {
                 const {StName, AddNum, Nbrhd, Postal} = results[0].properties;
-                this.props.setCoords(lat, lng, StName, AddNum, Nbrhd, Postal);
+                this.props.onLocationChanged(lat, lng, StName, AddNum, Nbrhd, Postal);
             } else {
-                this.props.setCoords(lat, lng);
+                this.props.onLocationChanged(lat, lng);
             }
         });
     };

@@ -10,11 +10,9 @@ class SucursalModal extends Component {
         } else {
             this.props.onCloseModal({ sucursal });
         }
-    }
+    };
 
     render() {
-        console.log(this.props.sucursal);
-        
         return (
             <Modal className="modal" overlayClassName="overlay" isOpen={this.props.sucursal.item || this.props.sucursal.item === null ? true : false} onRequestClose={this.onCloseModal} contentLabel="Selected Option" ariaHideApp={false} closeTimeoutMS={0}>
                 <SucursalForm sucursal={this.props.sucursal} onSubmit={this.onCloseModal} />
