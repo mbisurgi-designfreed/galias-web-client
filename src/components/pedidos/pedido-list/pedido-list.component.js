@@ -20,6 +20,8 @@ import PedidoListItem from './pedido-list-item/pedido-list-item.component';
 import pedidoSelector from '../../../selectors/pedido.selector';
 
 import withRefresh from '../../notification/refresh.component';
+import jsPDF from "jspdf";
+import numeral from "numeral";
 // import withNotification from '../../notification/notification.component';
 
 class PedidoList extends Component {
@@ -158,6 +160,76 @@ class PedidoList extends Component {
         }
     }
 
+    onGenerarPicking = () => {
+        const itemsPicking = {};
+
+        _.map(this.props.selectedPedido, (value, key) => {
+           const items = value.items;
+            console.log('items', items);
+
+            items.forEach(item => {
+               if (itemsPicking[item.articulo.codigo]) {
+                   itemsPicking[item.articulo.codigo].cantidad += item.cantidad;
+               } else {
+                   itemsPicking[item.articulo.codigo] = {
+                       codigo: item.articulo.codigo,
+                       descripcion: item.articulo.descripcion,
+                       cantidad: item.cantidad
+                   }
+               }
+            });
+        });
+
+        const picking =  {
+            fecha: moment().format('DD/MM/YYYY'),
+            items: itemsPicking
+        };
+
+        this.print(picking);
+    };
+
+    print = (datos) => {
+        console.log(datos);
+
+        const doc = new jsPDF({
+            orientation: 'p',
+            unit: 'cm',
+            format: 'a4'
+        });
+
+        //doc.addPage();
+        doc.setFontSize(10);
+
+        doc.setPage(1);
+        doc.setLineWidth(0.05);
+
+        doc.text(`Fecha: ${datos.fecha}`, 13, 1);
+        doc.rect(0.7, 3.1, 18.5, 0.5);
+        doc.text(`ARTICULOS`, 1, 3.5);
+        doc.rect(0.7, 3.6, 18.5, 20);
+        doc.text(`CODIGO`, 1, 4);
+        doc.text(`ARTICULO`, 4, 4);
+        doc.text(`CANTIDAD`, 14, 4);
+
+        let top = 4.5;
+
+        for (let i = 0; i < datos.items.length; i++) {
+            //top = top + (i / 2);
+            doc.text(datos.items[i].codigo, 1, top);
+            doc.text(datos.items[i].descripcion, 4, top);
+            doc.text(datos.items[i].cantidad.toString(), 14, top);
+            top = top + 0.5;
+        }
+        _.map(datos.items, (value, key) => {
+            doc.text(value.codigo, 1, top);
+            doc.text(value.descripcion, 4, top);
+            doc.text(value.cantidad.toString(), 14, top);
+            top = top + 0.5;
+        });
+
+        doc.save(`${datos.fecha}.pdf`);
+    };
+
     onExportar = () => {
         const exportados = [];
         const pedidos = _.toArray(this.props.pedidos);
@@ -240,6 +312,26 @@ class PedidoList extends Component {
         }
     }
 
+    renderPick() {
+        let disabled = false;
+
+        if (this.props.selectedPedido === null || this.props.selectedPedido === {}) {
+            disabled = true;
+        }
+
+        _.map(this.props.selectedPedido, pedido => {
+            if (pedido.estado !== 'generado') {
+                disabled = true;
+            }
+        });
+
+        if (disabled) {
+            return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onGenerarPicking} ><i className="fas fa-dolly-flatbed"></i></button>
+        } else {
+            return <button className={`btn-link icon-medium`} onClick={this.onGenerarPicking} ><i className="fas fa-dolly-flatbed"></i></button>
+        }
+    }
+
     renderAnular() {
         // if (this.props.selectedPedido === null || this.props.selectedPedido === {} || this.props.selectedPedido.estado !== 'generado') {
         //     return <button disabled className={`btn-link icon-medium btn-link--disabled`} onClick={this.onAnular} ><i className="fas fa-ban"></i></button>
@@ -303,6 +395,7 @@ class PedidoList extends Component {
                             <Link className="icon-medium" to="/pedidos/new"><i className="fas fa-plus-circle"></i></Link>
                             <button className="btn-link icon-medium" onClick={this.onExportar}><i className="fas fa-download"></i></button>
                             {this.renderSync()}
+                            {this.renderPick()}
                             {this.renderAnular()}
                         </div>
                     </Form>

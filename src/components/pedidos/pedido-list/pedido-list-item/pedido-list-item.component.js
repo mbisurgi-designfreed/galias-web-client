@@ -70,7 +70,7 @@ const PedidoListItem = (props) => {
     return (
         <div className="list__item">
             <div className="list__item-header">
-                <h6 className="list__item-title">{`${formatDate()} - ${pedido.user.email}`}</h6>
+                <h6 className="list__item-title">{`${formatDate()} - ${pedido.user && pedido.user.email || ''}`}</h6>
                 <div className="list__item-menu">
                     {renderSync()}
                     <Link className="list__item-icon" to={`/pedidos/${pedido._id}`}><i className="fa fa-list-alt"></i></Link>
