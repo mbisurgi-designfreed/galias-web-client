@@ -165,16 +165,17 @@ class PedidoList extends Component {
 
         _.map(this.props.selectedPedido, (value, key) => {
            const items = value.items;
-            console.log('items', items);
 
             items.forEach(item => {
                if (itemsPicking[item.articulo.codigo]) {
                    itemsPicking[item.articulo.codigo].cantidad += item.cantidad;
+                   itemsPicking[item.articulo.codigo].kilos = item.articulo.kilos * itemsPicking[item.articulo.codigo].cantidad;
                } else {
                    itemsPicking[item.articulo.codigo] = {
                        codigo: item.articulo.codigo,
                        descripcion: item.articulo.descripcion,
-                       cantidad: item.cantidad
+                       cantidad: item.cantidad,
+                       kilos: item.articulo.kilos * item.cantidad
                    }
                }
             });
@@ -189,8 +190,6 @@ class PedidoList extends Component {
     };
 
     print = (datos) => {
-        console.log(datos);
-
         const doc = new jsPDF({
             orientation: 'p',
             unit: 'cm',
@@ -210,22 +209,32 @@ class PedidoList extends Component {
         doc.text(`CODIGO`, 1, 4);
         doc.text(`ARTICULO`, 4, 4);
         doc.text(`CANTIDAD`, 14, 4);
+        doc.text(`KILOS`, 17, 4);
 
         let top = 4.5;
 
-        for (let i = 0; i < datos.items.length; i++) {
-            //top = top + (i / 2);
-            doc.text(datos.items[i].codigo, 1, top);
-            doc.text(datos.items[i].descripcion, 4, top);
-            doc.text(datos.items[i].cantidad.toString(), 14, top);
-            top = top + 0.5;
-        }
+        // for (let i = 0; i < datos.items.length; i++) {
+        //     //top = top + (i / 2);
+        //     doc.text(datos.items[i].codigo, 1, top);
+        //     doc.text(datos.items[i].descripcion, 4, top);
+        //     doc.text(datos.items[i].cantidad.toString(), 14, top);
+        //
+        //     top = top + 0.5;
+        // }
+        let kilos = 0;
         _.map(datos.items, (value, key) => {
             doc.text(value.codigo, 1, top);
             doc.text(value.descripcion, 4, top);
             doc.text(value.cantidad.toString(), 14, top);
+            doc.text(numeral(value.kilos).format('0,0.00'), 17, top);
+            kilos = kilos + value.kilos;
             top = top + 0.5;
         });
+
+        top = 29.2;
+        doc.rect(13.7, top - 0.4, 5.5, 0.5);
+        doc.text(`KILOS TOTALES`, 14, top);
+        doc.text(`${numeral(kilos).format('0,0.00')}`, 17, top);
 
         doc.save(`${datos.fecha}.pdf`);
     };
