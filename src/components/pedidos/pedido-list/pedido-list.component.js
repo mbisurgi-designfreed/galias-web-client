@@ -453,3 +453,4 @@ export default connect(mapStateToProps, { list, listToday, anular, anularAll, se
     mapPropsToValues,
     handleSubmit: onSubmit
 })(withRefresh(PedidoList)));
+``

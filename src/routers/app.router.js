@@ -32,6 +32,7 @@ import ProveedoresList from '../components/proveedores/proveedores-list/proveedo
 import AddProveedor from '../components/proveedores/add-proveedor/add-proveedor.component';
 import AddCompetencia from '../components/competencia/add-competencia.component';
 import Map from '../components/map';
+import Zonas from '../components/zonas';
 
 
 import { list as getCanales } from '../actions/canal.action';
@@ -86,6 +87,7 @@ class AppRouter extends Component {
                         <Route exact path="/entregas/new" component={authenticateRoute(AddEntrega)} />
                         <Route path="/reportes" component={authenticateRoute(Reportes)} />
                         <Route path="/map" component={Map} />
+                        <Route path="/zonas" component={Zonas} />
                     </Switch>
                 </div>
             </BrowserRouter>
