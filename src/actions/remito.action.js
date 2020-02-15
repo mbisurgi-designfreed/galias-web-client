@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.BASE_SERVICE_URL;
 
 export const list = (desde, hasta) => {
     return async (dispatch) => {
@@ -75,7 +75,7 @@ export const sync = (remito, history) => {
             type: 'remitos_adding'
         });
 
-        try {   
+        try {
             const res = await axios.post(URL, remito);
 
             if (res.status === 200) {
@@ -87,7 +87,7 @@ export const sync = (remito, history) => {
             }
         } catch (err) {
             if (err.response.status === 500) {
-                
+
             }
 
             if (err.response.status === 503) {
@@ -114,7 +114,7 @@ export const syncAll = (remitos, history) => {
             type: 'remitos_adding'
         });
 
-        try {   
+        try {
             const res = await axios.post(URL, remitos);
 
             if (res.status === 200) {
@@ -128,7 +128,7 @@ export const syncAll = (remitos, history) => {
             }
         } catch (err) {
             if (err.response.status === 500) {
-                
+
             }
 
             if (err.response.status === 503) {
@@ -153,7 +153,7 @@ export const add = (remito, history) => {
             type: 'remitos_adding'
         });
 
-        try {   
+        try {
             const res = await axios.post(URL, remito);
 
             if (res.status === 200) {
@@ -165,7 +165,7 @@ export const add = (remito, history) => {
             }
         } catch (err) {
             if (err.response.status === 500) {
-                
+
             }
 
             if (err.response.status === 503) {

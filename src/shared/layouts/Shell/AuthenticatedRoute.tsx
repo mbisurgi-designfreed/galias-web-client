@@ -14,4 +14,4 @@ export const AuthenticatedRoute = ({ component, ...rest }: RouteProps) => {
             }
         />
     )
-}
+};

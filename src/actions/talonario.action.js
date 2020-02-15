@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.BASE_SERVICE_URL;
 
 export const list = (tipo) => {
     return async (dispatch) => {
@@ -33,7 +33,7 @@ export const add = (talonario, history) => {
             type: 'talonarios_adding'
         });
 
-        try {   
+        try {
             const res = await axios.post(URL, talonario);
 
             if (res.status === 200) {
@@ -45,7 +45,7 @@ export const add = (talonario, history) => {
             }
         } catch (err) {
             if (err.response.status === 500) {
-                
+
             }
 
             if (err.response.status === 503) {

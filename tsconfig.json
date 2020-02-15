@@ -2,10 +2,14 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "sourceMap": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "module": "commonjs",
     "target": "es5",
-    "jsx": "react"
+    "jsx": "react",
+    "lib": ["es2017", "dom"],
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "allowJs": true
   },
   "include": [
     "./src/**/*"

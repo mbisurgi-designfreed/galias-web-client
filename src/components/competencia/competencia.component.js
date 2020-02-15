@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import proveedorSelector from "../../selectors/proveedor.selector";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.BASE_SERVICE_URL;
 
 class CompetenciaForm extends Component {
     state = {

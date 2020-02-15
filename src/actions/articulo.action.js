@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.BASE_SERVICE_URL;
 
 export const list = (page) => {
     return async (dispatch) => {
@@ -64,12 +64,12 @@ export const add = (articulo, history) => {
             type: 'articulos_adding'
         });
 
-        try {   
+        try {
             const res = await axios.post(URL, articulo);
 
             if (res.status === 201) {
                 history.push('/articulos');
-                
+
                 dispatch({
                     type: 'articulos_adding_done'
                 });
@@ -77,9 +77,9 @@ export const add = (articulo, history) => {
             }
         } catch (err) {
             console.log(err.response);
-            
+
             if (err.response.status === 500) {
-                
+
             }
 
             if (err.response.status === 503) {
@@ -106,12 +106,12 @@ export const edit = (articulo, id, history) => {
             type: 'articulos_editing'
         });
 
-        try {   
+        try {
             const res = await axios.put(URL, articulo);
 
             if (res.status === 201) {
                 history.push('/articulos');
-                
+
                 dispatch({
                     type: 'articulos_editing_done'
                 });
@@ -123,7 +123,7 @@ export const edit = (articulo, id, history) => {
 
             if (err.response.status === 503) {
                 history.push('/articulos');
-                
+
                 dispatch({
                     type: 'articulos_editing_done'
                 });
@@ -145,13 +145,13 @@ export const editPrice = (articulos, history) => {
             type: 'articulos_editing'
         });
 
-        try {   
+        try {
             const res = await axios.put(URL, articulos);
 
             if (res.status === 201) {
-                
+
                 history.push('/articulos');
-                
+
                 dispatch({
                     type: 'articulos_editing_done'
                 });
@@ -163,7 +163,7 @@ export const editPrice = (articulos, history) => {
 
             if (err.response.status === 503) {
                 history.push('/articulos');
-                
+
                 dispatch({
                     type: 'articulos_editing_done'
                 });

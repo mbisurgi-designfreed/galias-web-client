@@ -1,0 +1,25 @@
+$font-family-primary: 'Montserrat-Regular';
+$font-family-secondary: 'Montserrat-SemiBold';
+$font-family-tertiary: 'Montserrat-Bold';
+
+$font-family-contrast: 'Roboto-Bold';
+
+@font-face {
+  font-family: 'Montserrat-Bold';
+  src: url(/vendors/webfonts/Montserrat-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat-SemiBold';
+  src: url(/vendors/webfonts/Montserrat-SemiBold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat-Regular';
+  src: url(/vendors/webfonts/Montserrat-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto-Bold';
+  src: url(/vendors/webfonts/Roboto-Bold.ttf) format('truetype');
+}

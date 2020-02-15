@@ -1,3 +1,4 @@
+@import './abstract/fonts';
 @import './abstract/mixins';
 @import './abstract/variables';
 
@@ -29,5 +30,12 @@
 @import './components/table';
 @import './components/map';
 @import './components/zonas';
+@import './components/Login/login';
+
+
+@import './layout/Navbar/navbar';
+
+@import './components/shared/input';
+@import './components/shared/button';
 
 @import './layout/grid';

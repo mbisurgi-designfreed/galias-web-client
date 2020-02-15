@@ -1,6 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import ReduxThunk from 'redux-thunk';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import 'react-select/dist/react-select.css';
@@ -11,7 +10,7 @@ import './scss/styles.scss';
 
 import configureStore from './store/configureStore';
 
-import AppRouter from './routers/app.router';
+import { ConnectedRouter } from './routers/app.router';
 
 const store = configureStore();
 const token = localStorage.getItem('token');
@@ -23,8 +22,8 @@ if (token) {
 }
 
 const app = (
-    <Provider store={store}>
-        <AppRouter />
+    <Provider store={store as any}>
+        <ConnectedRouter />
     </Provider>
 );
 

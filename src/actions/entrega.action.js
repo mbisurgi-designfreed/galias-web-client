@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.BASE_SERVICE_URL;
 
 // export const list = (desde, hasta) => {
 //     return async (dispatch) => {

@@ -1,6 +1,6 @@
 // COLORS
 
-$color-primary: #e74c3c;
+$color-primary: #ec3737;
 $color-primary-dark: orangered;
 $color-primary-light: blue;
 
@@ -28,8 +28,8 @@ $select-input-box-shadow-focus: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px 2px 
 $select-item-color: $color-primary !default;
 $select-item-bg: lighten($color-primary, 30%) !default;
 $select-item-border-color: darken($select-item-bg, 10%) !default;
-$select-item-hover-color: darken($select-item-color, 5%) !default; 
-$select-item-hover-bg: darken($select-item-bg, 5%) !default;  
+$select-item-hover-color: darken($select-item-color, 5%) !default;
+$select-item-hover-bg: darken($select-item-bg, 5%) !default;
 $select-link-hover-color: $select-input-border-focus !default;
 $select-text-color: #333 !default;
 $select-option-color: lighten($select-text-color, 20%) !default;

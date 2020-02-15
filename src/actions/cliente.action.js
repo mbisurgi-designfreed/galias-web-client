@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.BASE_SERVICE_URL;
 
 export const list = (page) => {
     return async (dispatch) => {
@@ -62,7 +62,7 @@ export const add = (cliente, history) => {
             type: 'clientes_adding'
         });
 
-        try {   
+        try {
             const res = await axios.post(URL, cliente);
 
             if (res.status === 201) {
@@ -74,7 +74,7 @@ export const add = (cliente, history) => {
             }
         } catch (err) {
             if (err.response.status === 500) {
-                
+
             }
 
             if (err.response.status === 503) {
@@ -101,7 +101,7 @@ export const edit = (cliente, id, history) => {
             type: 'clientes_editing'
         });
 
-        try {   
+        try {
             const res = await axios.put(URL, cliente);
 
             if (res.status === 201) {

@@ -50,7 +50,7 @@ class Map extends Component {
     }
 
     fetchClientes = async () => {
-        const API_URL = process.env.REACT_APP_API_URL;
+        const API_URL = process.env.BASE_SERVICE_URL;
         const URL = `${API_URL}/api/cliente/list`;
 
         let res = await axios.get(URL);
@@ -169,8 +169,8 @@ class Map extends Component {
 
     render() {
         return (
-            <div style={{position: 'relative'}}>
-                <div id='map' style={{height: '100vh'}}/>
+            <div className='Map'>
+                <div id='map' style={{height: '100%'}}/>
                 <input
                     type='checkbox'
                     className='map-checkbox'

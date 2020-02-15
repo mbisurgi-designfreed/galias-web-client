@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import authenticateRoute from '../components/auth/authenticate-route/authenticate-route.component';
 
 import Header from '../components/header/header.component';
-import Home from '../components/home/home.component';
+//import Home from '../components/home/home.component';
 import Signin from '../components/auth/signin/signin.component';
 import DiariaList from '../components/diaria/diaria-list/diaria-list.component';
 import DiariaCompare from '../components/diaria/diaria-compare/diaria-compare.component';
@@ -34,6 +34,7 @@ import AddCompetencia from '../components/competencia/add-competencia.component'
 import Map from '../components/map';
 import Zonas from '../components/zonas';
 
+import { Home } from '../Home';
 
 import { list as getCanales } from '../actions/canal.action';
 import { list as getSubcanales } from '../actions/subcanal.action';
@@ -42,8 +43,10 @@ import { list as getGrupos } from '../actions/grupo.action';
 import { list as getSubgrupos } from '../actions/subgrupo.action';
 import { list as getUnidades } from '../actions/unidad.action';
 import { list as getProveedores } from '../actions/proveedor.action';
+import { Login } from '../Login'
+import { AuthenticatedRoute } from '../shared/layouts/Shell/AuthenticatedRoute';
 
-class AppRouter extends Component {
+export class AppRouter extends React.Component<any, any> {
     componentWillMount() {
         this.props.getCanales();
         this.props.getSubcanales();
@@ -57,42 +60,15 @@ class AppRouter extends Component {
     render() {
         return (
             <BrowserRouter>
-                <div>
-                    <Header />
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/signin" component={Signin} />
-                        <Route exact path="/diaria" component={authenticateRoute(DiariaList)} />
-                        <Route exact path="/diaria/new" component={authenticateRoute(AddDiaria)} />
-                        <Route exact path="/diaria/compare" component={authenticateRoute(DiariaCompare)} />
-                        <Route exact path="/pedidos" component={authenticateRoute(PedidoList)} />
-                        <Route exact path="/pedidos/:id" component={authenticateRoute(EditPedido)} />
-                        <Route exact path="/remitos" component={authenticateRoute(RemitoList)} />
-                        <Route exact path="/remitos/new" component={authenticateRoute(AddRemito)} />
-                        <Route exact path="/talonarios" component={authenticateRoute(TalonarioList)} />
-                        <Route exact path="/talonarios/new" component={authenticateRoute(AddTalonario)} />
-                        <Route exact path="/clientes" component={authenticateRoute(ClientesList)} />
-                        <Route exact path="/clientes/new" component={authenticateRoute(AddCliente)} />
-                        <Route exact path="/clientes/:id" component={authenticateRoute(EditCliente)} />
-                        <Route exact path="/articulos" component={authenticateRoute(ArticulosList)} />
-                        <Route exact path="/articulos/precios" component={authenticateRoute(ArticulosPrecio)} />
-                        <Route exact path="/articulos/new" component={authenticateRoute(AddArticulo)} />
-                        <Route exact path="/articulos/:id" component={authenticateRoute(EditArticulo)} />
-                        <Route exact path="/articulos-competencia" component={authenticateRoute(ArticulosCompetenciaList)} />
-                        <Route exact path="/articulos-competencia/new" component={authenticateRoute(AddArticuloCompetencia)} />
-                        <Route exact path="/articulos-competencia/:id" component={authenticateRoute(EditArticuloCompetencia)} />
-                        <Route exact path="/proveedores" component={authenticateRoute(ProveedoresList)} />
-                        <Route exact path="/proveedores/new" component={authenticateRoute(AddProveedor)} />
-                        <Route exact path="/competencia/new" component={authenticateRoute(AddCompetencia)} />
-                        <Route exact path="/entregas/new" component={authenticateRoute(AddEntrega)} />
-                        <Route path="/reportes" component={authenticateRoute(Reportes)} />
-                        <Route path="/map" component={Map} />
-                        <Route path="/zonas" component={Zonas} />
-                    </Switch>
-                </div>
+                <Switch>
+                    <Route exact path="/signin" component={Login} />
+                    <AuthenticatedRoute path="/" component={Home} />
+                </Switch>
             </BrowserRouter>
         )
     }
 }
 
-export default connect(null, { getCanales, getSubcanales, getFamilias, getGrupos, getSubgrupos, getUnidades, getProveedores })(AppRouter);
+export const ConnectedRouter = connect(null, { getCanales, getSubcanales, getFamilias, getGrupos, getSubgrupos, getUnidades, getProveedores })(AppRouter);
+
+//export default connect(null, { getCanales, getSubcanales, getFamilias, getGrupos, getSubgrupos, getUnidades, getProveedores })(AppRouter);
