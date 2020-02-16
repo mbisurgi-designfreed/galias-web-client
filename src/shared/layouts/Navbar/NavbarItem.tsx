@@ -14,7 +14,7 @@ export class NavbarItem extends React.Component<NavbarItemProps, any> {
     const { href, icon, title, selected } = this.props;
 
     return (
-      <Link to={href} className={classnames('NavbarItem', selected ? 'selected' : '')}>
+      <Link to={href} className={classnames('NavbarItem', selected ? 'selected' : '')} >
         <svg>
           <use xlinkHref={`/images/sprite.svg#icon-${icon}`}></use>
         </svg>

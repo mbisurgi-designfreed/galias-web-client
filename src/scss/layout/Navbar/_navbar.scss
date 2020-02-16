@@ -9,11 +9,28 @@
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
 
   .Navigation {
-    width: 80%;
+    /*width: 80%;*/
     height: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    position: relative;
+    flex-direction: column;
+    /*justify-content: space-evenly;*/
+
+    .NavigationItems {
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .visited {
+      bottom: 0;
+      height: 3px;
+      width: 125px;
+      position: absolute;
+      background-color: $color-primary;
+      transition: left 0.6s;
+      transition-timing-function: ease-in-out;
+    }
 
     a:link, a:visited, a:hover, a:active {
       text-decoration: none;
@@ -31,11 +48,12 @@
   width: 105px;
   height: 100%;
   display: flex;
+  margin: 0 1rem;
   color: #9a9a9a;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  border-bottom: 3px solid $color-white;
+  /*border-bottom: 3px solid $color-white;*/
 
   svg {
     width: 24px;
@@ -51,7 +69,7 @@
   }
 
   &.selected {
-    border-bottom: 3px solid $color-primary;
+    /*border-bottom: 3px solid $color-primary;*/
 
     svg {
       fill: $color-primary;

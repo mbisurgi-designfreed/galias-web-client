@@ -71,7 +71,7 @@ class Reportes extends Component {
 
         try {
             const rows = await readXlsxFile(file, { schema });
-        
+
             await axios.post('http://localhost:4000/api/files/ventas', rows);
             this.setState({ loading: false });
         } catch (err) {
@@ -81,7 +81,7 @@ class Reportes extends Component {
 
     render() {
         return (
-            <div style={{ height: '100vh', display: 'flex' }}>
+            <div style={{ display: 'flex' }}>
                 <div style={{ width: '15%', margin: 5 }}>
                     <p>
                         Importar ventas
