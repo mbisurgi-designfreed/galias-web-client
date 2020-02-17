@@ -132,4 +132,5 @@ const mapStateToProps = (state) => {
   return { notifications: state.info.notifications };
 };
 
-export const ConnectedNavbar = connect(mapStateToProps, { resetNotification })(withNotification(withRouter(Navbar)));
+export const ConnectedNavbar = withRouter(connect(mapStateToProps, { resetNotification })(withNotification(Navbar)));
+
