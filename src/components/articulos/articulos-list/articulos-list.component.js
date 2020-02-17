@@ -72,7 +72,7 @@ class ArticulosList extends Component {
         const start = (this.state.page - 1) * SIZE;
         const end = this.state.page * SIZE;
         const articulos = _.slice(this.props.articulos, start, end)
- 
+
         return _.map(articulos, (articulo) => {
             return <ArticuloListItem articulo={articulo} key={articulo._id} />;
         });
@@ -85,15 +85,15 @@ class ArticulosList extends Component {
     onExportar = (e) => {
         e.preventDefault();
 
-        const API_URL = process.env.REACT_APP_API_URL;
+        const API_URL = process.env.BASE_SERVICE_URL;
         const URL = `${API_URL}/api/articulo/excel`;
         const exportados = [];
-        
+
         axios.get(URL).then((res) => {
             res.data.forEach((articulo) => {
                 exportados.push({
                     Codigo: articulo.codigo,
-                    Descripcion: articulo.descripcion,                    
+                    Descripcion: articulo.descripcion,
                     Kilos: articulo.kilos,
                     Proveedor: articulo.proveedor.toUpperCase(),
                     Familia: articulo.familia.nombre.toUpperCase(),
@@ -104,7 +104,7 @@ class ArticulosList extends Component {
                     UnidadVta: articulo.unidadesVta[0].unidad.sigla.toUpperCase(),
                 });
             });
-        
+
             this.exportAsExcelFile(exportados, 'Articulos');
         });
     }

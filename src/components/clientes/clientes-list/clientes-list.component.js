@@ -90,7 +90,7 @@ class ClientesList extends Component {
     onExportar = (e) => {
         e.preventDefault();
 
-        const API_URL = process.env.REACT_APP_API_URL;
+        const API_URL = process.env.BASE_SERVICE_URL;
         const URL = `${API_URL}/api/cliente/excel`;
         const exportados = [];
 
