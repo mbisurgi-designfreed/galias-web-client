@@ -1,9 +1,14 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+
+import withNotification from '../../../components/notification/notification.component';
+import { resetNotification } from '../../../actions/info.action';
 
 import { Button } from '../../components/Button';
 import { NavbarItem } from './NavbarItem';
 import AuthService from '../../../services/auth';
+import { signout } from '../../../actions/auth.action';
 
 interface NavbarState {
   selectedPosition: number;
@@ -123,4 +128,8 @@ class Navbar extends React.Component<RouteComponentProps, NavbarState> {
   }
 }
 
-export const ConnectedNavbar = withRouter(Navbar);
+const mapStateToProps = (state) => {
+  return { notifications: state.info.notifications };
+};
+
+export const ConnectedNavbar = connect(mapStateToProps, { resetNotification })(withNotification(withRouter(Navbar)));
