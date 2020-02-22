@@ -2,7 +2,9 @@
   border: none;
   outline: none;
   font-size: 1.4rem;
+  border-radius: 10px;
   font-family: $font-family-tertiary;
+  transition: background-color 0.2s, color 0.2s;
 
   &.small {
     height: 36px;
@@ -16,15 +18,22 @@
 
   &.primary {
     color: $color-white;
-    border-radius: 10px;
     background-color: $color-primary;
+
+    &:hover {
+      background-color: #EE6556;
+    }
   }
 
   &.secondary {
-    border-radius: 25px;
     color: $color-primary;
     background-color: $color-white;
     border: 2px solid $color-primary;
+
+    &:hover {
+      color: $color-white;
+      background-color: $color-primary;
+    }
   }
 
   &:hover {

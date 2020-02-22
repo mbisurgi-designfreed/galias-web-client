@@ -122,7 +122,7 @@ class Navbar extends React.Component<RouteComponentProps, NavbarState> {
             className='visited'
           />
         </div>
-        <Button size='small' type='secondary' onClick={this.onLogout}>Cerrar Sesion</Button>
+        <Button type='secondary' onClick={this.onLogout}>Cerrar Sesion</Button>
       </div>
     );
   }
