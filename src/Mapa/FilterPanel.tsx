@@ -3,7 +3,7 @@ import * as easings from 'd3-ease';
 import { cloneDeep } from 'lodash';
 import * as ReactDOM from 'react-dom';
 import * as classnames from 'classnames';
-import { Spring, animated } from 'react-spring/renderprops';
+import { Spring, animated } from 'react-spring/renderprops.cjs';
 
 import { Button } from '../shared/components/Button';
 import { Checkbox } from '../shared/components/Checkbox';
