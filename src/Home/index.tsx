@@ -31,7 +31,7 @@ import AddProveedor from '../components/proveedores/add-proveedor/add-proveedor.
 import AddCompetencia from '../components/competencia/add-competencia.component';
 import AddEntrega from '../components/entrega/add-entrega/add-entrega.component';
 import Reportes from '../components/reportes/reportes.component';
-import Map from '../components/map/index';
+import { Map } from '../Mapa';
 
 
 const Main = () => (

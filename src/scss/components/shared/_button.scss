@@ -6,6 +6,10 @@
   font-family: $font-family-tertiary;
   transition: background-color 0.2s, color 0.2s;
 
+  &.fluid {
+    width: 100%;
+  }
+
   &.small {
     height: 36px;
     padding: 0 2.5rem;

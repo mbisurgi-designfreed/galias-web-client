@@ -1,0 +1,30 @@
+.Checkbox {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+  .CheckboxWrapper {
+    width: 17px;
+    height: 17px;
+    display: flex;
+    cursor: pointer;
+    margin-right: 6px;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid $color-white;
+  }
+
+  .CheckboxLabel {
+    font-size: 15px;
+    font-family: $font-family-primary;
+  }
+
+  input {
+    display: none;
+  }
+
+  label {
+    font-family: $font-family-primary;
+  }
+}

@@ -5,6 +5,7 @@ type ButtonSizes = 'medium' | 'small' | 'tiny';
 type ButtonTypes = 'primary' | 'secondary' | 'default' | 'light' | 'danger';
 
 interface ButtonProps {
+  fluid?: boolean;
   size?: ButtonSizes;
   type?: ButtonTypes;
   onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
@@ -12,11 +13,14 @@ interface ButtonProps {
 
 export class Button extends React.Component<ButtonProps, any> {
   render() {
-    const { size = 'medium', type = 'primary', onClick, children } = this.props;
+    const { fluid = false, size = 'medium', type = 'primary', onClick, children } = this.props;
 
     return (
       <button className={classnames(
         'Button',
+        {
+          ['fluid']: fluid
+        },
         {
           ['small']: size === 'small',
           ['medium']: size === 'medium'

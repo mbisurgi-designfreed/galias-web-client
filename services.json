@@ -1,5 +1,6 @@
 {
   "__JWT_SECRET__": "__jWt-s3cReT__",
   "LOGIN": "/signin",
-  "SIGNUP": "/signup"
+  "SIGNUP": "/signup",
+  "CLIENTES": "/clientes"
 }
