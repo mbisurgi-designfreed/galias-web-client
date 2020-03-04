@@ -2,5 +2,5 @@
   "__JWT_SECRET__": "__jWt-s3cReT__",
   "LOGIN": "/signin",
   "SIGNUP": "/signup",
-  "CLIENTES": "/clientes"
+  "CLIENTES": "/api/cliente/list?page=1"
 }
