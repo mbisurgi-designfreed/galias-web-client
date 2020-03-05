@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as L from 'leaflet';
+import { Map as IMap, MarkerClusterGroup } from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet.markercluster.freezable';
 import 'leaflet.markercluster.layersupport';
@@ -17,8 +18,8 @@ interface MapState {
 }
 
 export class Map extends React.Component<any, MapState> {
-  map = null;
-  clusters = null;
+  map: IMap = null;
+  clusters: MarkerClusterGroup = null;
 
   constructor(props) {
     super(props);
@@ -27,7 +28,8 @@ export class Map extends React.Component<any, MapState> {
       clientes: [],
       filters: {
         unidad: ['calsa', 'no calsa'],
-        clasificacion: ['a', 'b', 'c']
+        clasificacion: ['a', 'b', 'c'],
+        estado: true
       }
     };
   }
@@ -49,7 +51,7 @@ export class Map extends React.Component<any, MapState> {
     L.marker([-26.839895, -65.23583], { icon: icon })
       .addTo(this.map);
 
-    this.clusters = (L as any).markerClusterGroup().addTo(this.map);
+    this.clusters = L.markerClusterGroup().addTo(this.map);
 
     await this.fetchClientes();
   }
@@ -101,16 +103,17 @@ export class Map extends React.Component<any, MapState> {
   filterClientes = (clientes: Array<Cliente>): Array<Cliente> => {
     const { filters } = this.state;
 
-    const filter = clientes.filter(cliente => {
+    return clientes.filter(cliente => {
+      let estado = true;
       let unidad = false;
       let clasificacion = false;
+
+      if (filters.estado && !cliente.habilitado) estado = false;
       if (filters.unidad.includes(cliente.division)) unidad = true;
       if (filters.clasificacion.includes(cliente.clasificacion)) clasificacion = true;
 
-      return unidad && clasificacion;
+      return estado && unidad && clasificacion;
     });
-
-    return filter;
   };
 
   applyFilters = (filters) => {

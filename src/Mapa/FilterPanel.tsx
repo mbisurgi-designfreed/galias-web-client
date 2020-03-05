@@ -7,6 +7,8 @@ import { Spring, animated } from 'react-spring/renderprops.cjs';
 
 import { Button } from '../shared/components/Button';
 import { Checkbox } from '../shared/components/Checkbox';
+import { Util } from 'leaflet';
+import isArray = Util.isArray;
 
 interface FilterPanelProps {
   filters: any;
@@ -39,7 +41,7 @@ export class FilterPanel extends React.Component<FilterPanelProps, FilterPanelSt
     });
   }
 
-  getFilters = () => {
+  getFilters = (): any => {
     return [
       {
         label: 'Unidad de Negocio',
@@ -57,18 +59,43 @@ export class FilterPanel extends React.Component<FilterPanelProps, FilterPanelSt
           { label: 'B', value: 'b' },
           { label: 'C', value: 'c' }
         ]
+      },
+      {
+        label: 'Estado',
+        value: 'estado',
+        filters: [
+          { label: 'Inhabilitado', value: false }
+        ]
       }
     ];
+  };
+
+  checkFilters = (filter, subfilter): boolean => {
+    if (isArray(filter)) {
+      return filter.includes(subfilter);
+    }
+
+    if (typeof filter === 'boolean') {
+      return filter === subfilter;
+    }
+
+    return false
   };
 
   onSetFilter = (e) => {
     const { filters } = this.state;
     const [filter, subfilter] = e.target.name.split('-');
 
-    if (!filters[filter].includes(subfilter)) {
-      filters[filter].push(subfilter);
-    } else {
-      filters[filter] = filters[filter].filter(f => f !== subfilter);
+    if (isArray(filters[filter])) {
+      if (!filters[filter].includes(subfilter)) {
+        filters[filter].push(subfilter);
+      } else {
+        filters[filter] = filters[filter].filter(f => f !== subfilter);
+      }
+    }
+
+    if (typeof filters[filter] === 'boolean') {
+      filters[filter] = !filters[filter];
     }
 
     this.setState({
@@ -137,9 +164,10 @@ export class FilterPanel extends React.Component<FilterPanelProps, FilterPanelSt
                               key={sf.value}
                               name={`${f.value}-${sf.value}`}
                               label={sf.label}
-                              checked={filters[f.value].includes(sf.value)}
+                              checked={this.checkFilters(filters[f.value], sf.value)}
                               onChange={this.onSetFilter}
                             />
+                            //filters[f.value].includes(sf.value)
                           ))}
                         </div>
                       </div>

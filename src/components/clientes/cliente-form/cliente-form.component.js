@@ -15,16 +15,33 @@ import ClientMap from './clientMap';
 import { list as getCanales } from '../../../actions/canal.action';
 import { list as getSubcanales } from '../../../actions/subcanal.action';
 import { removeAlert } from '../../../actions/alert.action';
+import axios from 'axios';
+
+const API_URL = process.env.BASE_SERVICE_URL;
 
 class ClienteForm extends Component {
     state = {
         ubicacion: undefined,
+        zonas: [],
         canales: [],
         subcanales: [],
         persona: { item: undefined },
         telefono: { item: undefined },
         sucursal: { item: undefined },
     };
+
+    async componentDidMount() {
+        const URL = `${API_URL}/api/zona/list`;
+        const res = await axios.get(URL);
+        const zonas = res.data.zonas.map((zona => ({
+            value: zona._id,
+            label: zona.nombre
+        })));
+
+        this.setState({
+            zonas
+        })
+    }
 
     componentWillMount() {
         const canales = this.props.canales.map((canal) => {
@@ -179,6 +196,14 @@ class ClienteForm extends Component {
 
     pagoBlur = () => {
         this.props.setFieldTouched('condicionPago', true);
+    };
+
+    zonaChanged = (zona) => {
+        this.props.setFieldValue('zona', zona.value);
+    };
+
+    zonaBlur = () => {
+        this.props.setFieldTouched('zona', true);
     };
 
     visitaChanged = (dia) => {
@@ -466,6 +491,11 @@ class ClienteForm extends Component {
                             <label className="form__label" htmlFor="lng">Longitud</label>
                             <Field className="form__field" id="lng" type="text" name="lng" disabled />
                         </div>
+                        <div className="form-group col-1-of-4">
+                            <label className="form__label" htmlFor="zona">Zona</label>
+                            <Select id="zona" options={this.state.zonas} multi={false} value={this.props.values.zona} onChange={this.zonaChanged} onBlur={this.zonaBlur} />
+                            {this.props.touched.zona && this.props.errors.zona && (<p className="form__field-error">{this.props.errors.zona}</p>)}
+                        </div>
                     </div>
                     {/*<div className="row">*/}
                     {/*    <div className="col-1-of-2">*/}
@@ -566,6 +596,7 @@ const mapPropsToValues = ({ cliente }) => ({
     codigoPostal: cliente ? cliente.direccion.codigoPostal : '',
     lat: cliente ? cliente.direccion.geometry.coordinates[1] : 0,
     lng: cliente ? cliente.direccion.geometry.coordinates[0] : 0,
+    zona: cliente ? cliente.zona : '',
     sucursales: cliente ? cliente.sucursales : [],
     telefonos: cliente ? cliente.telefonos : [],
     email: cliente ? cliente.email : '',
@@ -611,6 +642,10 @@ const validationSchema = () => Yup.object().shape({
         .string()
         .nullable()
         .required('Subcanal es requerido'),
+    zona: Yup
+      .string()
+      .nullable()
+      .required('Zona es requerido'),
     condicionPago: Yup
         .string()
         .nullable()
@@ -624,7 +659,7 @@ const validationSchema = () => Yup.object().shape({
 });
 
 const onSubmit = (values, { props, resetForm }) => {
-    const { razonSocial, cuit, iva, nombreComercial, calle, altura, localidad, codigoPostal, lat, lng, email, telefonos, sucursales, personas } = values;
+    const { razonSocial, cuit, iva, nombreComercial, calle, altura, localidad, codigoPostal, lat, lng, email, telefonos, sucursales, personas, zona } = values;
 
     const direccion = {
         calle,
@@ -645,6 +680,7 @@ const onSubmit = (values, { props, resetForm }) => {
         telefonos,
         email,
         sucursales,
+        zona: values.zona,
         canal: values.canal,
         subcanal: values.subcanal,
         division: values.division,
