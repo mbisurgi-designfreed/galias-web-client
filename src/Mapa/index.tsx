@@ -81,21 +81,17 @@ export class Map extends React.Component<any, MapState> {
     const filteredClientes = this.filterClientes(clientes);
 
     filteredClientes.forEach(cliente => {
-      if (cliente.sucursales) {
-        cliente.sucursales.forEach(sucursal => {
-          if (sucursal.geometry && sucursal.geometry.coordinates) {
-            let coords = sucursal.geometry.coordinates;
-            let point = L.marker([coords[1], coords[0]], { icon: icons[cliente.division] })
-              .bindPopup(`
+      if (cliente.direccion && cliente.direccion.geometry && cliente.direccion.geometry.coordinates) {
+        let coords = cliente.direccion.geometry.coordinates;
+        let point = L.marker([coords[1], coords[0]], { icon: icons[cliente.division] })
+          .bindPopup(`
                                                 <div>
                                                     <p>${cliente.razonSocial}</p>
-                                                    <span>${sucursal.calle} ${sucursal.altura}</span>
+                                                    <span>${cliente.direccion.calle} ${cliente.direccion.altura}</span>
                                                 </div>
                                         `);
 
-            this.clusters.addLayer(point);
-          }
-        });
+        this.clusters.addLayer(point);
       }
     });
   };
