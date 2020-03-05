@@ -109,6 +109,7 @@ class ClientesList extends Component {
                     Clasificacion: cliente.clasificacion.toUpperCase(),
                     Visita: cliente.diaVisita.join('-'),
                     Entrega: cliente.diaEntrega.join('-'),
+                    Zona: cliente.zona ? cliente.zona.nombre : ''
                 });
             });
 
